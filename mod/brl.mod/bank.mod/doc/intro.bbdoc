@@ -1,0 +1,12 @@
+A bank object encapsulates a block of memory you can use to store arbitrary data.
+
+Banks are useful for storing data that is of no fixed type - for example, the contents
+of a binary file.
+
+To create a bank, use the #CreateBank command.
+
+To write data to a bank, use one of 'Poke' style commands, such as #PokeByte.
+
+To read data from a bank, use one of the 'Peek' style commands, such as #PeekByte.
+
+In addition, banks can be loaded or saved using #LoadBank or #SaveBank.

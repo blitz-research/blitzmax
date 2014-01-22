@@ -1,0 +1,21 @@
+This is the new unicode Windows driver for #MaxGUI that is designed to take advantage of some of the new GUI features available in Windows XP and Vista.
+
+@NOTE: If you would like to use this unicode driver on the older ANSI platforms (e.g. Windows 9X), then you must also import a unicode application layer.  For example...
+
+{{
+?Win32
+Import "-lunicows"
+?
+Import MaxGUI.Drivers
+?
+}}
+
+By doing this, your program will be linked with <a href="http://libunicows.sourceforge.net/">libunicows</a>.  Although Windows 2000/XP/Vista users should not notice anything
+different at run-time, Windows 9X users will require MSLU in order to run your program.  This may be distributed with the EXE as a separate DLL or it can be installed 
+as a system-wide package onto the end-user's computer.  
+
+See the following web-pages for more information:
+
+<a href="http://www.microsoft.com/globaldev/handson/dev/mslu_announce.mspx">MSLU Announcement</a>
+
+<a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=73BA7BD7-ED06-4F0D-80A4-2A7EEAEE17E2&displaylang=en">MSLU Software Development Kit Redistributable</a>

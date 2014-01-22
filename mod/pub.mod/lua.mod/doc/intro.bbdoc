@@ -1,0 +1,56 @@
+<div style="text-align: justify;">"<span style="font-style: italic;">Lua is an extension programming
+language designed to support general procedural programming with data
+description facilities. It also offers good support for object-oriented
+programming, functional programming, and data-driven programming. Lua
+is intended to be used as a powerful, light-weight scripting language
+for any program that needs one.</span> " (from "<a href="../lua-5.1.4/doc/contents.html">Lua 5.1 Reference
+Manual</a>" by Roberto Ierusalimschy, Luiz Henrique de
+Figueiredo, Waldemar Celes)<br><br>This module provides a
+BlitzMax interface to the Lua main and auxiliary APIs. It is almost
+complete, the only functions missing are those with variable argument
+lists (which are not yet supported by BlitzMax).<br><br>The
+axe.lua package also contains the full Lua 5.1.4 distribution. The Lua
+source code is completely integrated into the module, additional DLLs
+(or shared libraries, resp.) are no longer required.<br><h2>Lua
+Documentation</h2>The Lua Reference Manual is part of this
+distribution and may be directly visited from here:<br><ul><li><a href="../lua-5.1.4/doc/contents.html">Lua 5.1 Contents</a></li><li><a href="../lua-5.1.4/doc/manual.html">Lua 5.1 Reference Manual</a></li><li><a href="../lua-5.1.4/doc/readme.html">Lua 5.1 ReadMe</a></li></ul>Additional
+information can be found on the <a href="http://www.lua.org">Lua
+web site</a>; the <a href="http://lua-users.org/wiki/">Lua
+wiki</a> contains further material <a href="http://lua-users.org/wiki/BlitzMax">about this module</a>
+and related packages.<br><h2>Introduction</h2>The
+following description is not meant as a tutorial, but may still help
+you to start Lua programming within BlitzMax. More API-related
+information can be found in the <a href="../lua-5.1.4/doc/manual.html#3">Lua Reference manual</a><br><h3>Setting
+up a Lua VM</h3>Running&nbsp;Lua scripts always require the
+instantiation of at least one Lua VM:<br><pre> local LuaState:byte ptr = luaL_newstate()</pre>The
+result of this instantiation is a pointer to a structure
+which&nbsp;contains the full state of the new VM and has to be
+passed as the first argument to almost any other Lua API function.<br><br>It
+is now time to "open" the intrinsic Lua libraries (note: these
+libraries are part of axe.lua now, external DLLs or shared libraries
+are not necessary):<br><pre> luaL_openlibs(LuaState)</pre>Always
+initialize the Lua VM by opening its libraries unless you really know
+what you are doing!<br><br>Usually, creating a single Lua
+state is sufficient, even further (Lua) threads share the basic Lua
+state (and its associated environment).<br><h3>Shutting
+down a Lua VM</h3>At the end, it's always a good idea to shut
+down the Lua VM<br><pre> lua_close(LuaState)</pre>The
+Lua interpreter has now been terminated and its state variable is no
+longer valid.<br><h3>Accessing Lua Globals</h3>The
+code<br><pre>&nbsp; lua_pushstring(LuaState, "BMXString")<br>  lua_setglobal (LuaState, "luaglobal")</pre>defines
+a global Lua variable (called&nbsp;<span style="font-family: Courier New,Courier,monospace;">luaglobal</span>)
+which contains a string (namely "<span style="font-family: Courier New,Courier,monospace;">BMXString</span>").<h3>Registering
+BlitzMax Functions</h3>In order to access BlitzMax features from
+within a Lua script, it is necessary to implement suitable BlitzMax
+functions and register them in the Lua VM.<br><br>Such
+BlitzMax functions typically look as follows:<br><pre> function BMXName:int (LuaState:Byte Ptr)<br>   ...      ' handling of parameters passed from Lua (if required)<br>     ...    ' actual function body<br>   ...      ' passing results back to Lua (if required)<br>   return 0 ' number of values returned to Lua<br> end function</pre>Such
+a function is then registered using<br><pre> lua_register(LuaState, "luaname", BMXName)</pre>This
+command registers a BlitzMax function (called&nbsp;<span style="font-family: Courier New,Courier,monospace;">BMXName</span>)
+with the (global) name&nbsp;<span style="font-family: Courier New,Courier,monospace;">luaname</span>
+under Lua. Both names may be equal, but they do not have to.<br><h3>Running
+Lua Scripts From Within BlitzMax</h3>The code<br><pre> local Result:int = luaL_loadString(LuaState,LuaScript)<br> if (Result &lt;&gt; 0) then<br>   ' ERROR!!!<br>   lua_close(LuaState) ' just to be complete<br>   end<br> end if</pre>loads
+and compiles a (BlitzMax) string containing a LuaScript. The result (of
+compilation) is left on the (Lua) stack.<br><pre> lua_getfield(LuaState, LUA_GLOBALSINDEX, "debug")' get global "debug"<br> lua_getfield(LuaState, -1, "traceback")       ' get "debug.traceback"<br> lua_remove (LuaState, -2)           ' remove "debug" table from stack<br><br> Result = lua_pcall(LuaState,1,-1,-1)' use "debug.traceback" as err.hdlr<br> if (Result &lt;&gt; 0) then<br>   ' ERROR<br>   lua_close(LuaState) ' just to be complete<br>   end<br> end if</pre>actually
+evaluates the previously loaded script. The initially mentioned Lua
+commands just prepare for proper error messages should the Lua script
+fail.</div>

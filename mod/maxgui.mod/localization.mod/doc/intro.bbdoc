@@ -1,0 +1,10 @@
+MaxGUI.Localization is a simple yet powerful localization engine that you can use to localize your applications.
+Although the module is designed primarily for use with the MaxGUI toolkit, it is self-contained and so can be 
+imported into other BlitzMax games and applications separately, without the overhead of the rest of MaxGUI.
+
+
+It is recommended that you read through the command set below to familiarize yourself with the module before
+use.  
+
+Whenever applicable, MaxGUI coders should use the #LocalizeGadget command in #{MaxGUI.MaxGUI} in favour of 
+#LocalizeString to ensure that gadgets are updated when the language or localization settings are changed.

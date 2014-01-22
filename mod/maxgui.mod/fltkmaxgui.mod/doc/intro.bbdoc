@@ -1,0 +1,22 @@
+The official Linux MaxGUI module provides a FLTK (pronounced "Full-Tick") based driver for #MaxGUI.
+
+As of version 1.38, it is now possible to also compile your %Windows MaxGUI applications with the 
+#MaxGUI.FLTKMaxGUI driver.  This could be useful for getting an idea of how your applications will look when 
+compiled on Linux.  To do this, replace your #MaxGUI.Drivers import statement with:
+
+{{
+?Win32
+Import MaxGUI.FLTKMaxGUI
+?Not Win32
+Import MaxGUI.Drivers
+?
+}}
+
+Find out more about the FLTK 1.3 library <a href="http://www.fltk.org">here</a>.
+
+FLTKMaxGUI also uses the excellent FLU library (FLTK Utility Widgets) and Flmm_Tab.
+
+Find out more about the FLU Library <a href="http://www.osc.edu/archive/FLU/">here</a>.
+
+More information about MatthiasM's Flmm_Tab drop-in replacement widget can be found
+<a href="http://fltk.matthiasm.com/fltk.pl?FlmmClass">here</a>.

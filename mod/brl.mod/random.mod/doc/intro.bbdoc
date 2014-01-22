@@ -1,0 +1,14 @@
+
++Random numbers
+
+The random module contains commands for generating random numbers.
+
+The numbers generated are not really random, as without special hardware support a software algorithm cannot produce 'real' random numbers.
+
+Instead, the algorithm produces values that merely appear to be random. In reality, each generated value actually depends on the previously generated value.
+
+You can set the 'state' of the random number generator using the #SeedRnd command. A common practice is to seed the random number generator with the system time when your program starts up, for example:
+{{
+SeedRnd MilliSecs()
+}}
+This ensures that the random number generator does not start in the same state each time your program is run, which would cause it to produce the same sequence of random numbers.

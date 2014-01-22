@@ -1,0 +1,8 @@
+1.02 Release
+Fixed date ordinals so that entire term is a token.
+1.01 Release
+Added a CreateLanguage() example.
+Added INI file escape sequence info to LoadLanguage() docs.
+Fixed semicolon INI escape sequence bug.
+1.00 Release
+Initial release.

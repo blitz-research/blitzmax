@@ -1,0 +1,79 @@
+
+The Max2D module provides a set of commands for drawing 2D graphics.<br>
+<br>
+Before using any of the Max2D commands, you must first create a Max2D graphics
+object. The easiest way to do this is using the #Graphics command.<br>
+<br>
+By default, Max2D is double buffered which means you will have to use 
+#Flip once you have finished drawing each frame of graphics.<br>
+<br>
+<h2>Drawing</h2>
+Max2D provides support for the following drawing commands:<br>
+<br>
+<table>
+<tr><th>Drawing command</th><th>Action</th></tr>
+<tr><td><a href=#Cls class=token>Cls</a></td><td>Clears the viewport</td></tr>
+<tr><td><a href=#Plot class=token>Plot</a></td><td>Draws a single pixel</td></tr>
+<tr><td><a href=#DrawLine class=token>DrawLine</a></td><td>Draws a line</td></tr>
+<tr><td><a href=#DrawRect class=token>DrawRect</a></td><td>Draws a rectangle</td></tr>
+<tr><td><a href=#DrawOval class=token>DrawOval</a></td><td>Draws an oval</td></tr>
+<tr><td><a href=#DrawPoly class=token>DrawPoly</a></td><td>Draws a polygon</td></tr>
+<tr><td><a href=#DrawText class=token>DrawText</a></td><td>Draws some text</td></tr>
+<tr><td><a href=#DrawImage class=token>DrawImage</a></td><td>Draws an image</td></tr>
+<tr><td><a href=#DrawPixmap class=token>DrawPixmap</a></td><td>Draws a pixmap</td></tr>
+</table>
+<br>
+<h2>Viewport, origin and handle</h2>
+Drawing commands are clipped to a rectangular area known as the <i>viewport</i>. Only the area within the viewport is ever modified, and attempting to draw outside the viewport will result in the drawing command being clipped or <i>chopped</i> to the viewport. To set the viewport, use the <a href=#SetViewport class=token>SetViewport</a> command.<br>
+<br>
+Drawing commands are also offset by the current <i>origin</i> and <i>handle</i>. To set these properties, use the <a href=#SetOrigin class=token>SetOrigin</a> and <a href=#SetHandle class=token>SetHandle</a> commands.<br>
+<br>
+The current handle is an x,y coordinate subtracted from all drawing x,y coordinates <i>before</i> any rotation or scaling occurs. This allows you to provide a local 'center' for drawing. On the other hand, the current origin is an x,y coordinate added to all drawing x,y coordinates <i>after</i> any rotation or scaling.<br>
+<br>
+<h2>Color, alpha and blend mode</h2>
+Drawing commands are affected by the current color, alpha and blend mode. You can set these properties by using the <a href=#SetColor class=token>SetColor</a>, <a href=#SetAlpha class=token>SetAlpha</a> and <a href=#SetBlend class=token>SetBlend</a> commands.<br>
+<br>
+The current alpha value controls the transparency level when using the ALPHABLEND blend mode.<br>
+<br>
+The current blend mode controls how pixels are combined with existing pixels in the back buffer and can be one of the following:<br>
+<br>
+<table>
+<tr><th>Blend mode</th><th>Effect</th></tr>
+<tr><td>SOLIDBLEND</td><td>Pixels overwrite existing backbuffer pixels</td></tr>
+<tr><td>MASKBLEND</td><td>Pixels are drawn only if their alpha component is greater than .5</td></tr>
+<tr><td>ALPHABLEND</td><td>Pixels are alpha blended with existing backbuffer pixels</td></tr>
+<tr><td>LIGHTBLEND</td><td>Pixel colors are added to backbuffer pixel colors, giving a 'lighting' effect</td></tr>
+<tr><td>SHADEBLEND</td><td>Pixel colors are multiplied with backbuffer pixel colors, giving a 'shading' effect</td></tr>
+</table>
+<br>
+<h2>Rotation and scale</h2>
+Drawing commands can be scaled and rotated using the <a href=#SetScale class=token>SetScale</a> and <a href=#SetRotation class=token>SetRotation</a> commands. Rotation and scaling occur relative to the current handle.<br>
+<br>
+<h2>Images</h2>
+Images are pre-rendered chunks of graphics that can be efficiently drawn using a single <a href=#DrawImage class=token>DrawImage</a> command. Images are typically stored in png, bmp or jpg format, and can be loaded using the <a href=#LoadImage class=token>LoadImage</a> command.<br>
+<br>
+Image drawing is also affected by color, alpha, blend, rotation and scale. The current color is multiplied with each pixel color before the image is drawn to the backbuffer, allowing you to <i>tint</i> images. To disable this effect, you should set the current color to white.<br>
+<br>
+Images can also have a mask color. This is the color that represents transparency when an image is drawn using the MASKBLEND blend mode. To set the mask color, use the <a href=#SetMaskColor class=token>SetMaskColor</a> command.<br>
+<br>
+Images can be created by snapshotting regions of the back buffer using the <a href=#GrabImage class=token>GrabImage</a> command.
+<h2>Pixmaps</h2>
+Pixmaps are used to manipulate images at a pixel level, see the #pixmaps module for details.<p>
+
+<a href=#LockImage class=token>LockImage</a> allows for direct Image pixel access and requires a corresponding call to
+<a href=#UnlockImage class=token>UnlockImage</a> when you have have finished reading or modifying the pixels. 
+The <a href=#DrawPixmap class=token>DrawPixmap</a> and <a href=#GrabPixmap class=token>GrabPixmap</a>
+commands allow you to move pixels to and from the current graphic display's backbuffer.
+<h2>Collisions</h2>
+Max2D features a multilayered pixel perfect collision system.
+The <a href=#CollideRect class=token>CollideRect</a> and 
+<a href=#CollideImage class=token>CollideImage</a> commands
+provide a dual function allowing the drawing and hit testing of Rects and 
+Images with any combination of 32 collision layers.<p>
+The current Scale, Rotation, Origin and Handle settings are taken into account 
+so coordinates for the collision commands acurately match their drawing counterparts 
+<a href=#DrawRect class=token>DrawRect</a> and <a href=#DrawImage class=token>DrawImage</a>.<p>
+<a href=#ResetCollisions class=token>ResetCollisions</a> is used
+to clear any or all of the 32 collision layers provided.<br>
+<br>
+

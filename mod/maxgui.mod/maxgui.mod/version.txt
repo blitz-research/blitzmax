@@ -1,0 +1,101 @@
+1.35
+January 2013 release
+cocoamaxgui-1.56 
+fltkmaxgui-1.60
+win32maxgui-0.75
+1.34 Release
+Left margin added to textareas through SetIndents (SetTextAreaTabs replacement).
+1.33 Release
+Added WindowStatusText() command.
+Renamed TGadget.SetStatus() to more specific TGadget.SetStatusText().
+1.32 Release
+Added PANEL_RAISED/PANEL_SUNKEN style flags (PANEL_BORDER now redundant).
+1.31 Release
+Added optional 'extra' parameter to AddTreeViewNode/InsertTreeViewNode commands.
+1.30 Release
+Added LookupGuiColor() command.
+1.29 Release
+Added hack to better center windows by taking into account task-bars/docks.
+1.28 Release
+Changed default Mac OS X monospaced font to 'Monaco'.
+Added GetWidth() etc. methods to TGadget for TProxyGadget.
+Added recursive source.source handling to PostGuiEvent/QueueGuiEvent.
+1.27 Release
+Added some internal event queueing functions.
+Tweaked some docs.
+1.26 Release
+Added GetProxy() method to TProxyGadget.
+1.25 Release
+Item array is now cleared in CleanUp() to avoid potential cyclic memory references.
+Added CleanUp() method to free generic MaxGUI objects before calling API specific Free().
+1.24 Release
+Added tooltip methods to TProxyGadget.
+1.23 Release
+Updated docs to include EVENT_GADGETMENU for tabbers.
+Added TextAreaCharX() and TextAreaCharY() commands.
+1.22 Release
+Corrected GADGETITEM_TOGGLE in docs.
+Added width and height constraints in SetRect() to enforce positive values.
+1.21 Release
+Changed LookupGuiFont()'s Linux default for GUIFONT_SYSTEM.
+1.20 Release
+Added SetShape() method to TProxyGadget.
+1.19 Release
+Added new BUTTON_PUSH flag support.
+Added new GadgetExtra()/SetGadgetExtra() functions.
+Renamed the infamous ExtractIconPixmapFromStrip() function to PixmapFromIconStrip().
+LoadGuiFont now accepts a Double for the font size so that some platforms are able to handle non-integer font sizes.
+Added new LookupGuiFont() function, new strikethough parameter for LoadGuiFont, and copied font constants to maxgui.h.
+Moved HasDescendant() method from Win32MaxGUIEx driver as it is probably more useful here.
+1.18 Release
+Added new GadgetClass() function.
+1.17 Release
+Implemented framework for CHECK_INDETERMINATE button state.
+Added SetGadgetSensitivity() and GetGadgetSensitivity() for capturing mouse/key events on more gadgets.
+Added WINDOW_CENTER flag to CreateWindow to centralise windows automatically on the screen.
+1.16 Release
+Added SetGadgetTooltip() and GadgetTooltip() functions for setting tooltips on non-item based gadgets.
+Added ExtractIconPixmapFromStrip() function and corresponding TIconStrip method.
+Added SetGadgetPixmap() for push-button and menu icon support.
+Added Fabian's SetHotKeyEvent() fix so that the owner parameter must be the same also to overwrite.
+Added TProxyGadget.SetLayout() method.
+Added PANELPIXMAP_FIT2 constant.
+1.15 Release
+New SetDataSource method for TGadget
+1.14 Release
+Bumped just in case...
+1.13 Release
+Added RemoveHotKey Function
+1.12 Release
+Bumped for popupmenu method change
+1.11 Release
+Bumped for new TMap
+1.10 Release
+Rebuilt under 10.3.9
+1.09 Release
+Added extra detail to CreateListBox docs
+Added TEXTFORMAT_UNDERLINE and TEXTFORMAT_STRIKETHROUGH constants
+Added GadgetText function for accessing Gadget.GetText
+1.08 Release
+Added SetGraphics requirement to CreateCanvas documentation
+Replaced EnableToolBarItem references with Enable/DisableGadgetItem
+1.07 Release
+Added optional owner window field to THotKey processing
+1.06 Release
+GraphicsFlags removed from CreatePanel, panels now use Graphic's DefaultGraphicsFlags
+1.05 Release
+Added range checking on gadget item parameters
+1.04 Release
+Bumped version to restore missing docs on Apple modserver
+1.03 Release
+Fixed some broken examples due to new 1.14 strict rules
+New common MaxGUI.h header file for use by native drivers
+ModuleInfo Histroy: Documented TEXTAREA_ALL, TEXTAREA_CHARS and TEXTAREA_LINES constants
+ModuleInfo Histroy: TreeView now uses EventExtra to specify node involved
+1.02 Release
+Renamed Query() to QueryGadget()
+Added QUERY_HWND,QUERY_HWND_CLIENT,QUERY_NSVIEW, QUERY_NSVIEW_CLIENT,
+QUERY_FLWIDGET, and QUERY_FLWIDGET_CLIENT constants
+EventSource() fixed for TProxyGadgets
+Removed SetGadgetTarget, see new Event.AddEventTarget
+RedrawGadget now uses ACTIVATE_REDRAW

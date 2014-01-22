@@ -1,0 +1,19 @@
+
+The BlitzMax filesystem module contains commands to perform operations on the computer's
+files and directories.
+
+#OpenFile, #ReadFile and #WriteFile return a stream object for reading and or writing data
+to files.
+
+Directories can be examined file by file using a combination of the
+#ReadDir, #NextFile and #CloseDir commands, or #LoadDir can be used to read the file names
+of a directory into a string array.
+
+File properties can be examined with the #FileType, #FileTime, #FileSize and #FileMode commands.
+
+Files and directories (folders) can be created and deleted with the #CreateFile, #CreateDir
+#DeleteFile and #DeleteDir commands.
+
+Finally, the FileSystem module contains various utility functions for handling file paths
+in a system independent manner. These commands include #RealPath, #StripDir, #StripExt,
+#StripAll, #ExtractDir and #ExtractExt.

@@ -1,0 +1,16 @@
+
+This module provides a generic way to hook into various BlitzMax commands, and to add support for 
+hooks into your own code.
+
+The following hook ids are currently used by BlitzMax modules:
+
+[ @{Hook id} | @Description | @Data
+* FlipHook | A Max2D #Flip is about to occur | Null
+* EmitEventHook | An event has been emitted by a call to #EmitEvent | A #TEvent object
+]
+To hook into any of these functions, use #AddHook with the specified hook id and your hook function.
+
+To provide hook support for your own code, use #AllocHookId to generate a valid integer hook id 
+somewhere in your program's startup code. Then, when the section of code you would like to be 
+'hookable' is about to execute, simply call #RunHooks with the previously generated hook id and your
+own custom 'data' object. 

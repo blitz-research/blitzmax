@@ -1,0 +1,5 @@
+
+The OpenGL module provides the full OpenGL 1.1 command set.
+
+To use OpenGL, you must first create an %{OpenGL context}. The #{OpenGL Graphics} module
+provides a simple mechanism for creating OpenGL contexts.

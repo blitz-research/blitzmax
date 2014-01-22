@@ -1,0 +1,21 @@
+
+Pixmaps provide storage for rectangular regions of pixels.
+
+You can create a new pixmap using the #CreatePixmap command, or load a pixmap 
+using #LoadPixmap.
+
+Pixmaps have 5 properties: width, height, a byte pointer to the pixmap's pixels, pitch and
+format.
+
+You can retrieve a pointer to a pixmap's pixels using the #PixmapPixelPtr command.
+
+A pixmap's pitch refers to the number of bytes between one row of pixels in the pixmap
+and the next. To retrieve a pixmap's pitch, use the #PixmapPitch command.
+
+A pixmap's pixel format determines how the pixels within a pixmap are stored in memory. This 
+must be taken into account if you want to access pixels directly via a pixmap's pixel pointer.
+You can retrieve the format of a pixmap using the #PixmapFormat command, and convert pixmaps
+from one format to another using #ConvertPixmap.
+
+You can also use #ResizePixmap to resize a pixmap and flip a pixmap horizontally or vertically
+with #XFlipPixmap and #YFlipPixmap.

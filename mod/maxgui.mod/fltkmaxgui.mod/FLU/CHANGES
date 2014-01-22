@@ -1,0 +1,258 @@
+-= FLU 2.14 =-
+
+* Flu_File_Chooser:
+  - would only return a single file in multi mode if you pushed <Enter> instead of
+    clicking "Ok"
+  - fixed bug where the selected file would sometimes have an extra path prepended
+  - added flu_multi_file_chooser() to easily choose multiple files inline
+* Flu_Tree_Browser:
+  - changed behavior so branch_icons(0,0) turns off branch icons for newly added
+    nodes, and added set_default_branch_icons() to turn the default ones back on
+  - added swap_label_and_widget() to specify whether nodes with embedded widgets draw
+    the label to the left of the widget (default) or to the right of the widget
+  - added auto_color(), auto_label(), and auto_label_color() to help draw embedded
+    widgets better by allowing them to track properties of their enclosing node
+  - added icon_at_end() to specify whether the icon for a leaf is drawn to the left
+    of the label and widget, or to the right of the label and widget
+  - tree was not properly redrawn in some cases after removing a node
+  - fixed error in swap() where it didn't return a value
+  - tweaked the event handling code to work with embedded widgets better
+  - added get_hilighted() to return the currently hilighted node
+  - added selection_follows_hilight() to set whether the hilighted node
+    is also always selected
+  - fixed the drawing/handling/focus code to correctly handle drawing
+    embedded widgets that are only "damaged"
+  - removed Flu_DND support by default. it is too buggy and doesn't work on all OS
+* added wrap_range() to Flu_Spinner to allow the value to "wrap" to the range during interaction
+* Flu_Label now wraps label text by default
+* fixed bug in Flu_Combo_Box where, in some situations, the popup would appear in the wrong location
+* renamed a helper file to be consistent with the rest of FLU (shouldn't affect your code unless you
+  included it directly)
+* added an Flu prefix to the names of a few internal variables/classes to avoid potential namespace conflicts
+* initialized a few uninitialized variables in Flu_File_Chooser to prevent potential bugs
+* added a new class, Flu_GL_Canvas, that is better suited to derive GL widgets from
+* fixed bug in Flu_Toggle_Group that incorrectly activated widgets that were supposed to be deactivated
+* fixed Flu_Dual_Slider so you can call low_value(float) and high_value(float) while dragging
+
+-= FLU 2.13 =-
+
+* Flu_GL_Window passed the wrong user data for the mouse wheel callback
+* Flu_Tree_Browser:
+  - added insert(), insert_branch() and insert_leaf() to add nodes to specific positions
+    within a branch (valid only when the insertion_mode() is not a sorted mode)
+  - added a swap() method to exchange the positions of any 2 nodes (within the same tree)
+* fixed a version mismatch between the .zip and .tar distributions
+
+-= FLU 2.12 =-
+
+* fixed the various Flu_*_Group widgets to account for damaged children during a draw()
+* reverted the callback() for Flu_Tree_Browser to the Fl_Widget implementation for compatability with
+  other callback mechanisms such as fl_connect (thanks Ken!). this also eliminates the tree browser's 
+  FLU_WIDGET_CALLBACK notifcation event for widgets in the tree. to regain the original behavior,
+  call Flu_Tree_Browser::use_FLU_WIDGET_CALLBACK(true); before creating a tree.
+* Flu_Spinner:
+  - the input area is now properly activated/deactivated
+  - pushing 'Tab' correctly advances to the next widget
+  - added an editable() method to control whether the input area can be edited
+* Flu_Dual_Slider:
+  - added an overlap() method allowing the low and high values to be the same
+  - fixed a bug in the keyboard handler (when using the arrow keys to change values)
+* Flu_File_Chooser:
+  - fixed bug allowing you to choose a directory when selecting multiple files
+  - selected files are now not unselected when switching between list, wide-list, and detail modes
+  - added a few more static strings for internationalization support
+  - now uses the windows registry to get the correct user paths for "Desktop" and "My Documents".
+    this should eliminate some problems for cygwin/mingw compiles
+  - implemented the callback() for Flu_File_Chooser (which is called when the Ok or Cancel buttons are
+    pushed). this allows you to create a chooser widget, show() it, and forget it. the callback is
+    called just like any ordinary widget
+  - added a STDFILE type() flag which allows choosing both directories and files at the same time
+    (thanks Michel!)
+  - added a flu_file_and_dir_chooser() function to choose both directories and files (using the new
+    STDFILE flag)
+
+-= FLU 2.11 =-
+
+* added a reset() routine to Flu_Progress_Meter to make it easier to reuse
+  (thanks george!)
+* added a convenience routine, fl_exit(), to Flu_Helpers which hides all open windows
+  (eventually) causing fltk to exit (you are still required to delete the windows though)
+* added a new widget: Flu_Dual_Slider - like Fl_Slider but with 2 handles controlling both 
+  a "low" value and a "high" value
+* fixed Ctrl/Shift/Alt + drag increments 10x for Flu_Spinner
+* fixed the box() drawing for Flu_Tree_Browser
+* added a setMouseWheelFunc() to Flu_GL_Window to handle FL_MOUSEWHEEL events
+* fixed Flu_Tree_Browser bug where animated open/close of branches would break if you opened a 
+  branch with no children
+* added open_without_children() to Flu_Tree_Browser to allow branches to not be opened
+  if they have no children
+* added num_selected() and get_selected() methods to class Flu_Tree_Browser::Node
+* fixed Flu_Progress so it handles value() changes better by only updating the screen when a
+  visible change has occurred (via Fl::check())
+* fixed a couple event-handling bugs for Flu_GL_Window
+* fixed Flu_File_Chooser so it does not use SHGetSpecialFolderPath in windows anymore, but 
+  instead uses the more compatable SHGetFolderPath
+* introduced a plethora of static strings allowing programmers to customize the names of most
+  widgets/tooltips in Flu_File_Chooser for easier internationalization
+* changed the text color of selected files in Flu_File_Chooser from black to white so they
+  are easier to read
+* fixed the custom preview widget code (PreviewWidgetBase) for Flu_File_Chooser to work
+  correctly
+* fixed the "quick jump" buttons in Flu_File_Chooser so they don't resize with the window
+* added an extra flu_dir_chooser() method to Flu_File_Chooser that allows you to also see files
+  in a deactivated state
+* added flu_save_chooser() method to Flu_File_Chooser that keeps the current filename in the
+  input field during directory traversals
+* fixed flu_file_chooser() and flu_dir_chooser() so they reset the single instance of the
+  chooser to the correct type
+
+-= FLU 2.10 =-
+
+* added a format() method to Flu_Int_Input and Flu_Float_Input to set how the value() is displayed
+* hacked Flu_Tree_Browser to allow natural support for FL_RADIO_BUTTONs. it's not the best solution, but it works
+* added support for using '~' to go to your home area in Flu_File_Chooser
+* added a set of location "quick jump" buttons in Flu_File_Chooser to navigate within the current directory path
+* patched Flu_File_Browser to guarantee value() returns paths with a LOWERCASE drive letter on 
+  windows (for compatability with fl_filename_relative()). this patch also fixes a fatal crash on windows.
+* tweaked Flu_Combo_Box, Flu_Combo_List, Flu_Combo_Tree, and Flu_Tree_Browser so that combo boxes
+  hilight the item under the mouse when the mouse moves, making selection easier
+
+-= FLU 2.9.2 =-
+
+* patched Flu_Tree_Browser to make it flicker less for single-buffered apps that generate
+  too many FL_NO_EVENTs
+* patched Flu_File_Browser to do case-insensitive matching in windows, and case-sensitive
+  matching on everything else. also updated to guarantee value() returns paths with an uppercase drive letter on windows.
+* fixed Flu_File_Browser so it correctly primes the "Filename" field when calling flu_file_chooser()
+* patched Flu_Combo_List to prevent crashes when an empty region in the popup was selected
+* tweaked Flu_Combo_Box to look better if it has the focus or if you change the box() type
+
+-= FLU 2.9.1 =-
+
+* patched Flu_Tree_Browser to prevent erroneous memory access introduced in 2.9 (caused crashes on Windows)
+
+-= FLU 2.9 =-
+* Flu_File_Chooser:
+  - changed value(int) to base 1 instead of base 0 to match Fl_File_Chooser behavior
+  - fixed bug that prevented the user from using the left/right cursor keys to 
+    navigate within the text in the "Filename:" field
+  - added Up, Down, Left, Right, Home, End, Enter and Space support to make keyboard
+    navigation easier
+  - the Delete key didn't work for File Details mode (fixed)
+  - made a few minor aesthetic improvements when the chooser is resized
+  - for ease-of-use, can only change the name of a file by right-clicking instead of by
+    clicking twice
+  - when changing the name of a file, just the name is highlighted initially (not the extension)
+* updated Flu_Wrap_Group to accomodate new functionality required for Flu_File_Chooser
+* Flu_Progress_Meter is now derived from Fl_Double_Window, making the class a bit cleaner and more flexible
+* removed unnecessary #include <typeinfo> from Flu_Collapsable_Group.cpp (broke some msys compiles)
+* Flu_Tree_Browser:
+  - changed Node implementation so that a NULL branch icon does not default to the gold folder, 
+    but instead draws nothing
+  - added add_branch() and add_leaf() convenience methods to help disambiguate
+    adding nodes for the programmer
+  - added a new feature called auto_branches() that dynamically changes nodes from leaves to
+    branches depending on whether the node has any children. this makes the tree more compatible
+    with scene-graph-like hierarchies instead of file-structure-like hierarchies. the new example
+    Flu_Tree_Browser_Try2 tests this feature
+  - fixed a couple more event handling bugs
+
+-= FLU 2.8.1 =-
+
+* added support for cygwin environment (static libs only)
+* added support for mingw/msys environment (static libs only)
+* added the ability to change the label of an entry in Flu_Tree_Browser, as well as
+  sort the entire tree or a node's children manually
+* fixed some Codewarrior compiler issues in Flu_File_Chooser and Flu_Tree_Browser,
+  as well as many of the example files (thanks Doyle!)
+* added Codewarrior project files - static libs only (thanks Doyle!)
+* tweaked Flu_File_Chooser to fix latency issues with floppy, removable and network
+  drives
+* typing Ctrl+a in Flu_File_Chooser when in MUTLI mode now selects all files
+* fixed annoying "feature" in Flu_File_Chooser where if a filename was in the filename
+  input field, and that filename matched an existing file, no other files matching
+  the current pattern were displayed
+* fixed memory leak in Flu_Progress_Meter in which the destructor didn't delete the window
+* fixed bug in Flu_Combo_Box where it took 2 presses of <Tab> to move through the widget (now it takes only 1)
+* tried to fix Flu_Combo_Box so it pops up correctly on multi-display desktops (haven't tested though)
+
+-= FLU 2.8 =-
+
+* updated configure/makefile to fix the following issues: (thanks Michael!)
+  - on some systems, previous versions of the FLU shared library must be removed
+    before a new symlink can be created. fixed by removing libflu.* and libflu_gl.*
+    instead of individual files
+  - support added to configure for Sun and several BSD variants, including systems
+    with a non-standard shell and systems for which the header/lib search path was
+    wrong or incomplete
+  - --disable-gl did not work for configure. fixed.
+  - updated examples/Makefile to account for --enable-gl or --disable-gl
+* added keyboard navigation to Flu_Combo_Box: <Spacebar> opens,
+  cursor keys navigate, <Spacebar> or <Enter> selects, <Esc> cancels
+* fixed Flu_Combo_Box bug that did not save/restore the current group correctly
+  before popping up the box, sometimes leading to a segfault (thanks George!)
+* fixed bugs in Flu_File_Chooser:
+  - certain compiles on windows (e.g. mingw) when queying floppy drives took a bit
+    too long. changed things around so the drives are only queried when the user
+    clicks "Refresh Directory" or when "My Computer" is visited (thanks Ian!)
+  - fixed a couple really insignificant problems involving the current working
+    directory and flu_file_chooser()
+  - typing in a filename and pushing <Enter> did not return that filename unless
+    it already existed. fixed. pressing "Ok" always worked.
+  - changed a char* to const char* for mingw compiler
+  - made entire protected section public because several compilers
+    (VC6 and a few gcc-2.x) did not like friend classes accessing protected members
+* removed a #pragma from Flu_Enumerations.h because it was there only to eliminate
+  several warnings from a VC6 compile, and was largely unnecessary
+
+-= FLU 2.7.1 =-
+
+* added a clear_history() function to Flu_File_Chooser
+* fixed bugs in Flu_File_Chooser:
+  - erroneously returned the empty string on cancel, instead of NULL
+  - flu_file_chooser() did not use current working directory when
+    first called with NULL as the filename.
+  - flu_file_chooser() did not throw away the last file name chosen
+    when called again with a different pattern.
+  - each call to flu_file_chooser() now clears the history for more
+    consistent behavior from call to call
+
+-= FLU 2.7 =-
+
+* new Flu_File_Chooser widget
+
+* Flu_Button enhanced with box enter/exit effects
+
+* added pop_height() in Flu_Combo_Box to set the size of the box that pops up
+
+* a couple bug fixes in Flu_Tree_Browser, Flu_Combo_Box, Flu_Wrap_Group
+
+* added cancel handler to the Flu_Progress demo
+
+* added a separate input_callback() to Flu_Combo_Box
+
+* when selecting an existing item in the combo box/list demo, it erroneously added
+  the item again to the list. fixed using new input_callback()
+
+* new option for Flu_Link_Button that only draws underlining when mouse is over the button
+
+* Flu_Spinner: shift/ctrl/alt + click increments by 10*step()
+               step() >= 1  --> uses Fl_Int_Input, else Fl_Float_Input
+               align(FL_ALIGN_INSIDE) now puts the label inside the spinner, but then you
+                  can't edit the data in the input box
+
+* New FluSimpleString class (similar to the STL string class) used by several widgets
+  to make string handling easier
+
+* added make install directive to configure and Makefiles
+
+-= KNOWN BUGS =-
+
+* Flu_File_Chooser: details mode doesn't work right when there are more than 1600 files or so.
+  some kind of weird conflict with Fl_Scroll and Fl_Pack (the underlying widgets for details
+   mode). still trying to figure it out...
+* Flu_File_Chooser: on OSX, the first time you open the "Location" combo box, if the
+  file chooser window has not been moved or resized, the combo box sometimes shows up
+  in the wrong place, although it is still functional. go figure
+* Flu_File_Chooser: it has been reported that on some multi-display desktops the various
+  combo boxes do not pop up in the right place.

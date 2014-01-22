@@ -1,0 +1,8 @@
+
+The event queue is a simple first-in, first-out queue that is used to collect 
+#TEvent objects emitted by your application.
+
+The #PollEvent and #WaitEvent commands can be used to receive the next event from the event
+queue, while the #PeekEvent command can be used to check if the event queue is empty.
+
+Events are added to the event queue using #PostEvent.

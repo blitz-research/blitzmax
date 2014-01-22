@@ -1,0 +1,16 @@
+
+Welcome to the weird and wonderful world of multithreading!
+
+Multithreading effectively allows your programs to do several things at the same time. The word 'thread' in this context means 'thread of execution' - or, the series of instructions, branches and so on executed by your program. Most programs are 'single threaded', meaning there is only one thread of execution. However, more and more programs are using multiple threads.
+
+Multithreading used to be achieved by software trickery, which made threading useful but not really faster - there was still only one CPU pretending to do multiple things at the same time! But these days, multicore CPUs mean that threading can be used to truly do multiple things at the same time (or 'in parallel').
+
+Creating a thread is easy - just call #CreateThread. You will need to provide a function for the thread to use as it's 'entry point'. Once the thread is created, this function will start executing in parallel with the code that called #CreateThread. When the thread function returns, that thread will be 'terminated'.
+
+Alas, threading turns out to be rather tricky due to an issue known as 'synchronization'. Synchronization is required when you need to prevent multiple threads from modifying or accessing the same data at the same time. Synchronization usually involves a thread 'blocking'. When a thread blocks, it completely halts execution until another thread does something that causes it to 'unblock' and resume execution.
+
+BlitzMax provides 2 primitives known as 'mutexes' and 'semaphores' to assist with synchronization:
+
+* Mutexes provide a simple locking mechanism. Only one thread at a time can lock a mutex (using #LockMutex or #TryLockMutex), so this is an easy way to protect resources from simultaneous access. If a thread calls #LockMutex and the mutex is already locked by another thread, the current thread will block until the other thread releases the mutex using #UnlockMutex. So don't forget to #UnlockMutex a mutex after you are finished with it!
+
+* Semaphores provide a synchronized counting mechanism, and contain an internal integer counter. There are 2 operations you can perform on a semaphore - post and wait. Posting a semaphore (using #PostSemaphore) causes the semaphore's internal counter to be incremented, while waiting for a semaphore (using #WaitSemaphore) will cause the current thread to block until the semaphore's internal counter is greater than 0. When it is, the counter is decremented and the thread unblocks. Semaphores are very useful for producer/consumer type situations.

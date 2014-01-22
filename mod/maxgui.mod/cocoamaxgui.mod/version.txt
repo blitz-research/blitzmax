@@ -1,0 +1,212 @@
+History for cocoa.macos.m
+1.56
+fix forward references to conform to latest xcode rule
+1.55 Dev
+Added patch for blank toolbar items in Lion
+Added UserName$ and ComputerName$ support
+Stopped EmitCocoaMouseEvent from crashing htmlview
+1.54 Release
+Added RemoveGadgetColor support
+Removed use of NSPopoupButton for non editable ComboBoxes /topic=91200
+Reduced ambiguous use of gadget.(arg)name$ /topic=91292
+1.53 Release
+Added GetStatusText() implementation.
+1.52b Release
+Fixed several TextArea CTDs.
+1.51 Release
+skn3[ac]'s canvas EVENT_MOUSEUP firing fix.
+Added icon support to non-editable ComboBoxes.
+Fixed ComboBox events and implemented non-editable ComboBoxes as NSPopUpButtons.
+1.50 Release
+Added LookupColor() method to TCocoaMaxGUIDriver.
+1.49b Release
+Fixed EVENT_GADGETLOSTFOCUS interrupting modal drop-down boxes.
+1.49 Release
+Fixed SetTextAreaText style problem.
+Added support for thumb-size jumps for scroll-bars.
+1.48b Release
+Removed NSString helper functions, instead linking to those in Pub.MacOS.
+Swapped out NSInteger for (int) to avoid compile errors for OS X < 10.5.
+1.48 Release
+Fixed mouse and key events for various different gadgets.
+Added support for mouse wheel events.
+Fixed listbox tooltip crash.
+1.47 Release
+Fixed DeselectGadgetItem() for ListBox gadgets.
+Applied d-bug's NSScrollbar sizing fix.
+1.46b Release
+Swapped out deprecated selectItem() selectors for their selectItemIndexes() counterparts.
+1.46 Release
+Fixed panel pixmaps with alpha components.
+Fixed NSColorRequester().
+1.45 Release
+Fixed event generation for canvas gadgets.
+Fixed the CanvasView setAlpha unrecognized selector error.
+1.44 Release
+Added explicit removal of NSLinkAttributeName in NSSetStyle().
+Fixed NSScroller events.
+Swapped out deprecated float selectors for their double-precision counterparts.
+Disabled a few unwanted NSTextView features.
+Fixed progress bar NSState() crash.
+Disabling a panel should now grey out all of its children.
+Fixed a few issues concerning client areas and toolbars.
+Suppressed arrow keys EVENT_GADGETCHAR filter.
+Fixed group panel initial text setting.
+Fixed NSSetPointer through disableCursorRects calls.
+Fixed HTMLView navigation bugs, and added support for both style constants.
+Finished treeview icon support.
+Fixed listview/treeview scrollbar problems.
+Added recursive owner.source handling to EmitCocoaOSEvent.
+PanelViews now extend and use NSBox.
+Added separator for statusbar.
+Attempt to fix PANEL_SUNKENFRAME offset issues.
+LABEL_SUNKENFRAME alignment fix.
+Added TCocoaGuiFont and corresponding Delete() method.
+Attempt to fix button fonts and colors.
+Fixed ClearGadgetItems() for tabber.
+Fixed exception when freeing tabbers.
+1.43 Release
+Nodes should now be added to their parent's 'kids' list.
+1.42 Release
+Updated NSGadget struct in cocoa.macos.m with recent changes made to MaxGUI TGadget.
+1.41 Release
+Fixed clipping issue involving tabs with icons.
+Fixed strange combobox popup list behaviour when appearing over mouse-sensitive gadgets.
+Added EVENT_GADGETMENU for tabbers.
+Added maximum size restraint (26px) for comboboxes to avoid warnings on Leopard.
+Fixed crashes caused by changing NSFont pointers. Use GetFontHandle() to refresh.
+1.40 Release
+Added CharX() and CharY() methods for text areas.
+Fixed activation issues when windows are restored from a minimized state.
+Fixed drawing when PANELPIXMAP_FIT2 was used with the PANEL_BORDER flag.
+Fixed hidden child window behaviour (a problem causing the IDE Options window to show when restoring from the dock).
+1.39 Release
+Fixed ACTIVATE_PRINT code for HTMLViews so that the page is printed instead of just the visible region.
+Added hack so that treeviews now have a horizontal scrollbar (if required).
+Changed child window behaviour so that they are more like child windows in MaxGUI.Win32MaxGUIEx.
+Added several Window checks to determine if it is hidden before proceeding.
+Fixed textcolor memory access error in NSFreeGadget.
+Fixed NSGetText() for HTMLViews and NodeItems.
+Added new BUTTON_PUSH support for radio/checkboxes.
+Fixed FontStyle() so that it now returns values.
+Added LibraryFont() method to TCocoaMaxGUIDriver.
+1.38 Release
+Added new Class() method to return a gadget's class for the new GadgetClass() function.
+1.37 Release
+Fixed push, ok and cancel buttons returning alternate values from ButtonState() - now returns 0.
+NSState() and NSCheck() tweaked for CHECK_INDETERMINATE.
+Disabled text-areas should no longer allow you to select text.
+Fixed limited tabstops in textareas (now uses setDefaultTabInterval selector).
+Cleaned up NSSetText(), NSGetText(), NSRedraw() and NSRethink().
+Added label, button and text-field text colors.
+Added button, text-field and window background colors.
+Added SetSensitivity() and GetSensitivity() methods.
+1.36 Release
+Added GadgetText() support for more gadgets (e.g. buttons/menus etc.).
+Improved handling of text-areas in NSState to avoid crash.
+Swapped tabber icon drawing code (so that it works).
+Added finishing touch to tool-window support (thanks Brucey)!
+Fixed TCocoaIconStrip to work with ExtractIconPixmapFromStrip().
+Tidied up PostCocoaGUIEvent() and added item-extra to tabber events.
+1.35 Release
+Added SetMaximumSize method to TNSGadget for possible future implementation of SetMaxWindowSize().
+Added gadget font support for Buttons, Listboxes, Treeviews and Comboboxes.
+Added a workaround for missing setEnabled responder on textareas.
+Added Koriolis's fix for read-only text-areas in NSGetCursorPos() and NSGetSelectionlength().
+Added SetGadgetTooltip() support for non-item based gadgets.
+Added Brucey's icon support for buttons and menus using SetGadgetPixmap().
+Added possible fix for app crashing when popup-menus are created with no text.
+Added possible fix for GadgetDisabled() on certain gadgets.
+Added style hack to accomodate taller buttons.
+1.34 Release
+Fixed excessive memory usage by NSPixmapImage
+1.33 Release
+Implemented Brucey's fixes
+1.32 Release
+Fixed to support new SetDataSource fields in TGadget
+1.31 Release
+Fixed TreeView generating extra events
+Added Seb's fix for button state in EVENT_GADGETACTION data	
+1.30 Release
+Fixed ClearGadgetItems on ListBox generating event
+Strip windows hotkey shortcut '&' from CreateButton text
+Fixed FreeGadget childwindow crash
+Fixed SetPanelPixmap panel,Null
+1.29 Release
+Added fixes for new label code
+1.28 Release
+Optimized ListView tooltip usage
+Added Brucey's fixes for ListView events
+Added Brucey's fixes for Label alignment
+1.27 Release
+Bumped version for bizzarro TEXTFORMAT_????? issue
+1.26 Release
+Fixed gadget and extra data fields for EVENT_GADGETMENU node events
+Added itemx extra object to relevant GADGETACTION events
+Tweaked bounds checking on textarea CharAt and LineAt
+1.25 Release
+Fixed keyboard filtering bug introduced in 1.23
+1.24 Release
+Bumped to keep in sync with new TMap
+1.23 Release
+Fixed ActiveGadget, Cut, Copy and Paste for TextFields
+Fixed RequestColor exception with non RGB colors
+1.22 Release
+Premultiply pixels when calling NSPixmap with alpha
+1.21 Release
+Fixed SetMinWindowSize
+1.20 Release
+Fixed WINDOW_CLIENTCOORDS behavior
+Desktop() client shape now based on [Screen visibleFrame]
+1.19 Release
+Fixed multiple toolbar errors
+1.18 Release
+Added EVENT_GADGETLOSTFOCUS
+1.17 Release
+Rebuilt under 10.3.9
+1.16 Release
+Fixed SetGadgetText to work with menu items courtesy Byteemoz
+1.15 Release
+Fixed Radio Buttons to exclude others in group
+1.14 Release
+Fixed TNSGadget.GetText$() for menu items
+1.13 Release
+NSLoadFont now defaults to systemFontOfSize if font not found
+1.12 Release
+Rebuilt under 10.3.9
+1.11 Release
+Stopped borderless window exceptions (NSDrawWindowBackground)
+1.10 Release
+Added ComboBox support in NSGetText and NSSetText
+Fixed ListBox gadget action not reporting selection in EventData
+1.09 Release
+Fixed TextView::SetFont (affecting empty TextAreas like MaxIDE output)
+1.08 Release
+Removed NSCompositeCopy so 32bit panelpixmaps blend with window not desktop
+Fixed DisableGadget for TextFields, Sliders and Menus
+Stopped TreeViewNode with iconstrip crashing with no icon (icon=-1)
+Stopped stepper Slider value from wrapping around
+Fixed TextField to scroll single line correctly
+Added out of range error checks for TextArea commands
+1.07 Release
+Added support for ActiveGadget() command
+Fixed FreeGadget TextArea not removing the view 
+1.06 Release
+Fixed RedrawGadget with window gadgets
+Fixed unselecting item in listbox error
+1.05 Release
+Fixed redraw of superview after setframe on view
+Fixed InsertTreeViewNode ignoring index
+Fixed SelectTreeViewNode generating multiple events
+1.04 Release
+Fixed NSEnable and NSState STATE_DISABLED issues
+1.03 Release
+Fixed NSRequestFont behavior with null default
+Fixed Disable on Panel and Canvas NSGadgets
+1.02 Release
+Added Query(QUERY_NSVIEW) and Query(QUERY_NSVIEW_CLIENT)
+Fixed positioning of PopupWindowMenu
+Flipped coordinate system for PANEL_VIEW client
+1.01 Release
+Now uses default app menu instead of creating new menu
+

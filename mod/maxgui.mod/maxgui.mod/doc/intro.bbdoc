@@ -1,0 +1,207 @@
+The MaxGUI module contains commands to create and control user interfaces for developing applications in BlitzMax.
+
+Users should be familiar with the #WaitEvent command and BlitzMax #events which provide the basic communication mechanism 
+between user interface and program when developing MaxGUI applications.
+
++Gadgets
+MaxGUI provides numerous types of gadgets that can be created and arranged for the purposes of providing a user interface to
+BlitzMax applications.
+
+The position of gadgets in relation to their group (parent) gadget can be controlled with the #SetGadgetShape command and 
+monitored with the #GadgetX, #GadgetY, #GadgetWidth and #GadgetHeight commands. Gadgets that can act as group gadgets 
+(such as Windows, Tabbers and Panels) have an inner client region that contains their children, with an area that can be 
+found using #ClientWidth and #ClientHeight.
+
+Gadgets can be made to automatically reposition themselves when their group gadget changes size with the #SetGadgetLayout
+command.
+
+A gadget's group, or parent, gadget can be retrieved using the #GadgetGroup command. A gadget can be shown with #ShowGadget,
+hidden with #HideGadget, its visibility found with the #GadgetHidden function and removed completely from the system with
+the #FreeGadget command. It is now also possible to determine a gadget's class/type using the #GadgetClass command.
+
+#EnableGadget, #DisableGadget and #GadgetDisabled control and determine if a gadget is currently enabled.
+
+#ActivateGadget will set a particular gadget as active so that it is highlighted and receives any keyboard events while
+#ActiveGadget returns which gadget (if any) is currently active.
+
+#SetGadgetText, #SetGadgetFont, #SetGadgetColor and #SetGadgetTextColor change the appearance of many of the MaxGUI gadgets.
+
+Those wanting to store their own object with gadget can do so using the #SetGadgetExtra command - a reference to your object
+will be stored inside the @TGadget type and is retrievable using the matching #GadgetExtra command. The object reference will
+be overwritten by future calls to #SetGadgetExtra or when #FreeGadget is called.
+
+Recently, #SetGadgetTooltip and #GadgetTooltip have been added to MaxGUI to allow tooltips to be set on standard
+%{non list-based} gadgets, including Buttons, Labels, TextFields etc.
+
+Tooltips are set on an item-by-item basis for gadgets such as ListBoxes and Tabbers etc. 
+Attempting to set an overall gadget tooltip on a %{list-based} gadget will have no effect.
+
+Finally, a more generic #SetGadgetPixmap command has been added which will eventually allow you to set pixmaps for many 
+gadgets (not just for panels), depending on your platform. 
+
+<h2>Events</h2>
+Gadgets that allow user-interaction emit events that can be caught and processed in your main application
+loop (typically with the #WaitEvent command). The events a gadget can generate will be listed under the
+corresponding CreateGadget() documentation.
+
+It is important to note, however, that events are only emitted when @{the user} interacts with, or changes the
+state, of a gadget. Any changes made to gadget through MaxGUI command calls (such as #SelectGadgetItem) should 
+not result in events being emitted. 
+
+<h2>Windows</h2>
+<img src="win32window.png"><img src="fltkwindow.png"><img src="osxwindow.png">
+
+A Window is used to contain a collection of gadgets that make up the user interface of an application. The #CreateWindow 
+command creates a window of a specified size that can then be used as the @{group} parameter for the other gadget creation
+commands.
+
+The #WindowMenu command returns a handle that can be used as the parent parameter of the #CreateMenu command to add menus
+to a window. #UpdateWindowMenu should be called after adding/changing a window's menu for the changes to take effect.
+A window can be activated (bringing the window in front, with focus) with the #ActivateWindow command. 
+The text displayed in a window's optional status-bar can be set using the #SetStatusText command.
+
+If a window is created with the WINDOW_RESIZABLE style, its sizing can be restrained using #SetMinWindowSize and 
+#SetMaxWindowSize and it can be minimized, maximized and restored with the #MinimizeWindow, #MaximizeWindow and 
+#RestoreWindow commands. The state of a window can be dermined using #WindowMinimized and #WindowMaximized.
+
+<h2>Menus</h2>
+<img src="win32menu.png"><img src="fltkmenu.png"><img src="osxmenu.png">
+
+The #CreateMenu command is used to create menu-items. Menus can be attached either to a window's menu-bar by parenting them to a 
+#WindowMenu or can popup at the current mouse location if used with the #PopupWindowMenu command.
+
+#CheckMenu adds a tick next to a menu-item and #UncheckMenu removes it.  #DisableGadget will "gray out" a menu item, preventing it from
+being chosen by the user. #EnableGadget reverses this operation.
+
+<h2>Buttons</h2>
+<img src="win32buttons.png"><img src="fltkbuttons.png"><img src="osxbuttons.png">
+
+The #CreateButton command is used to add buttons to a group gadget. Buttons can be standard push buttons that emit a single
+event whenever clicked, or they can be created with the BUTTON_CHECKBOX or BUTTON_RADIO styles
+in which case they can be toggled by the user (or programatically with the #SetButtonState command). 
+Their current state can be found with the help of the #ButtonState function.
+
+<h2>Panels</h2>
+<img src="win32panels.png"><img src="fltkpanels.png"><img src="osxpanels.png">
+
+The #CreatePanel command is used to to create a Panel gadget. Panels can be used to group other gadgets together and
+can be optionally assigned a background color or image using the #SetPanelColor or #SetPanelPixmap commands.  They can
+be created with or without a border. Panels were one of the first gadgets that could emit mouse/key events by 
+specifying the optional PANEL_ACTIVE style upon creation.
+
+<h2>Text Fields</h2>
+<img src="win32textfield.png"><img src="fltktextfield.png"><img src="osxtextfield.png">
+
+A text-field allows the users to enter a single line of text. A text-field's characters can be masked by specifying an 
+optional TEXTFIELD_PASSWORD style flag upon the call to #CreateTextField.  This is useful for creating password-entry
+forms.  As with all other gadgets, #GadgetText and #SetGadgetText can be used to set and retrieve the text in the field.
+
+<h2>Text Areas</h2>
+<img src="win32textarea.png"><img src="fltktextarea.png"><img src="osxtextarea.png">
+
+The #CreateTextArea command creates a gadget for displaying formatted text, with optional TEXTAREA_WORDWRAP and 
+TEXTAREA_READONLY styles.  
+
+The MaxGUI commands specific to text-areas are summarised below:
+
+[ 
+* #SetTextAreaText and #AddTextAreaText allow for convenient editing of the text.
+* #TextAreaText returns either a specified portion or the entire contents of a text-area.
+* #TextAreaLen returns the number of characters or lines currently contained.
+* #TextAreaCursor and #TextAreaSelLen commands return the cursor position and selection length.
+* #SelectTextAreaText command provides a means to programatically select/highlight text.
+* #SetTextAreaFont and #SetTextAreaColor affect the style and appearance of the text displayed in a Text Area. 
+* #SetTextAreaTabs allows you to alter the position of tab stops.
+* #FormatTextAreaText allows sections of text to be formatted using their own colors and font styles. 
+* #LockTextArea and #UnlockTextArea commands should be used to improve performance when formatting lots of text.
+* #TextAreaChar and #TextAreaLine commands convert between line and character positions.
+* #TextAreaCharX and #TextAreaCharY find the x,y coordinates of a character position relative to the top-left corner
+of the gadget.
+]
+
+<h2>Combo Boxes</h2>
+<img src="win32combobox.png"><img src="fltkcombobox.png"><img src="osxcombobox.png">
+
+Combo-boxes provide a dropdown list of options to the user with an optional style that allows the user to enter 
+their own text in a similar manner to the TextField gadget. #CreateComboBox creates a ComboBox and the standard
+list based gadget commands #ClearGadgetItems, #AddGadgetItem, #ModifyGadgetItem, #RemoveGadgetItem, #SelectGadgetItem,
+#SelectedGadgetItem, #CountGadgetItems and #GadgetItemText can be used to manage the items contained by the ComboBox gadget.
+
+<h2>List Boxes</h2>
+<img src="win32listbox.png"><img src="fltklistbox.png"><img src="osxlistbox.png">
+
+List-boxes are similiar to ComboBoxes but features a scrolling list rather than a drop-down selection mechanism.
+The #CreateListBox command is used to create a ListBox gadget while the standard list based gadget commands listed
+in the previous ComboBox section are used to manage the items.
+
+<h2>Toolbars</h2>
+<img src="win32toolbar.png">
+
+Toolbars display a row of clickable icons at the top of a window. The #CreateToolbar command creates a window toolbar 
+using a previously loaded @TIconStrip or using a specified image file containing a strip of icons.
+
+#EnableGadgetItem and #DisableGadgetItem control the interactive state of individual items while #SetToolbarTips
+assigns a list of meaningful strings to the toolbar items.
+
+The recommended icon size for toolbars is 24x24 pixels which seems to work well on most platforms. Using a different
+image size may result in the pixmaps being scaled before being set depending on the OS.
+
+It is important to note that Toolbars should only ever be added to @{Window}s - adding ToolBars to other group gadgets may
+cause your program to crash on some platforms.
+
+<h2>Tabbers</h2>
+<img src="win32tabber.png"><img src="fltktabber.png"><img src="osxtabber.png">
+
+The #CreateTabber command creates a tab control gadget commonly used to group gadgets into a collection of pages. 
+The standard list based gadget commands #ClearGadgetItems, #AddGadgetItem, #ModifyGadgetItem, #RemoveGadgetItem, 
+#SelectGadgetItem, #SelectedGadgetItem, #CountGadgetItems and #GadgetItemText can be used to manage the items contained 
+in a Tabber gadget.
+
+<h2>TreeViews</h2>
+<img src="win32treeview.png"><img src="fltktreeview.png"><img src="osxtreeview.png">
+
+A TreeView is used to display hierarchical data where items are contained in nodes that can be children of other nodes.
+The #CreateTreeView command creates a new TreeView gadget that provides a #TreeViewRoot used to create a tree of nodes.
+
+#AddTreeViewNode, #InsertTreeViewNode, #ModifyTreeViewNode, #ExpandTreeViewNode, #CollapseTreeViewNode and
+#FreeTreeViewNode provide commands to control the the contents of a TreeView.
+
+#SelectedTreeViewNode and #SelectTreeViewNode return and set the currently highlighted node in a TreeView while 
+#CountTreeViewNodes returns the number  of nodes contained in a single TreeViewNode. #FreeTreeViewNode and #ClearTreeView
+can be used to remove nodes previously added to a TreeView gadget.
+
+<h2>HtmlViews</h2>
+<img src="win32htmlview.png">
+
+An HTMLView is a gadget containing a complete web browser display. The #CreateHTMLView command creates an HTMLView gadget
+while #HtmlViewGo, #HtmlViewBack and #HtmlViewForward control the page being displayed.
+
+#HtmlViewStatus and #HtmlViewCurrentURL provide extended information about the state of an HTMLView gadget while
+#HtmlViewRun allows scripts (i.e. javascript) to be run (on some platforms).
+
+<h2>Labels</h2>
+Labels are read-only regions of text on a user inteface that do not have a background and are created with the 
+#CreateLabel command.
+
+<h2>Sliders</h2>
+<img src="win32sliders.png"><img src="fltksliders.png"><img src="osxsliders.png">
+
+Sliders allow the user to control a numerical value by dragging a control inside a container. #CreateSlider can create 
+both a scroll-bar type slider (where the size of the knob represents the portion of the document being viewed) and 
+trackbar style sliders (where the knob is a fixed size and #SetSliderRange controls the minimum and maximum values 
+allowed by the control).
+
+#SetSliderValue and #SliderValue set and retrieve the position of a Slider control.
+
+<h2>Progress Bars</h2>
+<img src="win32progbar.png"><img src="fltkprogbar.png"><img src="osxprogbar.png">
+
+#CreateProgBar creates a progress bar gadget commonly used to display the progress of an operation. The 
+#UpdateProgBar command is used to update the progress bar with a floating point value between 0.0 and 1.0 and
+are typically used to represent how complete the current operation is.
+
+<h2>Desktop</h2>
+A gadget representing the user's desktop is returned by the #Desktop command. The Desktop gadget is particularly useful
+for finding primary screen and workspace resolutions using #GadgetWidth / #GadgetHeight or #ClientWidth / #ClientHeight respectively.
+
+The #LookupGuiFont and #LookupGuiColor commands can be used to retrieve system defined font and color information.

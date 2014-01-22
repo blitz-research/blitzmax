@@ -1,0 +1,279 @@
+0.75 Relase
+Added UserName and ComputerName driver methods
+0.74 Release
+Moved xpmanifest.o to it's own module MaxGUI.XPManifest
+Added RemoveColor interface
+Modified licence
+Removed composite mode bit banging in window resizing states /topic=91447
+0.73 Release
+Added GetStatusText() implementation.
+0.72 Release
+Added support for PANEL_RAISED style flag.
+Implemented grable's OnCommand() tweak.
+Fixed ActiveGadget() returning Null when HTMLViews have focus.
+0.71 Release
+Cleaned up TWindowsFont so that RequestFont() should now return expected results.
+0.70 Release
+Fixed tabber icons not being set.
+0.69b Release
+Windows are now only revealed when they are correctly positioned, to avoid momentary flicker.
+0.69 Release
+Task-bar area should now no longer be included when querying workspace dimensions.
+Added LookupColor() method to TWindowsGUIDriver.
+0.68b Release
+Committed ListBox Slider glitch workaround for Grisu.
+0.68 Release
+Suppressed hotkeys with modifiers from being passed to graphics contexts/active panels.
+Combined BitmapFromPixmap24 and BitmapFromPixmap32 into one function.
+Swapped out String-based hWnd TMap for more efficient TIntWrapper equivalent.
+Fixed HtmlViewCurrentUrl() and associated memory leak(s).
+0.67 Release
+Added hack to stop scroll-bars re-enabling when range is changed.
+Silenced system beep with 'Alt' hotkeys.
+0.66 Release
+Fixed a textarea redraw problem, and added hack to fix cursor sometimes getting stuck on 'busy' when highlighting.
+Improved handling of 'Alt' and firing of events when keys are hotkeys.
+Optimized brush transparency code by caching brushes.
+HotKey fix for modifiers.
+Disabling a panel should now grey out all of its children.
+State() is now no longer recursive.
+Toolbars now push down the client area of the parent window.
+Tidying up of some of the window sizing code.
+Attempt to fix some drawing slow-downs/bugs.
+0.65 Release
+Made use of TGadget's style field instead of additional _style.
+Fixed RequestFont() bug - thanks klepto2!
+Fixed toolbar ListItemState() and loss of state on ModifyGadgetItem.
+Fixed recursive PopupWindowMenu event extra bug when using hooks.
+Standard checkboxes/radio-buttons now support text colors, but do so by losing theming.
+Fixed hotkey focus issues for window menus.
+Added recursive owner.source handling to SystemEmitOSEvent.
+0.64 Release
+SelectTreeViewNode(TreeViewRoot(treeView)) now deselects the currently selected node.
+RichEdit 4.1 should now be used when available.
+Controls will now only be double-buffered on Windows Vista (or higher) by default.
+0.63 Release
+Graphics contexts are now closed automatically when a canvas is freed.
+Resizable windows with a maximum size set can no longer be maximized.
+0.62 Release
+Changed handling of '-1' icons in listboxes and toolbars.
+0.61 Release
+Added workaround for flipped vertical trackbar.
+Corrected insert node index behaviour.
+Fixed GetText() on tree-view nodes.
+Tweaked SetIconStrip() for list based gadgets.
+0.60 Release
+Fixed memory exception when freeing a treeview node accidentally a second time.
+Fixed htmlview GetText implementation.
+0.59 Release
+Maintenance release.
+0.58 Release
+Added calls so that the client position is updated when tab items are set.
+0.57 Release
+Added new iconless window class for child windows.
+Swapped slider API messages for their 32-bit signed counterparts.
+0.56 Release
+Tweaked the appearance of LABEL_SEPARATOR.
+Silenced EVENT_GADGETSELECT event emitted when a selected list item was removed.
+Fixed mouse capture handling (again!) when holding more than one mouse button down.
+0.55 Release
+Added EVENT_GADGETMENU for tabbers.
+Added CharX() and CharY() methods to TWindowsTextArea.
+Fixed UnlockText() selection error that was causing erratic highlighting when block-indenting/outdenting code in the IDE.
+Fixed SetGadgetPixmap() and SetGadgetText() bug.
+Added GadgetCut(), GadgetCopy() and GadgetPaste() to textfields and editable comboboxes.
+Added preliminary support for text and background colours on standard push buttons (no icon/pixmap support atm).
+0.54 Release
+Removed the DebugLog calls.
+Fixed Windows 9X infinite loops from client hwnd CallWindowProc in TWindowsGUIDriver.ClassWndProc.
+0.53 Release
+Fixed missing event from tabber when removing items.
+Fixed definition clash with mshtmlview.cpp and MaxGUI.Win32MaxGUI's win32htmlview.cpp.
+0.52 Release
+Added LockText() and UnlockText() selection code.
+Fixed font-size rounding error.
+Fixed more window hiding bugs with windows whose children have focus.
+Fixed toolbar accepting files as drop-target without window having WINDOW_ACCEPTFILES flag.
+Fixed SetGadgetSensitivity() mouse-click events where possible by implementing new system mouse hook.
+Further improved the reliability of TWindowsFont.GetDefault().
+Added new BUTTON_PUSH support for radio/checkboxes.
+Added symbol based font loading (e.g. Wingdings) and fixed tiny font memory leak.
+Added LibraryFont() method to TWindowsGUIDriver.
+Implemented quick-hack so that editable comboboxes are redrawn after the window has been moved.
+0.51 Release
+Fixed the TWindowsHTMLView x/y-coordinate bug when not positioned at 0,0.
+0.50 Release
+Added new Class() method to return a gadget's class for the new GadgetClass() function.
+Plugged memory leaks from GetDC.
+Events should now be silenced if generated while attemping to free a treeview node.
+0.49 Release
+Fixed button tooltips disappearing permanently on Windows XP.
+Fixed resetting gadget tooltips using SetGadgetTooltip.
+Gadgets should now respond to GetSensitivity() and SetSensitivity() methods.
+0.48 Release
+Removed redundant ATL code from Skid's original BlitzMax-based HTMLView.
+Added hack to address XP's resistance to hide text when BS_BITMAP is set.
+The drawing context is now saved/restored whenever the background is painted to fix font problems.
+Fixed separators - they can now be horizontal or vertical but restricted to 4 pixels thick.
+Reduced flickering when *moving* a window with an editable combobox on it.
+Fixed conflicting WS_EX_COMPOSITED and WS_EX_LAYERED flags on windows.
+Fixed slider redraw problems on XP.
+Fixed treeview memory leak by releasing integer memory handle.
+Removed WS_EX_TRANSPARENT from group panels as it was causing strange drawing problems on XP.
+Fixed ComboBox GetText() method so text is retrieved even if it isn't COMBOBOX_EDITABLE.
+Added support for toggle buttons on toolbars.
+More events should now be suppressed if triggered programatically by using Sensitize()/Desensitize() pairs.
+0.47 Release
+Fixed XP tab-background redraw problem.
+Added preliminary SetGadgetTooltip() support for non-item based gadgets.
+Added SetPixmap() support for push-buttons and menus.
+Added fix to prevent hot-key events being generated when the source gadget is disabled.
+Added fix to remove hotkey before calling SetGadgetHotKey().
+Introduced possible fix for requester parenting bug.
+Plugged a tiny memory leak when freeing gadgets.
+0.46 Release
+Fixed text-field text colour.
+Added the WS_EX_TRANSPARENT and WS_CLIPCHILDREN flags to group-boxes to speed-up redraw.
+Implemented BeginDeferWindowsPos(), DeferWindowPos(), and EndWindowPos().
+Fixed DC memory leaks as a result of incorrectly using ReleaseDC() instead of DeleteDC().
+Improved client dimensions methods so that they work independent of resize stage.
+0.45 Release
+Moved most externs and imports to a separate file 'winimports.bmx'.
+Improved PANEL_GROUP drawing, and a few other transparency problems.
+Improved redraw on resize by moving LayoutKids() to WM_SIZE, and adding WS_EX_COMPOSITED.
+Implemented hack that should hopefully fix the text-area's ghost scroll bar glitch when resizing.
+Added fix which resizes the tabber's client when an icon strip is set.
+0.44 Release
+Changed tabber tool-tip handling to use TCM_HITTEST message.
+Fixed tab control up-down arrows being unresponsive.
+0.43 Release
+Fixed SetGadgetText() with treeview node.
+Fixed FreeGadget() memory leak by adding _SetParent Null.
+Fixed Windows Classic panel redraw issues.
+0.42 Release
+Fixed some treeview icon handling problems, and removed (now redundant) TVN_GETDISPINFO notification processing.
+Cleaned up ToWString() calls to fix memory leaks.
+0.41 Release
+Added checks in mshtmlview.cpp to prevent text being Cut/Copied/Pasted when it shouldn't.
+Added fix to stop black tick bands forming when using large range values on small track-bars.
+Added a quick-hack that should greatly speed-up resizing/repositioning of gadgets, including when resizing windows.
+Fixed a few loose-ends concerning tabber/panel WM_ERASEBKGND.
+Fixed a few problems with WM_SIZE handling in TWindowsWindow.WndProc().
+Added some more constants to tom.bmx, and fixed text underlining style.
+0.40 Release
+Implemented proper GadgetPrint() support for text areas so that printing is done internally, as rich text. ;-)
+Fixed tree-view parent status redraw issue when the first child is added/last child is removed.
+0.39 Release
+Implemented RequestColor() proper custom-color support that saves colours between calls.
+Fixed tool-tips - list-boxes use LVN_GETINFOTIPW, and tabbers use TTN_GETDISPINFOW.
+Fixed XP background drawing issue on text-boxes by removing SetBkMode, and adding SetBkColor.
+0.38 Release
+Added TWindowsGUIDriver.CreateExplorerStyleGadgets()
+Fixed WINDOW_CLIENTCOORDS dimensions with WINDOW_MENU flag.
+Fixed child window focus problem when maximising windows.
+Added double-buffering support of treeviews/listboxes, as well as UseExplorerTheme() methods.
+Added WS_CLIPSIBLINGS to text-area control.
+0.37 Release
+Added DestroyMenu() to UpdateWindowMenu() method to fix severe desktop heap memory leakage.
+Fixed Grisu's list-box resize bug by moving LVM_SETCOLUMNWIDTH to Rethink() method.
+Added TreeView icon support, changed Spawn() so that it is now called by the child node (tidier).
+Moved pixmap background drawing to WM_ERASEBKGND, and modified so that only update region is drawn.
+Improved panel alpha support somewhat, and implemented correct handling of alpha pixmaps in SetPixmap().
+Fixed icon strip corruption when not using ComCtl32.dll v6 or higher (see TWindowsGUIDriver.CheckCommonControlVersion() ).
+Moved Bitmap functions to TWindowsGraphic and added BitmapMaskFromPixmap() and PreMultipliedBitmapFromPixmap32().
+0.36 Release
+Fixed themed button drawing problems.
+Changed default _textcolor value to -1.
+0.35 Release
+Added ClassWndProc SetPointer fix.
+Fixed major redraw issues with gadgets.
+Fixed window positioning problem.
+0.34 Release
+Fixed and re-implemented client panels for tabbers/windows.
+Tidied up colour handling code.
+Fixed SetMinWindowSize() for WINDOW_CLIENTCOORDS.
+Added internal method for converting Window client dimensions into container dimensions.
+0.33 Release
+Treeview nodes now handle expansion of childless parents, removed .30 cludge
+0.32 Release
+Stopped mouse wheel events being generated on non-active panels.
+Fixed recurring EVENT_MOUSEMOVE events.
+Fixed panel drawing bug when changing pixmaps.
+0.31 Release
+Added menu SetText() method.
+Improved PANEL_GROUP colour support.
+Added LABEL_SEPARATOR support.
+Fixed EVENT_MENUACTION so that that the menu is specified in the source.
+Improved window behaviour slightly.
+0.30 Release
+InsertNode expands on first child to fix isparent status bug in treeviews
+0.29 Release
+added alpha support for windows (Windows 2000 or higher only)
+added improved color support for windows, labels, text-fields, list-boxes and combo-boxes
+added GetText() method
+added menu hotkey text for special keys
+changed manifest to one without an icon
+0.28 Release
+new native msHtmlView implementation added
+0.27 Release
+added Seb's setstyle tweaks
+fixed blank readonly textareas, fixed window minimize event
+0.26 Release
+fixed list selection width
+0.25 Release
+fixed menu open states, faster TOM based richedit
+0.24 Release
+fixed new tabber size, fixed onnotify filter results, optimized SetStyle
+0.23 Release
+replaced client hwnds in windows and tabbers with setclienthandle
+0.22 Release
+fixes for treeview/nodes including CountKids SelectedNode ModifyNode/SetText
+0.21 Release
+fixed textfield event on settext bug
+0.20 Release
+fixed event extra field for select and action events
+0.19 Release
+fixed windowresize from top left messaging
+0.18 Release
+fixed alphablend clash with max2d
+0.17 Release
+added 32 bit panelpixmaps, fixed toolbar tips, checked extra events, unborked filter contexts
+0.16 Release
+fixed select treeviewnode and window clientcoord issues
+0.15 Release
+Fixed eventextra in events, and list item selection widths
+0.14 Release
+Fixed comboboxes and cursor repositioning with settextareatext
+0.13 Release
+Embedded manifest and added 32bit support for toolbars
+0.12 Release
+Fixed tabber client, autoscrollbar bug, menuevents, sliders
+0.11 Release
+Fixed toolbar width
+Removed clientedge property from nonpanels
+0.10 Release
+Fixed sliders
+Added TextField event handler
+Fixed CharAt(line) method in TWindowsTextArea
+Fixed scrollbars
+0.09 Release
+Fixed Dialog tabbing, OK buttons and TextField tabstops
+New SetColor and SetTextColor methods
+Fixed menu GetText method
+0.08 Release
+Fixed toolbar separators, new desktop object
+eventwindowsize, gadget.setfont, 
+0.07 Release
+Fixed gadget state reporting and implemented Menu states
+Fixed non active CreateCanvas and WM_CLOSE window handling
+Added HWND_TOPMOST property for WINDOW_TOOL style
+0.06 Release
+Fixed default font, implemented WINDOW_ACCEPTFILES
+0.05 Release
+Fixed menu parenting to window, PANELGROUP redraws and icon states
+0.04 Release
+Fixed button state, added menu DoLayout override
+0.03 Release
+Added basic constructors for all TGadget types
+0.02 Release
+Changed to Unicode, TWindowsGadget:HwndProc connected

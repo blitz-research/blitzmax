@@ -1,0 +1,60 @@
+
+The graphics module provides the ability to create and 'flip' graphics objects.
+
+A graphics object represents a rectangular area you can render to. However, the graphics module
+does not provide any commands for actual rendering - this is left to other modules such as 
+#max2D to implement.
+
+The graphics module maintains 2 'current' objects - the current graphics driver and the currect
+graphics object. To change the current graphics driver, use #SetGraphicsDriver. To change the
+current graphics object, use #SetGraphics.
+
+To create a graphics object, use either #Graphics or #CreateGraphics. The kind of graphics 
+object created will depend upon the current graphics driver. For example, the following code:
+{{
+SetGraphicsDriver GLGraphicsDriver()
+Local g:TGraphics=CreateGraphics( 640,480,32,60,GRAPHICS_BACKBUFFER )
+}}
+Will create an OpenGL graphics object.
+
+You can 'select' this object for rendering using:
+{{
+SetGraphics g			'we can now execute OpenGL code
+glClearColor .5,0,1,1		'tada!
+glClear				'yes!
+Flip				'must do this as the graphics is double buffered
+}}
+One you have finished with a graphics object, use #CloseGraphics to close it.
+
+#Graphics and #CreateGraphics both accept the following parameters: @width, @height, @depth,
+@hertz and @flags.
+
+The @width and @height parameters specify the dimensions of the graphics, in pixels.
+
+The @depth parameter selects a pixel bit depth. This value can be 0, 16, 24 or 32 depending 
+on the graphics modes available. A depth of 0 can be used to select 'windowed mode' graphics,
+while non-0 depths select 'fullscreen' graphics.
+
+The @hertz parameter selects a refresh rate, which refers to the number of times the screen
+refreshes per second. The refresh rates available depend on the graphics modes available, 
+which differ from graphics card to graphics card. Note that creating graphics with an 
+unsupported refresh rate will not fail - instead, a default refresh rate will be used.
+
+The #Graphics command can be used to achieve a fixed refresh rate. When using #Flip to 
+present such graphics, BlitzMax will guarantee the desired refresh rate is honored regardless
+of the available hardware's capabilities. This is achieved by using software timing 
+techniques when necessary.
+
+The @flags parameter can be any combination of the following:
+[ @Flags | @Meaning
+* GRAPHICS_BACKBUFFER | Create graphics with a back buffer
+* GRAPHICS_ALPHABUFFER | Create graphics with an alpha buffer
+* GRAPHICS_DEPTHBUFFER | Create graphics with a depth buffer
+* GRAPHICS_STENCILBUFFER | Create graphics with a stencil buffer
+* GRAPHICS_ACCUMBUFFER | Create graphics with an accumulation buffer
+]
+Flags can be combined with the | (or) operator. For example, GRAPHICS_BACKBUFFER|GRAPHICS_DEPTHBUFFER
+can be used to create graphics which has both a back buffer and a depth buffer.
+
+Graphics created with the GRAPHICS_BACKBUFFER flag must be 'flipped' after you have finished
+rendering using #Flip.

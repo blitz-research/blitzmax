@@ -1,0 +1,36 @@
+
+Streams are used to read or write data in a sequential manner.
+
+BlitzMax supports many kinds of streams, including standard file streams 
+(for reading and writing to files), #{bank streams} (for reading and writing to banks) and 
+#{endian streams} (for swapping the byte order of stream data).
+
+Streams are usually created using #OpenStream, #ReadStream or #WriteStream. However,
+some kinds of streams provide their own methods for creating streams. For example, banks
+streams are created with the #CreateBankStream command.
+
+#OpenStream, #ReadStream and #WriteStream all require a %url parameter, which is used to
+'locate' the stream. A url is usually a string value.
+
+If the url contains the string "::", then a stream %protocol is being specified. If not,
+then the url is assumed to be a simple filename.
+
+External modules can add their own stream protocols to the system, allowing you to use streams
+for a wide variety of purposes. For example, the "incbin::" protocol allows you to read data
+from a binary file that has been embedded in an application using the #Incbin command.
+
+Other protocols include "http::" for reading and writing data over a network, and 
+"littleendian::" and "bigendian::" for swapping the byte order of streams.
+
+To write to a stream, use one of the 'Write' style commands, such as #WriteByte.
+
+To read from a stream, use one of the 'Read' style commands, such as #ReadByte.
+
+Some kinds of streams (for example, file streams and bank streams) support %{random access}.
+This means that you can modify where in the stream the next read or write is to occur using
+the #SeekStream command. You can also tell where you are in such streams using the 
+#StreamPos command.
+
+When you are finished with a stream, you should always close it using #CloseStream.
+Failure to do so may result in a resource leak, or prevent the stream from successfully
+opening in future.

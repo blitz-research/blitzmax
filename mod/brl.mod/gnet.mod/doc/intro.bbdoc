@@ -1,0 +1,23 @@
+
++GameNet
+
+The GameNet module (GNet for short) provides a set of commands for creating and managing multiplayer network 
+games.
+
+GNet works a little differently than other networking libraries. Instead of being primarily 'message based', GNet
+works by synchronizing a collection of GNet %objects over a network.
+
+Each GNet object contains 32 &slots which are similar in nature to the fields of BlitzMax objects. You can write to these slots using the #SetGNetInt, #SetGNetFloat and #SetGNetString commands, and read from these slots using the #GetGNetInt, #GetGNetFloat and #GetGNetString commands. The actual meaning of the data contained in these slots is completely up to you, but will typically include such information as player position, score, hitpoints and so on.
+
+Note that you can only modify GNet objects that you have yourself created. Such objects are known as %local objects, while objects created elsewhere are known as %remote objects.
+
+To start using GNet, you must first create a GNet %host with the #CreateGNetHost command. Once you have created a host, you can either connect to other GNet hosts using #GNetConnect, or prepare to accept connections from other hosts using #GNetListen.
+
+The #GNetSync command brings all GNet objects up to date. This involves notifying other hosts about any modifications you have made to local GNet objects, and processing notifications from other hosts about any modifications to remote GNet objects.
+
+Following a #GNetSync, you can check which objects have been modified, created or closed using the #GnetObjects command. This returns a linked list of GNet objects in a particular state.
+
+GNet also provides a simple messaging system. A GNet message is actually just a special type of GNet object, so you initialize messages using the standard GNet commands for writing slots. Once created and initialized, a message can be sent to a remote object using the #SendGNetMessage command.
+
+Incoming messages can be processed using the #GNetMessages command after a #GNetSync. This function returns a linked
+list of messages objects which can be examined using the standard GNet commands for reading slots. In addition, the #GNetMessageObject command can be used to determine which local object a message was intended for.

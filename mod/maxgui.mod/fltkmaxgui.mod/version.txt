@@ -1,0 +1,240 @@
+1.60
+Various UTF8 fixes
+AntiAlias fonts on
+1.58 Release
+Updated FLTK library to FLTK 1.3.x r7907 with numerous fixes (e.g. shortcut + caps lock problem).
+1.57 Release
+Added RemoveColor implementation.
+Modified license.
+1.56 Release
+Added GetStatusText() implementation.
+Added missing Class() methods to TFLTextField and TFLLabel.
+Fixed RequestColor() parameter passing.
+Fixed pasting into text areas to work with WINDOW_ACCEPTFILES flag.
+1.55 Release
+Added hack to fix X crash that appeared when Ubuntu's Maximus is running.
+Bumped FLTK 1.3 version to rev. 7652.
+Added support for new PANEL_RAISED style flag.
+1.54 Release
+Fixed label background colors not showing.
+1.53 Release
+Added LookupColor() method to TFLTKGUIDriver.
+1.52b Release
+Disabled FLTK text widgets pasting file-names when files are dropped onto a window.
+1.52 Release
+Bumped FLTK 1.3 version to rev. 7062 to fix OS X compilation issues with GCC 3.
+1.51b Release
+Fixed button image offset when no text is displayed.
+1.50 Release
+Merged in markcw's latest Fl_Help_View changes which include basic CSS support! :-)
+Updated FLTK 1.3.x library to revision 6980 (fixes a few Cocoa bugs).
+Added MacOS compilation support.
+1.49 Release
+Fixed filename_list.cxx compile error on Ubuntu 9.10.
+Bumped FLTK 1.3.x version to rev. 6948.
+1.48b Release
+Fixed GCC 4.4.1 compiler errors - thanks Otus (/Community/posts.php?topic=87472).
+1.48 Release
+Added icon support to list boxes (http://www.fltk.org/str.php?L1739).
+Fixed another memory corruption bug concerning incorrectly casting toolbar Fl_Group to Fl_Panel.
+Fixed group panel label background so that it is 'transparent'.
+Implemented primitive software-based pixmap scaling for panels.
+Updated FLTK library to FLTK 1.3 rev. 6873.
+Disabled XDBE for Linux as it was sometimes causing black flickering on window resize.
+(Finally) found and fixed the memory corruption bug in Fl_Menu and plugged up a memory leak.
+Fixed textarea paste crash.
+Fixed UpdateWindowMenu() crash.
+Toolbars now push down the client area of the parent window.
+More work to improve handling of WINDOW_CLIENTCOORDS style.
+Hacked in 'xdg-get-user-path' for Flu_File_Chooser using Brucey's kindly donated BaH.Volumes code.
+Added user_data() node information to speed up treeviews and event generation.
+Added maximize() and restore() methods for Fl_AWindow.
+Fixed textfields with TEXTFIELD_PASSWORD style.
+Added hover effect for non-standard push-buttons and non-editable comboboxes.
+Reworked event handling to use extremely nice and tidy C++ template system - improves mouse/keyboard event generation.
+Fixed SelectedTreeViewNode() and EVENT_GADGETMENU on treeviews.
+1.47 Release
+Fixed textfield crash upon typing.
+Fixed stray EVENT_GADGETACTION event when enter was pressed in a textfield.
+Fixed push buttons losing background colors on mouse hover.
+Implemented new trial OnMouse() and OnKey() system for generating mouse and key events, that facilitates SetSensitivity().
+Added Flmm_Tabs so that, when too many tabs are added to a tabber, a drop-down menu is shown instead of squashing them up.
+Added degac's label text fix.
+LABEL_FRAME border fix.
+1.46 Release
+Added toolbar separators.
+Fixed comboboxes losing selection after ModifyGadgetItem.
+Fixed RemoveGadgetItem on toolbars.
+1.45 Release
+Added XPMFromPixmap() function to TFLWidget to enable support for window icons.
+Other clearing up.
+1.44 Release
+Fixed window SetGadgetText() memory leak and stray WidgetHandle() as a parameter.
+Uncommented XCloseIM() from Fl_x.cxx - cause of memory leak.
+Latest set of markcw's Fl_Help_View fixes - see http://www.blitzbasic.com/Community/posts.php?topic=79280#947564.
+1.43 Release
+FLTK's event system will now completely override over BRL.System's default.
+All function externs and constants have been moved to a separate, privately included fltkdecls.bmx.
+1.42 Release
+Fixed double event for EVENT_MOUSEDOWN and hacked in workaround for missing XEvents.
+1.41 Release
+Modified TFLPanel's event handling code so that it makes use of SetSensitivity()/GetSensitivity().
+SelectTreeViewNode(TreeViewRoot(treeView)) now deselects the currently selected node.
+Fixed missing EVENT_WINDOWACCEPT events.
+Updated FLTK 1.3 library to revision 6719.
+1.40 Release
+Updated FLTK 1.3 library to revision 6663.
+1.39 Release
+Added hack to scale up font sizes on Windows.
+Committed version with FreeType support enabled by default.
+1.38 Release
+Fixed window disabling.
+Added markcw's HTMLView forward/back code - thanks Mark.
+Fixed event.data on button EVENT_GADGETACTION.
+Tweaked to allow module to compile and run on Windows.
+Fixed missing mouse wheel events on canvas.
+Improved font handling and FontRequest() window.
+Updated to FLTK 1.3, rev 6649.
+1.37 Release
+Skid's GCC 4.X fixes.
+Fixed crash when freeing Fl_Text_Display.
+Radio buttons and check boxes should now be left-aligned.
+1.36 Release
+Loads more Fl_Help_View fixes courtesy of markcw.
+1.35 Release
+Added prelimary pixmap support for push-buttons.
+Added text support for group-panels.
+1.34 Release
+Tweaked Fl_Color to accept a wider range of formatting color contrasts before resorting to black or white defaults.
+1.33 Release
+Added SetTextColor() method to allow for multi-colored widgets.
+Added a MaxGUI style stepper, complete with repeat buttons.
+1.32 Release
+Completely restructured fltkgui.bmx into OO code.
+Fixed a small memory leak in text area and treeview.
+Fixed OK button text getting corrupted by the new Flu_Button.
+RequestFont() dialog should now be modal.
+Another set of markcw's Fl_Help_View fixes.
+1.30 Release
+Implemented the FLU Tree Browser to replace the old list-box based treeview.
+Increased clipping stack length in Fl_Rect.cxx to suppress warnings when running MaxIDE.
+Replaced Fl_Button and Fl_Return_Button with Flu_Button and Flu_Return_Button.
+Some more Fl_Help_View fixes from markcw.
+1.29 Release
+Fixed an undo bug in IDE by getting FLTK to mimic Win32/Cocoa textarea event behaviour more closely.
+Dropped in the FLU file requester to replace the default FLTK one.
+Some more of markcw's Fl_Help_View.cxx fixes.
+Copied FLU source into FLTKMaxGUI folder.
+1.28 Release
+Added Fl_Multi_List handling code.
+Corrected logic error that was allowing only left-mouse clicks to pass through to widgets.
+Added error handler to fl_read_image.cxx to catch XGetImage exceptions and handle them safely.
+1.27 Release
+Added EVENT_GADGETMENU for tabbers.
+Improved layout of PANEL_GROUP.
+Added the latest set of markcw's Fl_Help_View.cxx fixes.
+1.26 Release
+Changed the status-bar border so that it looks more like one.
+BUTTON_DEFAULT now uses Fl_Return_Button instead.
+Fixed strange EventX/EventY coords in EVENT_WINDOWMOVE and EVENT_WINDOWSIZE.
+Done some work cleaning up EVENT_GADGETSELECT generation by textareas.
+Added CharX() and CharY() methods.
+1.25 Release
+Windows are now extending Fl_Double_Buffer to reduce random drawing artifacts.
+Child windows should now stay on top, but behaviour still isn't exactly the same as Win32 or Cocoa.
+Default message box font is now set to match other fonts.
+Added clip_children() calls to Fl_Group based widgets.
+Added some more of markcw's Fl_Help_View.cxx fixes.
+Changed menu appearance and fixed label SetGadgetFont() redraw problems.
+Changed default font size for FLTK to size 12 (in Fl_Widget.cxx).
+Tidied up RequestFont() dialog layout and positioning.
+Added standardized FLTK LookupGuiFont() handling.
+Added support for TEXTAREA_WORDWRAP flag.
+Added Fl::get_system_colors() to flReset() so that FLTK looks a bit more like the other apps.
+Hacked in an editable combobox, but no EVENT_GADGETSELECT yet.
+Added markcw's Fl_Help_View.cxx tweaks - thanks Mark!
+1.24 Release
+Fixed FL timers and therefore tooltips.
+EventExtra() now contains the selected item's extra object for tabbers.
+All right-clicks are ignored internally in FL_TEXTEDITORs.
+Added SetMaxWindowSize() support.
+Found and fixed glibc error originating from flRedirectView() in fltkglue.cpp.
+Swapped Fl_Select_Browser with Fl_Hold_Browser so that highlight remains after mouse button is released.
+Added EVENT_GADGETMENU for treeviews.
+Hacked Fl_X.cxx to fix file drag n' drop support.
+Added alpha-support for pixmaps on panels.
+Added tab text alignment in the status bar similar to Win32, GTK and Cocoa.
+Added support for windows without the WINDOW_TITLEBAR flag.
+Added support for the TEXTFORMAT_BOLD and TEXTFORMAT_ITALIC flags in Text Areas.
+Fixed EVENT_GADGETACTION on text-areas/text-fields.
+Fixed gadget filter key codes, so that the tab key sends the correct data.
+Fixed (somewhat) active panel events and attempted to eliminate double firing.
+Imporoved toolbars.
+Switched to GTK+ FLTK theme, and removed black tabs and yellow highlighting.
+Fixed a glibc error in Fl_Text_Display.cxx.
+Fixed Fl_HelpView image freeing crash with broken_image substitute.
+Changed Fl_Panel so that it uses FL_NO_BOX, and fixed XGetImage crash in Fl_x.cxx
+Swapped out source code for FLTK 1.1.9.
+1.23 Release
+Removed Fl_Text_Editor.cxx right mouse-button handling that was clearing selection.
+Added new BUTTON_PUSH support for radio/checkboxes.
+1.22 Release
+Added Class() method for new GadgetClass() function.
+1.21 Release
+Removed pixmap field from TFLIconStrip that was conflicting with field in inherited TIconStrip.
+1.20 Release
+Fixed SetPanelColor not redrawing
+1.19 Release
+Fixed SetPanelPixmap panel,Null crash
+1.18 Release
+Fixed panel not clipping children
+1.17 Release
+Fixed crash removing last item of a Tabber
+1.16 Release
+Added GetText and SetText methods to TFLNode class
+1.15 Release
+Fixed broken shortcuts due to panel changes
+1.14 Release
+Fixed TFLMenu.GetText
+Implemented KEY_REPEAT for canvas and active panels
+1.13 Release
+FLTKSystem OpenURL now uses new system.linux implementation
+Added PopupMenu extra parameter support
+1.12 Release
+Added Brucey's GADGETLOSTFOCUS tweak
+1.11 Release
+ListBox now fires GADGETSELECT, GADGETACTION and GADGETMENU events
+Fixed SetGadgetText for checkboxes and radiobuttons courtesy Byteemoz
+1.10 Release
+Initial OpenURL support for fltksystem using firefox - remote
+Initial MinimizeWindow support
+1.09 Release
+Fixed radio buttons to exclude others in group
+Fixed TFLWidget.kids usage
+Fixed FreeGadget flwindow
+Fixed ClearGadgetItems combobox
+Fixed RemoveGadgetItem combobox,index
+Fixed ModifyGadgetItem combobox,index,label$,extra:Object
+1.08 Release
+Fixed EventX EventY reporting for canvas and panel events
+1.07 Release
+Fixed ClearListItems
+Fixed some keyboard focus problems
+Fixed case sensitive shortcut keys issue with fltk1.1.7
+Fixed Canvas depthbuffers
+1.06 Release
+Upgraded to fltk-1.1.7
+Fixed GadgetHidden()
+Initial support code added for WINDOW_CHILD
+Fixed implementation of ActiveGadget
+1.05 Release
+Fixed MouseEnter and MouseLeave for Panel / Canvas children
+Fixed SelectGadgetItem not generating event for ListBoxes
+Fixed font support for TextField gadgets
+Fixed EventExtra reporting in ListBox events
+1.04 Release
+Removed RuntimeError from TFLSystem.OpenURL
+1.02 Release
+Fixed up mouse events for active panels and canvas gadgets
+1.01 Release
+Added Query(QUERY_FLWIDGET) and Query(QUERY_FLWIDGET_CLIENT)

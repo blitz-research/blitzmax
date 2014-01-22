@@ -1,0 +1,6 @@
+A bank stream allows you to read data into or out of a bank. A bank stream can be used with
+any of the stream commands, or anywhere a #TStream object is expected.
+
+To create a bank stream, use the #CreateBankStream command.
+
+As with all streams, you should use #CloseStream when you are finished with the bank stream.

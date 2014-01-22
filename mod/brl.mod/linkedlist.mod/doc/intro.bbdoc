@@ -1,0 +1,10 @@
+
++Linked lists
+
+A linked list allows you to efficiently add and remove objects to and from a collection of objects.
+
+To create a linked list, use the #CreateList command.
+
+Add objects to a linked list using #ListAddFirst or #ListAddLast. Both commands return a link object which can be used to later remove the object with the #RemoveLink command. You can also remove objects with the #ListRemove command. However this is not as efficient as using #RemoveLink because the list must first be searched for the object to be removed.
+
+To visit all the objects in a linked list, you can use an #EachIn loop.

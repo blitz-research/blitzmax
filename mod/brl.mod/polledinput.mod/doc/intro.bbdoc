@@ -1,0 +1,6 @@
+
++Polled input
+
+The polled input module provides an easy way to detect keyboard and mouse input.
+
+The functions in this module are only available when your program is running in #Graphics mode. When working on GUI applications, you should use #events instead.

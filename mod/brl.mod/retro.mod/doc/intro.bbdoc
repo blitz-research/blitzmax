@@ -1,0 +1,14 @@
+
+The BASIC compatibility module provides miscellaneous functions that emulate the behaviour
+of 'classic' BASIC.
+
+The functions in this module have largely been superceded by BlitzMax features such as 
+'string slicing', and the Find, Replace, Trim, ToLower and ToUpper string methods.
+
+However, for programmers from a classic BASIC background, these utility functions should make
+the transition to BlitzMax a little easier.
+
+NOTE: Strings in classic BASIC are '1 based'. This means that the first character within a 
+string is at index 1, the second at index 2 and so on. However, BlitzMax strings are '0 based',
+meaning the first character is at index 0, the second at index 1 and so on. The #instr and
+#Mid functions in this module retain the '1 based' behaviour of classic BASIC.

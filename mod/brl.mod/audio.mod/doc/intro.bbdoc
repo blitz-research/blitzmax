@@ -1,0 +1,14 @@
+
+The BlitzMax audio module contains commands to load and play sounds.
+
+A sound file can be played in BlitzMax with a combination of #LoadSound that loads a sound file
+and #PlaySound which plays the sound through the systems audio system if available.
+
+BlitzMax contains native support for sound files in both .wav (uncompressed)
+and .ogg (compressed) file formats.
+
+Playback of sounds can be controlled with various audio channel
+operators including #SetChannelVolume, #SetChannelPan, #SetChannelDepth and #SetChannelRate.
+
+A channel handle is obtained from either the return value of #PlaySound and #CueSound or from
+reserving a channel with #AllocChannel.

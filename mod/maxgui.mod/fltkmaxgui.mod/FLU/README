@@ -1,0 +1,13 @@
+*** NOTE FOR COMPILING ON OSX ***
+when compiling the examples on OSX, if you did a local build
+(i.e. you did not make install fltk or FLU, and specified
+--fltk=/path/to/local/fltk as an option to FLU/configure)
+fltk-config (used by examples/Makefile) appears to supply an
+incompatible flag to g++. To fix this, you must edit
+fltk/fltk-config and change the line:
+DSOLINK="-Wl,-rpath,${exec_prefix}/lib"
+to
+DSOLINK=""
+
+again, this ONLY applies to compiling the examples when you 
+HAVE NOT installed either fltk or FLU to the system.

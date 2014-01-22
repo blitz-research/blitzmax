@@ -1,0 +1,9 @@
+0.04 Release
+MaxGUI.Win32MaxGUIEx has now become the standard Windows MaxGUI driver.
+0.03 Release
+The most appropriate driver is automatically selected at run-time for the OS.
+Both the old ANSI and new UNICODE Windows modules are now imported.
+0.02 Release
+Added compiler directives and removed MaxGUI.MaxGUI.
+0.01 Release
+Initial release required for BlitzMax 1.28 examples update.

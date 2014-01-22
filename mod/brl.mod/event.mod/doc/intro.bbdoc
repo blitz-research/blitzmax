@@ -1,0 +1,39 @@
+
+Event objects are used to notify your application about external events such as user input, 
+user interface activity and so on.
+
+The are two main ways your program can receive events: either by adding a hook function to 
+the #EmitEventHook hook, or by using using the global #{event queue}
+
+The most important field in an event object is the @id field, which identifies the kind of 
+event:
+
+[ @{Event id} | @Description
+* EVENT_APPSUSPEND | Application suspended
+* EVENT_APPRESUME | Application resumed
+* EVENT_APPTERMINATE | Application wants to terminate
+* EVENT_KEYDOWN | Key pressed. Event data contains keycode
+* EVENT_KEYUP | Key released. Event data contains keycode
+* EVENT_KEYCHAR | Key character. Event data contains unicode value
+* EVENT_MOUSEDOWN | Mouse button pressed. Event data contains mouse button code
+* EVENT_MOUSEUP | Mouse button released. Event data contains mouse button code
+* EVENT_MOUSEMOVE | Mouse moved. Event x and y contain mouse coordinates
+* EVENT_MOUSEWHEEL | Mouse wheel spun. Event data contains delta clicks
+* EVENT_MOUSEENTER | Mouse entered gadget area
+* EVENT_MOUSELEAVE | Mouse left gadget area
+* EVENT_TIMERTICK | Timer ticked. Event source contains timer object
+* EVENT_HOTKEYHIT | Hot key hit. Event data and mods contains hotkey keycode and modifier
+* EVENT_MENUACTION | Menu has been selected
+* EVENT_WINDOWMOVE | Window has been moved
+* EVENT_WINDOWSIZE | Window has been resized
+* EVENT_WINDOWCLOSE | Window close icon clicked
+* EVENT_WINDOWACTIVATE | Window activated
+* EVENT_WINDOWACCEPT | Drag and Drop operation was attempted
+* EVENT_GADGETACTION | Gadget state has been updated
+* EVENT_GADGETPAINT | A Canvas Gadget needs to be redrawn
+* EVENT_GADGETSELECT | A TreeView Node has been selected
+* EVENT_GADGETMENU | User has right clicked a TreeView Node or TextArea gadget
+* EVENT_GADGETOPEN | A TreeView Node has been expanded
+* EVENT_GADGETCLOSE | A TreeView Node has been collapsed
+* EVENT_GADGETDONE | An HTMLView has completed loading a page
+]

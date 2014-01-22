@@ -1,0 +1,31 @@
+1.12 Release
+Added optional pHandleSize parameter.
+Added ability to set split handle background color.
+Fixed SPLIT_LIMITPANESIZE and SPLIT_CLICKTOTOGGLE bug.
+1.11 Release
+Hyperlink gadget now defaults to link colour returned by LookupGuiColor().
+1.10 Release
+Decreased the TSplitter threshold for orientation flip.
+1.09 Release
+Added SCROLLPANEL_HNEVER and SCROLLPANEL_VNEVER constants.
+1.08 Release
+Added a new TScrollPanel gadget.
+1.07 Release
+Tweaked THyperlinkGadget.eventHandler() so that it works consistently on all platforms.
+1.06 Release
+Fixed some rogue dragging locks for splitters on Windows.
+1.05 Release
+Tidied up TSplitter.eventHook(), fixing several bugs in drag code.
+1.04 Release
+Added a new SetSplitterBehavior command.
+1.03 Release
+Fixed hyperlink tooltips.
+A hyperlink's URL can now be modified/retrieved using SetGadgetExtra / GadgetExtra.
+1.02 Release
+Added a new TSplitter gadget. See CreateSplitter for more info.
+1.01 Release
+Filtered EVENT_MOUSEDOWN to avoid infinite loop on Windows.
+Updated THyperlinkGadget to use LookupGuiFont().
+Inherited MaxGUI.Win32MaxGUI's label SS_NOTIFY fix.
+1.00 Release
+Added the first custom gadget: the hyperlink control.

@@ -1,0 +1,50 @@
+
+The MaxLua module provides a way to use the Lua scripting language from within Blitzmax programs.
+
+Lua is a simple but fast and powerful scripting language. For more information on programming in Lua, please visit the official Lua site at http://www.lua.org
+
+Here is an example of the MaxLua module in action:
+
+{{
+Strict
+
+'Our TDemo type...
+'
+Type TDemo
+
+	Method SayHello$( name$ )
+		Return "Hello "+name+"! Peace be with you..."
+	End Method
+
+End Type
+
+'Register a demo object with Lua.
+'
+'Lua code can now access the object using the identifier "Demo".
+'
+Local demo:TDemo=New TDemo
+LuaRegisterObject demo,"Demo"
+
+'source code to our little Lua program...
+'
+Local source$=..
+"function hello()~n"+..
+"print( Demo.SayHello( 'Fredborg' ) )~n"+..
+"end~n"+..
+"function goodbye()~n"+..
+"print( Demo.SayHello( 'CandyMan' ) )~n"+..
+"end~n"
+
+'create a Lua 'class' and set it's source code...
+'
+Local class:TLuaClass=TLuaClass.Create( source )
+
+'Now, create an instance of the class.
+'
+Local instance:TLuaObject=TLuaObject.Create( class,Null )
+
+'We can no invoke methods of the class.
+'
+instance.Invoke "hello",Null
+instance.Invoke "goodbye",Null
+}}

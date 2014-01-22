@@ -1,0 +1,3 @@
+The BlitzMax StandardIO module contains commands for reading and writing text to the standard IO (Input/Output) stream.<br>
+<br>
+The standard IO stream is generally connected to a 'console', allowing you to interact with an application in a very simple way.
