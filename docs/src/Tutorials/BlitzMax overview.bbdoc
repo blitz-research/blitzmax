@@ -1,0 +1,422 @@
+<html>
+<head>
+<title></title>
+<link rel="styleSheet" href="style.css" type="text/css">
+</head>
+<body>
+
+<h1>BlitzMax tutorials and articles</h1>
+
+<ul>
+<li><a href=#memory>BlitzMax Memory management</a><br>
+<br>
+<li><a href=#oointro>Introduction to OO programming</a><br>
+<br>
+<li><a href=#nehetuts>The first 5 'Nehe' OpenGL tutorials</a><br>
+<br>
+<li><a href=#streams>Writing custom stream handlers (advanced)</a><br>
+</ul>
+
+<hr>
+
+<div id=memory>
+<h1>BlitzMax Memory management - or, "where did Delete go?!?"</h1>
+
+As many users from a Blitz3D or BlitzPlus background have noticed, BlitzMax does not include a 'Delete' command.<br>
+<br>
+This appears to have caused a great deal of bemusement and head scratching in the Blitz community, which this tutorial will attempt to clear up.<br>
+<br>
+Note that any references to Blitz3D in the rest of this document also apply to BlitzPlus.<br>
+<br>
+<h2>The BASICs</h2>
+
+First up, let's have a look at what Blitz3D's Delete command actually does. It really serves 2 purposes:
+<ol>
+<li>The object is removed from its 'type list'.
+<li>The memory used by the object is returned to the system - this is called 'deallocating' the object.
+</ol>
+Step 1 is necessary due to Blitz3D's type list system, which automatically adds all New-ed objects to an internal global type list.<br>
+<br>
+Step 2 is necessary to prevent memory leaks. A memory leak is when your program has allocated a chunk of memory, used it for something, and then forgotten to deallocate it when it is no longer useful. Since computers have a finite amount of memory, this will eventually cause problems if it happens often enough!<br>
+<br>
+The first thing about these 2 steps to note is that the global type list system is no longer present in BlitzMax, so step 1 is now completely up to the user - if you have added an object to a linked list (or lists), it is up to you to remove it.<br>
+<br>
+If all you are wanting to achieve is a system similar to Blitz3D's type list system, then this is as simple as using ListAddLast immediately after you have created an object using New, and using ListRemove immediately before deleting it using Delete - oops, there is no Delete! Ok, using ListRemove *instead* of Delete!<br>
+<br>
+This still leaves the question of deallocating the object's memory, and this is done in BlitzMax using a 'garbage collector'. A garbage collector
+automatically scans for 'dead objects' every now and then and releases the memory they occupied.<br>
+<br>
+Note that the issue of deallocating objects is completely separate from the issue of type lists. Yes, if you forget to remove an object from a list it will remain 'live', but this is the same as forgetting to delete an object in Blitz3D!<br>
+<br>
+One final complicating issue: BlitzMax includes a feature that allows you to assign objects to integers. This feature exists mainly to simplify things for beginners so, instead of...
+<pre class=code>
+Local image:TImage=LoadImage( "somepic.png" ) 'normal object to object assignment...
+</pre>
+...you can just go...
+<pre class=code>
+Local image=LoadImage( "somepic.png" ) 'assigning an object to an int! What gives?
+</pre>
+However, if you are using this feature in your programs, you *must* later 'free' the object yourself using Release...
+<pre class=code>
+Release image
+</pre>
+You can therefore think of Release as being similar to Blitz3D's FreeImage (or FreeSound, FreeThis, FreeThat etc).<br>
+<br>
+All-in-all, it's probably best to avoid object-to-int assignments altogther if you are concerned about memory leaks.<br>
+<br>
+And that's it! Well, not quite, but the above should be enough information for you to be able to write leak-free programs with. I'll go into some of the nitty gritty details below...<br>
+<br>
+<h2>The nitty gritty part 1 : dead objects </h2>
+
+Ok, lets have a look at the question of 'what exactly is a dead object'? Well, a dead object is an object that is no longer referred to by any live objects. In other words, dead objects are objects your program can no longer 'see' - they are therefore completely useless to your program and can be safely deallocated.<br>
+<br>
+Here are a few examples of when objects become 'dead':<br>
+<pre class=code>
+'example 1
+Local p:MyType=New MyType 'allocate object 1
+p=Null 'object 1 is now dead
+
+'example 2
+Local p:MyType=New MyType 'allocate object 1
+Local q:MyType=New MyType 'allocate object 2
+p=q 'object 1 is now dead, object 2 is still alive
+
+'example 3
+Local p:MyType[1] 'allocate object 1 (an array object)
+p[0]=New MyType 'allocate object 2
+p=Null 'object 1 and object 2 both now dead
+
+'example 4
+Local p:MyType=New MyType 'allocate object 1
+p.my_type=New MyType 'allocate object 2
+p.my_type=New MyType 'allocate object 3 - object 2 now dead
+Local q:MyType=p.my_type
+p=Null 'object 1 and object 2 dead, object 3 still alive thanks to the q assignment above
+</pre>
+After seeing this sort of thing, there is a tendancy for people to stick '=Null' code all over the place in an attempt to 'force' objects to become dead - but this is generally not necessary.<br>
+<br>
+Sooner or later, all variables will either be overwritten by new values, or (in the case of Locals and Fields) simply go out of scope. Both of these actions are enough to ensure that dead objects will be correctly detected and deallocated.<br>
+<br>
+Probably the only good reason to use '=Null' is in the case of global variables, when you know that a global variable will not be modified for a long time, but it also happens to be keeping a large chunk of memory alive that is no longer useful to your program. In this case, an '=Null' is probably the right choice.<br>
+<br>
+BlitzMax also provides the GCMemAlloced() function to determine the amount of memory currently used by your program.<br>
+</div>
+<br>
+<hr>
+
+<div id=oointro>
+<h1>Crash course in OO programming for Blitz coders</h1>
+
+Welcome to a crash course in OO programming for Blitz coders!<br>
+<br>
+OO stands for 'Object Oriented'. OO is a programming paradigm or 'way of thinking' that has taken on almost mythical proportions over the years yet, somewhat unusually for the world of computing, is actually quite useful!<br>
+<br>
+*Disclaimer* - OO coding means different things to different people. This article is strongly swayed by my own experience with OO coding and what I like and find useful about it. The actual 'meaning' of OO is almost as fun to argue about as whether the universe is infinite or not.<br>
+<br>
+First up, OO coding has spawned a bunch of initially confusing but actually quite sensible buzzwords, including such gems as:<br>
+<br>
+Inheritance<br>
+Polymorphism<br>
+Virtual<br>
+Abstract<br>
+Concrete<br>
+Type<br>
+Class<br>
+Object<br>
+Instance<br>
+Base Class<br>
+Derived Class<br>
+Super Class<br>
+Sub Class<br>
+<br>
+Scary stuff!<br>
+<br>
+Well, not really. Never forget that behind the scenes its all just a bunch of bits and bytes and Ifs and Adds and Gotos.<br>
+<br>
+As always, its easier than the guys who get paid megabucks to do it would have us think.<br>
+<br>
+<h2>Part 1 : Inheritance</h2>
+
+Inheritance is a way of 'composing' objects from other objects.<br>
+<br>
+This is already possible in procedural Blitz. Consider the following code...
+<pre class=code>
+Type Part1
+Field x,y,z
+End Type
+
+Type Part2
+Field p1.Part1
+Field p,q,r
+End Type
+
+Function UpdatePart1( t:Part1 )
+'Do something clever with a Part1.
+End Function
+</pre>
+This is one way of composing objects. Part2 'contains' a Part1, via the p1 field.<br>
+<br>
+If you've got a Part2 object and want to call UpdatePart1(), you can grab the p1 field and use it in the function call, for example:
+<pre class=code>
+Local t:Part2=New Part2
+t.p1=New Part1 'need to create it!
+UpdatePart1 t.p1
+</pre>
+OO inheritance provides a different (not always better!) way to do this:
+<pre class=code>
+Type Base
+Field x,y,z
+End Type
+
+Type Derived Extends Base
+Field p,q,r
+End Type
+
+Function UpdateBase( t:Base )
+'Do something clever with a Base object.
+End Function
+</pre>
+Ok, we've already hit our first OO buzzwords - Base and Derived. These are not special keywords, they are just names I chose for these types. Bear with me and hopefully you'll get some idea of why I chose them.<br>
+<br>
+First up, The Base type is just the same as the procedural Part1 type - no problem there.<br>
+<br>
+The Derived type, however, introduces us to the Extends keyword, which is used to indicate inheritance.<br>
+<br>
+Extends always appears after 'Type whatever', and means that the type you are describing extends a different, existing type. So the type you are describing is composed not only of the fields and stuff you declare, but also the fields and stuff of the type you are extending!<br>
+<br>
+This means that the Derived type above actually has the additional fields x,y,z - these have been 'inherited' from the Base type. It is then perfectly legal for you to code up something like:
+<pre class=code>
+Local t:Derived=New Derived
+
+t.x=100 'x inherited from Base - thanks Base, you rock!
+</pre>
+Another way to think of it is the Derived type 'is a' Base type, but with some extra stuff. In fact, in OO terminology 'IsA' is often used to indicate inheritance or inheritance-like properties.<br>
+<br>
+Now it gets a bit interesting. Since our Derived type 'is a' Base type, its perfectly legal to use it where ever a Base type is expected - for example, the UpdateBase() function:
+<pre class=code>
+Local MyDerived:Derived=New Derived 'fine...
+UpdateBase MyDerived 'What?!?
+</pre>
+Initially, this looks *wrong* - 'Type mismatch error' looms! But in OO code its fine. Since Derived extends Base, its OK to use a Derived where ever a Base is expected - even in assignments:
+<pre class=code>
+Local MyBase:Base=New Derived 'Okay, because Derived extends (or 'Is a') Base.
+</pre>
+In addition, there could be many types extending Base, and each of these could be used interchangeably with Base.<br>
+<br>
+Hopefully the terms 'Base' and 'Derived' now mean something. The Derived type is derived from, or 'comes from', the Base type.<br>
+<br>
+Remember that Base and Derived are just names I chose for this example. In real world coding, you'd use useful names, for example:
+<pre class=code>
+Type Actor
+Field x,y,z
+End Type
+
+Type Player Extends Actor
+Field lives,score
+End Type
+</pre>
+But still, you can think of Actor as the base type, and Player as the derived type - a Player is derived from an Actor.<br>
+<br>
+Its also perfectly legal (and very useful!) to extend extended types, for example:
+<pre class=code>
+Type Actor
+Field x,y,z
+End Type
+
+Type Player Extends Actor
+Field lives,score
+End Type
+
+Type Enemy Extends Actor
+Field mood
+End Type
+
+Type Troll Extends Enemy
+Field grudge_quotient
+End Type
+
+Type Ghoul Extends Enemy
+Field lust_for_life
+End Type
+</pre>
+So, if you've got a function like UpdateActor( t:Actor ), you can pass it any of the above types as they are all ultimately derived from Actor.<br>
+<br>
+Similarly, a RethinkMood( t:Enemy ) function could be used with any of the bad guys (Enemy, Troll or Ghoul) - but not with players, as Player is not derived from Enemy.<br>
+<br>
+This is what is known as a 'class hierarchy' - a 'tree' of types.<br>
+<br>
+Stay tuned for part 2...!
+</div>
+<br>
+<hr>
+
+<div id=nehetuts>
+
+<h1>The Nehe OpenGL tutorials</h1>
+The NeHe tutorials are a popular collection of OpenGL programming tutorials.<br>
+<br>
+Here are the first 5 NeHe tutorials converted to BlitzMax:
+<ul>
+<li><a href="../nehe_01.bmx">Nehe_01</a>
+<li><a href="../nehe_02.bmx">Nehe_02</a>
+<li><a href="../nehe_03.bmx">Nehe_03</a>
+<li><a href="../nehe_04.bmx">Nehe_04</a>
+<li><a href="../nehe_05.bmx">Nehe_05</a>
+</ul>
+For more information on these tutorials and to learn lots about OpenGL, check out the Nehe website at 
+<a href=http://nege.gamedev.net target=_blank>http://nehe.gamedev.net</a>.
+
+</div>
+<br>
+<hr>
+
+<div id=streams>
+
+<h1>Writing custom stream handlers</h1>
+
+BlitzMax's OO design allows you to add your own kinds of streams to the system.<br>
+<br>
+In this tutorial we will concentrate on creating a custom stream that simply converts any text written to or read from the stream to uppercase. Not very useful, but a good starting point for your own experiments!<br>
+<br>
+The source code for this tutorial can be found <a href=upperstream.bmx>here</a>.<br>
+<br>
+To create a custom stream, you will need to create a new user type that extends the TStream type. Your type will also need to implement at least the following methods:
+<pre class=code>
+Type TMyStream extends TStream
+	Method Eof()
+		'code to return end-of-file status here...
+	End Method
+
+	Method Pos()
+		'code to return current stream position here...
+	End Method
+
+	Method Size()
+		'code to return size of stream here...
+	End Method
+
+	Method Seek( pos )
+		'code to seek to a position in a stream here...
+	End Method
+
+	Method Flush()
+		'code to flush stream output here...
+	End Method
+
+	Method Close()
+		'code to close stream here...
+	End Method
+
+	Method Read( buf:Byte Ptr,count )
+		'code to read from stream here...
+	End Method
+
+	Method Write( buf:Byte Ptr,count )
+		'code to write to a stream here...
+	End Method
+End Type
+</pre>
+Whew, that's a fair bit of work! Fortunately, BlitzMax can simplify things a bit for us in this case.<br>
+<br>
+Many types of stream really just modify the behaviour of an existing stream. For example, the BlitzMax <a href=../../mod/brl.mod/endianstream.mod/doc/commands.html>endian stream</a> works by modifying the behaviour of an existing stream - in a sense, it 'wraps' an existing stream. Our goal of creating an 'uppercase' stream also applies here.<br>
+<br>
+BlitzMax provides the TStreamWrapper type for exactly this situtation. TStreamWrapper extends TStream, but also maintains an internal 'underlying' stream. Whenever you call a method of TStreamWrapper, it will simply 'forward' the method call to the underlying stream.<br>
+<br>
+This is ideal for situations where you only want to modify the behaviour of a few of the stream methods. In our case, we want to modify the Read and Write methods to convert text to uppercase - and here's how it's done:
+<pre class=code>
+Type TUpperStream Extends TStreamWrapper
+
+	Method Read( buf:Byte Ptr,count )
+		'Read data from the underlying stream
+		count=Super.Read( buf,count )
+		'Convert the data to uppercase
+		For Local i=0 Until count
+			If buf[i]>=Asc("a") And Buf[i]<=Asc("z")
+				buf[i]=buf[i]-Asc("a")+Asc("A")
+			EndIf
+		Next
+		'Done!
+		Return count
+	End Method
+
+	Method Write( buf:Byte Ptr,count )
+		'Copy the data to a new buffer, converting to uppercase as we go
+		Local tmp:Byte[count]
+		For Local i=0 Until count
+			If buf[i]>=Asc("a") And buf[i]<=Asc("z")
+				tmp[i]=buf[i]-Asc("a")+Asc("A")
+			Else
+				tmp[i]=buf[i]
+			EndIf
+		Next
+		'Write the data to the underlying stream
+		Return Super.Write( tmp,count )
+	End Method
+
+	Function Create:TUpperStream( stream:TStream )
+		Local t:TUpperStream=New TUpperStream
+		'SetStream is a TStreamWrapper method that sets the underlying stream.
+		t.SetStream stream
+		Return t
+	End Function
+
+End Type
+</pre>
+One important note: The Read method modifies the data 'in place'. However, the Write method makes a copy of the data. This is because, although we know it's safe to modify the read buffer - in fact, it will already be modified by the time we get to it - we can't be sure it's safe to modify the write buffer. The caller of 'Write' may well be expecting the contents of the buffer to remain unchanged.<br>
+<br>
+Now let's see it in action:
+<pre>
+'Create a tmp file and write some text to it.
+Local tmp:TStream=WriteStream( "tmp" )
+tmp.WriteLine "A little example..."
+tmp.WriteLine "of our cool TUpperStream!"
+tmp.Close
+
+'Open tmp file again, and wrap it with a TUpperStream
+tmp:TStream=ReadStream( "tmp" ) 
+Local upperizer:TUpperStream=TUpperStream.Create( tmp )
+
+'Dump file contents
+While Not upperizer.Eof()
+	Print upperizer.ReadLine()
+Wend
+
+'Close files
+upperizer.Close
+tmp.Close
+</pre>
+This demo creates a text file and reads it back through a TUpperStream, which converts the file contents to uppercase while it's being read. If you inspect the tmp file, it's still actually in mixed case - but it's just as easy to write through the TUpperCase stream and end up with an uppercase file.<br>
+<br>
+Finally, the icing on the cake: adding our TUpperStream to the system so that it can be used transparently:
+<pre class=code>
+Type TUpperStreamFactory Extends TStreamFactory
+
+	Method CreateStream:TUpperStream( url:Object,proto$,path$,readable,writeable )
+		If proto$<>"uppercase" Return
+		Local stream:TStream=OpenStream( path,readable,writeable )
+		If stream Return TUpperStream.Create( stream )
+	End Method
+	
+End Type
+
+New TUpperStreamFactory
+</pre>
+And a demo...
+<pre>
+'Open a TUpperStream tmp file using WriteStream
+Local tmp2:TStream=WriteStream( "uppercase::tmp" )
+tmp2.WriteLine "Another little example..."
+tmp2.WriteLine "of our even cooler TUpperStream!"
+tmp2.Close
+
+'Read back and dump tmp file
+tmp2:TStream=ReadStream( "tmp" )
+While Not tmp2.Eof()
+	Print tmp2.ReadLine()
+Wend
+tmp2.Close
+</pre>
+</div>
+
+</body>
+</html>

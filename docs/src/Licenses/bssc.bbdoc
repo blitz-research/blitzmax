@@ -1,0 +1,35 @@
+<!DOCTYPE>
+<html>
+<body>
+<pre>
+
+Blitz Shared Source Code License
+--------------------------------
+
+This source code is the property of Blitz Research Ltd.
+
+This software is provided 'as-is', without any express 
+or implied warranty. In no event will the authors be held 
+liable for any damages arising from the use of this 
+software.
+
+You may distribute executable applications built from 
+this source code under your own licensing terms. You may
+not distribute static or dynamic library files based in
+whole or in part on this source code.
+
+You may modify this source code for your own purposes and
+can choose to publish such modifications to the <b>BlitzMax
+Community</b> page at <b>http://www.blitzbasic.com</b>. You
+may not publish this source code or any modified 
+version of it elsewhere.
+
+By publishing modifications to http://www.blitzbasic.com, you 
+agree that other members of the Blitz community are free to
+use those modifications in their own projects, and that 
+Blitz Research Ltd are free to include your modifications
+in future source code releases.
+
+</pre>
+</body>
+</html>

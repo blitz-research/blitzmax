@@ -1,0 +1,118 @@
+
++Program flow
+
+This section covers command that affect the flow of program execution.
+
++While/Wend loops
+
+A While/Wend loop continues executing while an expression evaluates to true:
+{
+@While %Expression\
+	%Statements\
+@Wend
+}
+
++Repeat/Until loops
+
+A Repeat/Until loop continues executing until an expression evaluates to true:
+{
+@Repeat\
+	%Statements\
+@Until %Expression
+}
+The statements within a Repeat/Until loop will always execute at least once, since the terminating expression is only evaluated at the bottom of the loop.
+
++Repeat/Forever loops
+
+A Repeat/Forever loop will simply continue executing forever:
+{
+@Repeat\
+	%Statements\
+@Forever
+}
+
++For/To/Next loops
+
+A For/To/Next loop will continue executing until the value of a numeric index variable goes beyond an exit value. The index variable is automatically updated every loop iteration by adding a step value. Note that the exit value is inclusive - the loop will typically execute once with the index variable equal to the exit value before terminating:
+{
+@For %IndexVariable @{=} %FirstValue @To %LastValue @Step %StepValue\
+	%Statements\
+@Next
+}
+The 'Step' part is optional, in which case the index variable will step in increments of 1. The step value must also be constant.
+
+The exit value is only evaluated once at the start of the loop. This means it is safe to use complex or 'slow' code as an exit value.
+
+You may also declare a new local variable to be used as the index variable, by preceding the index variable with the #Local keyword. Such local variables will not be visible outside of the loop when it terminates.
+
++For/Until/Next loops
+
+A For/Until/Next loop operates in a similar manner to a For/To/Next loop, except that the loop will terminate when the index variables becomes equal to the last value - in other words, the exit value is exclusive. This can be useful when you need to count 'up to' a value, without actually including that value:
+{
+@For %IndexVariable @{=} %FirstValue @Until %LastValue @Step %StepValue\
+	%statements\
+@Next
+}
+The 'Step' part is optional, in which case the index variable will step in increments of 1. The step value must also be constant.
+
+The exit value is only evaluated once at the start of the loop. This means it is safe to use complex or 'slow' code as an exit value.
+
+You may also declare a new local variable to be used as the index variable, by preceding the index variable with the #Local keyword. Such local variables will not be visible outside of the loop when it terminates.
+
++Exit and Continue
+
+The @Exit command can be used to exit from a @While, @Repeat or @For loop. The loop will be terminated, and program flow will be transferred to the first command after the loop.
+
+The @Continue command can be used to force a @While, @Repeat or @For loop to resume execution from the 'top' of the loop, skipping any statements remaining in the loop.
+
+Both @Exit and @Continue may be followed by an optional identifier. This identifer must match a previously declared %{loop label}, which allows you to exit or continue a specific loop, not necessarily the 'nearest' loop.
+
+To declare a loop label, use the syntax ~#Identifier immediately preceding a @While, @Repeat or @For loop. For example, this program will exit both loops when k and j both equal 5:
+{{
+Strict
+Local k,j
+#Label1   'loop label
+For k=1 To 4
+  #Label2    'another loop label (unused in this example)
+  For j=1 To 4
+    Print k+","+j
+    If k=3 And j=3 Exit Label1
+  Next
+Next
+}}
+Note that loop labels are only available in strict mode. In non-strict mode, use <font class=token>Goto</font> instead.
+
++If/Then blocks
+
+BlitzMax provides both the classic BASIC 'one liner' style of If/Then statement...
+{
+@If %Expression @Then %Statements @Else %Statements
+}
+...and the more modern block equivalent...
+{
+@If %Expression\
+	%Statements\
+@{Else If} %Expression\
+	%Statements\
+@Else\
+	%Statements\
+@EndIf
+}
+In both forms, the @Then keyword is optional.
+
++Select/Case blocks
+
+A Select/Case block allows you to simplify complex conditional tests. The select expression is compared with each of the case expressions and, if found to be equal, the program code within the appropriate case block is executed. If no matching case is found, the program code within the optional default block is executed:
+{
+@Select %Expression\
+@Case %Expressions\
+	%Statements\
+@Default\
+	%Statements\
+@{End Select}
+}
+The @Default section is optional.
+
+The selected value is only evaluated once, before each case is checked.
+
+Multiple expressions for each case may be used by providing a comma separated sequence of expressions.

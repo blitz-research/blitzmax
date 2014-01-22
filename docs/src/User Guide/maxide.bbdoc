@@ -1,0 +1,155 @@
+
++ The BlitzMax IDE
+
+The BlitzMax IDE is an application used for editing source code files and building projects. IDE stands for 'integrated development environment'.
+
+The BlitzMax IDE operates very much like a text editor or word processor.
+
++ Getting started
+
+Ok, time to compile and run your first program!
+
+First, select @New from the file menu or toolbar. This will create a new, empty source file for you to work with.
+
+Next, enter the following little program:
+{{
+'
+'My first BlitzMax program
+'
+Print "Hello World!"
+}}
+Now, its time to build and run: Select @{Build And Run} from the @Program menu. You should see the following output:
+{{
+Building untitled1
+Compiling:untitled1.bmx
+flat assembler  version 1.51
+3 passes, 2417 bytes.
+Linking:untitled1.debug.exe
+Executing:untitled1.debug.exe
+Hello World!
+
+Process complete
+}}
+Congratulations! You've just created your first program!
+
+What happens if there's an error in your program? Create a new source file and try the following program instead:
+{{
+'
+'My first bug!
+'
+rint "Hello World!"	'oops! Forgot a 'p'!
+}}
+This program has an error in it - there is no such command as 'rint' so attempting to build this program will produce the following error:
+{
+<img src=../error1.png>
+}
+
+When you return to the main source code window, the cursor will be placed at the line containing the error, allowing you to fix it.
+
+This type of error is known as a %{compile time} error, because the bug was detected by the compiler before you actually ran the program. However, the compiler cannot catch all possible errors - some errors are not apparent until your program is run. These kinds of errors are known as %runtime errors. Here's an example of a program with a runtime error in it:
+{{
+'
+' My first runtime bug!
+'
+Local an_array[10]
+
+For k=0 To 10
+	Print an_array[k]
+Next
+}}
+If you run this, you should see the following error message:
+{
+<img src=../error2.png>
+}
+Note how the pane on the right has also switched to the 'Debug' pane. This means your program is in 'debug mode',
+and by navigating through the debug pane you can inspect your programs variables.
+
++ The File menu
+[ @{Menu Item} | @Action
+* New | Create a new source file.
+* Open | Open an existing source file.
+* Open Recent | Reopen a recently used source file.
+* Close | Close current source file.
+* Close All | Close all source files.
+*
+*
+* Save | Save current source file.
+* Save As | Save current source file under a different name.
+* Save All | Save all open source files.
+*
+*
+* Next File | Switch to next open source file.
+* Previous File | Switch to previous open source file.
+*
+*
+* IDE Options | Open the IDE options panel.
+* Project Manager | Open the project manager panel.
+* Import BB Project | Import and convert a BlitzPlus or Blitz3D project.
+*
+*
+* Print | Print current souorce file.
+*
+*
+* Exit | Close down and exit the IDE.
+]
+
++ The Edit menu
+[ @{Menu Item} | @Action
+* Undo | Undo most recent source file edit.
+* Redo | Redo most recently undone source file edit.
+*
+*
+* Cut | Cut selected text from current source file.
+* Copy | Copy selected text from current source file.
+* Paste | Paste text into current source file.
+*
+*
+* Select All | Select all text in current source file.
+*
+*
+* Block Indent | Indent the currently highlighted block.
+* Block Outdent | Unindent the currently highlighted block.
+*
+*
+* Find | Find text in the current source file.
+* Find Next | Find next occurance of text.
+* Replace | Find and replace text.
+* Goto Line | Go to a line in the current source file.
+]
+
++ The Program menu
+[ @{Menu Item} | @Action
+* Build | Build the current source file (or locked build file).
+* Build And Run | Build and run the current source file (or locked build file).
+* Command Line | Specify command line options for BlitzMax apps.
+*
+*
+* Step | In debug mode, step over next program statement.
+* Step In | In debug mode, step into next program statement.
+* Step Out | In debug mode, step out of current block or function.
+* Halt | Stop current build or program run.
+* Build Options:Quick Build | Enable or disable quick builds. The quick build feature causes the compiler to only recompile modified files.
+* Build Options:Debug Build | Enable or disable debug builds. Debug builds performing extra error checking at runtime, at the cost of some execution speed.
+* Build Options:Build GUI App | Instructs BlitzMax to build a 'GUI' application. Disable this if you are building a lightweight, text-only applications.
+*
+*
+* Lock Build File | Lock the current source file for future @build and @{build and run} operations. This can be useful if you have a multifile project and are editing several source files but only ever rebuilding one of them.
+* Unlock Build File | Unlock the currently locked build file.
+*
+*
+* Synchronize Modules | Perform an online update of all Blitzmax modules.
+*
+*
+* Build Modules | Build any recently modified modules.
+* Rebuild All Modules | Rebuild all modules from scratch.
+* Document Modules | Rebuild module documentation.
+]
+
++ The Help menu
+[ @{Menu Item} | @Action
+* Home | Go to the help home page.
+* Back | Return to previous help page.
+* Forward | Advance to the next help page.
+* Quick Help | Jump to command reference entry for command nearest cursor.
+* About BlitzMax | Show information about BlitzMax and the IDE.
+]

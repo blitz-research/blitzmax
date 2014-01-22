@@ -1,0 +1,107 @@
+
++BASIC Compatibility
+
+This section covers some of the differences between BlitzMax and 'classic' BASIC, and introduces features that help overcome some of classic BASIC's shortcomings.
+
++Strict mode
+
+Classic BASIC allows you to declare variables 'on the fly'. For example, consider a program consisting of:
+{{
+For k=1 To 10
+	sum=sum+k
+Next
+Print sum
+}}
+This program automatically creates 2 local variables: 'k' and 'sum'. However, this behaviour can often lead to unexpected bugs. For example, if you mistyped one of the 'sum' variables, the program would not work as expected. No error would be given - a new variable would simply be created.
+
+By default, BlitzMax will allow you to automatically declare variables like this. However, you can use the @Strict command to override this behaviour.
+
+#Strict must appear at the top of your program before any actual program code and puts your program into 'strict mode'. Strict mode forces you to declare all variables before use. For example, rewriting the above program in strict mode results in:
+{{
+Strict
+Local sum,k
+For k=1 To 10
+	sum=sum+k
+Next
+Print sum
+}}
+If you were to mistype one of the variable names in this program, you would receive an 'identifier not found' error when compiling, allowing you to easily find and correct the problem.
+
++Arrays
+
+Blitzmax does not support the Dim statement for array creation. Instead, arrays in BlitzMax are real types - they can be passed to functions, returned from functions and placed in variables.
+
+To create a classic BASIC style array in BlitzMax, use a global variable. For example:
+{{
+Global my_array$[100]	'create a 100 element string array
+}}
+Also note that arrays in BlitzMax are not '1 bigger' than their dimensioned size - the 100 element array above contains 100 elements, numbered 0 through 99 inclusive.
+
+BlitzMax also does not support a 'Redim' operation. Instead, you can use #slices. For example:
+{{
+Global my_array$[100]		'create a 100 element string array
+my_array=my_array[..200]	'now a 200 element array!
+}}
+
++Goto and Gosub
+
+BlitzMax does not support the Gosub command. Use #functions instead.
+
+The Goto command is supported, but only in non-strict mode. Goto labels should be prefixed with a ~# character. For example:
+{{
+For k=1 To 10
+	a=Rand(10)
+	If a<5 Then Goto LessThan5 
+	If a>5 Then Goto GreaterThan5
+	Print "a is equal to 5"
+	Goto AllDone
+#LessThan5
+	Print "a is less than 5"
+	Goto AllDone
+#GreaterThan5
+	Print "a is greater than 5"
+#AllDone
+Next
+}}
+
++Data, Read and Restore
+
+Data, Read and Restore are supported but have been renamed to #DefData, #ReadData and #RestoreData. Data labels must also be prefixed with a ~# character.
+
++Object handles
+
+BlitzMax allows objects to be assigned to integer variables, and integer variables to be passed to functions expecting objects. This is mainly for the benefit of beginners, as it reduces the size and complexity of code, but is also great for lazy pro's! For example:
+{{
+Graphics 640,480
+image=LoadImage( "an_image.png" ) 'returned object is converted to an integer handle
+DrawImage image,0,0               'integer image parameter is converted back to an object
+Flip
+WaitKey
+}}
+This is achieved using an %{object handle} system, and such handles should be released using the #Release command when they are no longer needed. For example:
+{{
+Graphics 640,480
+image=LoadImage( "an_image.png" ) 'returned object is converted to an integer handle
+DrawImage image,0,0               'integer image parameter is converted back to an object
+Release image                     'image no longer needed - release it
+Flip
+WaitKey
+}}
+Failing to release an object handle will result in memory leaks. However, all objects are released at program exit anyway, so for quick 'n' dirty jobs you don't have to bother.
+
++Type tag shortcuts
+
+When declaring variables and function return types, BlitzMax allows you to use BASIC style 'type tags'. These are as follows:
+
+[ @{Type tag} | @{Equivalent type}
+* ~% | Int
+* ~# | Float
+* ~! | Double
+* ~$ | String
+]
+For example, a string variable can be declared in two ways:
+{{
+Local a_string:String
+Local another_string$
+}}
+Mac users whose keyboards do not feature the ~# character should use 'Alt 3'.

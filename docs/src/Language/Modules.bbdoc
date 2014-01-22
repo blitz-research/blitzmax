@@ -1,0 +1,55 @@
+
++Modules
+
+A module is a precompiled collection of constants, globals, functions and user defined types, that may be used by applications or other modules.
+
++Creating modules
+
+Modules live in the 'mod' directory within the main BlitzMax directory. To create your own module, you must add a new subdirectory to 'mod' with the following format:
+{{
+/mod/modscope.mod/modname.mod
+}}
+Modscope should be a unique name (for example, the name of your organization or company) and is used to group together modules provided by a common source. Both modscope and modname should be valid identifiers. Also, to prevent issues with case sensitive filesystems such as Linux's, it is recommended that modscope and modname be lowercase.
+
+You will also need to create a main module source file inside the module directory. This file must have the same name as ModuleName:
+{{
+/mod/modscope.mod/modname.mod/modname.bmx
+}}
+Finally, your source file must include a #Module statement at the top:
+{{
+Module modscope.modname
+}}
+Once your module is setup, #BMK can be used to build it:
+{{
+bmk makemods modscope.modname
+}}
+Or, to build all modules in the same scope:
+{{
+bmk makemods modscope
+}}
+
++Using modules within modules
+
+To use a module within another module, you simply import it with the @Import command:
+{{
+Import modscope.modname
+}}
+This will import both the specified module %and any modules imported by that module. In other words, @Import is recursive.
+
++Using modules within applications
+
+By default, BlitzMax imports %every module it finds in the 'brl' and 'pub' module scopes when compiling applications. However, this can result in bulky executables. You can override this default behaviour by using the @Framework command:
+{
+@Framework %modscope.modname
+}
+@Framework should appear at the top of your main application source file.
+
+Specifying an application framework prevents BlitzMax from importing every module under the sun. Only the framework module and any explicitly imported modules are imported into your application.
+
+For example, to create a 'stripped down' BASIC application, you can use the BRL.Basic framework:
+{{
+Framework BRL.Basic	'create a stripped down app
+
+Print "Hello World!"
+}}
+When a building a multifile application, the framework (if any) found in the main source file is automatically passed to all 'child' files in the application. However, if you change this 'default' framework, you will need to 'rebuild all' for the change to affect other files.

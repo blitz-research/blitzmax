@@ -1,0 +1,28 @@
+
++Welcome
+
+Welcome to the BlitzMax users guide.
+
+This document will introduce you to some of the concepts behind BlitzMax, and how to actually use it.
+
+BlitzMax is a computer programming language based on the popular BASIC programming language. BASIC stands for @{B}eginners @{A}ll purpose @{S}ymbolic @{I}nstruction @{C}ode. As its name would suggest, BASIC is designed to be easy to use, yet useful for a wide range of purposes.
+
+BlitzMax is a compiler. It takes as input text files containing the source code to a program, and produces as output a program that you can run. The final program consists of low level %{machine code} statements that are interpreted by the CPU.
+
+Blitzmax also includes several advanced features found in more modern programming languages. In particular, BlitzMax supports the %{object oriented} programming techniques known as %inheritance and %polymorphism. However, Blitzmax is designed so that you don't have to learn such techniques until you are ready (if ever!)
+
++How BlitzMax works
+
+BlitzMax takes your program's %{source code} and converts it into %{executable code}. There are 2 main steps involved in this process:
+
+Compiling the source code: This steps involves converting each source code file in your project into a corresponding %{object code} file. An object code file contains actual machine code, but cannot be run on its own. It must first be linked with other object files...
+
+Linking the object code: This step involves %linking all the object code files together in order to produce a program that can actually be run. This step is necessary as object files often require information found in other object files. Linking effectively 'connects up' the object code files to each other.
+
+This process of compiling and linking a project is known as %building a project and must be done whenever you edit a source file or other resource in your project.
+
+There are 2 main ways to build projects: either using #MaxIDE or with the #BMK utility.
+
+MaxIDE is an %{integrated development environment}. It allows you to modify source code files and build projects.
+
+BMK is a lower level command line utility also used for building projects. In fact, the BlitzMax IDE uses BMK 'behind the scenes' to build projects.

@@ -1,0 +1,10 @@
+
++BlitzMax language reference
+
+Welcome to the BlitzMax language reference.
+
+This document describes the core BlitzMax programming language.
+
+For users who already have BASIC programming experience, the #{BASIC compatibility} section highlights the major differences between BlitzMax and other BASIC dialects.
+
+For general command reference, please see the #modules documentation.

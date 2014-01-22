@@ -1,0 +1,158 @@
+
++User defined types
+
++defined types allow you to group related data and program code together into a single entity known as an %object.
+
+The general syntax for declaring a user defined type is:
+{
+@Type %Typename @Extends %Typename
+}
+@Typename must be a valid identifier.
+
+The @Extends part is optional. If omitted, the user defined type extends the built in @Object type.
+
+Once declared, you can create %instances of such types using the @New operator.
+
+Within a user defined type, you can declare the following:
+
+[ Fields:
+Fields are variables associated with each instance of a user defined type. Fields are declared in the same way as local or global variables, only using the @Field keyword. To access the fields of an object, use the @{.} operator.
+* Methods:
+Methods are function-like operations associated with each instance of a user defined type. Methods are declared in the same way as functions, only using the @Method keyword. To access the methods of an object, use the @{.} operator. Program code within a method can access other fields, methods, functions, consts and globals within the same object simply by referring to them by name.
+* Functions:
+These are declared in the same way as 'normal' functions, and can be accessed using the @{.} operator. Unlike methods, functions within a type are %not associated with instances of the type, but with the type itself. This means such functions can be used regardless of whether or not any instances of the type have been created yet. Functions within a type can access other functions, consts or globals within the same type by referring to them by name.
+* Consts and Globals
+These are declared in the same way as 'normal' consts and globals, and be accessed using the @{.} operator. As with type functions, these are not associated with instances of the type, but with the type itself.
+]
+Here is an example of a user defined type:
+{{
+Type MyType
+	Const INC=1
+	Global Counter
+	Field x,y,z
+
+	Method Sum()
+		Counter=Counter+INC
+		Return x+y+z
+	End Method
+
+	Function Create:MyType()
+		Return New MyType
+	End Function
+End Type
+
+Local MyObject:MyType=MyType.Create()
+
+MyObject.x=10
+MyObject.y=20
+MyObject.z=30
+
+Print MyObject.Sum()
+Print MyType.Counter
+}}
+Note that the object is created indirectly by calling MyType's @Create function instead of @New. This is a frequently used technique that allows you to perform (possibly complex) initialization of an object before it is returned to the user.
+
++Inheritance and polymorphism
+
+User defined types can %extend other user defined types using the @Extends keyword. Extending a type means adding more functionality to an existing type. The type being extended is often referred to as the %base type, while the resulting, extended type is often referred to as the %derived type:
+{{
+Type BaseType
+	Field x,y,z
+
+	Method Sum()
+		Return x+y+z
+	End Method
+End Type
+
+Type DerivedType Extends BaseType
+	Field p,q,r
+
+	Method Sum()
+		Return x+y+z+p+q+r
+	End Method
+End Type
+}}
+This technique is also known as %inheritance, as the derived type is inheriting functionality from the base type (although no one had to die in the process!). Note that DerivedType actually has 6 fields - x,y,z,p,q and r. It inherits x,y,z from BaseType and adds its own fields p,q,r.
+
+BlitzMax allows you to use a derived type object anywhere a base type object is expected. This works because a derived type object %is a base type object - only with some 'extras'. For example, you can assign a derived type object to a base type variable, or pass a derived type object to a function expecting a base type parameter. This is really the whole point of inheritance - its not just a technique to save typing.
+
+This behaviour allows for a very useful technique known as %polymorphism. This means the ability of an object to behave in different ways depending on its type. This is achieved in Blitzmax by %overriding methods.
+
+Notice in the above example that the method 'Sum' has the same signature (parameters and return type) in both the base type and the derived type. This is not just a coincidence - it is required by the language. Whenever you add a method to a derived type with the same name as an existing method in a base type, it must have the same signature as the method in the base type.
+
+But now we have 2 versions of 'Sum' - which gets called? This depends on the %{runtime type} of an object. For example:
+{{
+Type BaseType
+	Method Test:String()
+		Return "BaseType.Test"
+	End Method
+End Type
+
+Type DerivedType Extends BaseType
+	Method Test:String()
+		Return "DerivedType.Test"
+	End Method
+End Type
+
+Local x:BaseType=New BaseType
+Local y:BaseType=New DerivedType
+
+Print x.Test()	'prints "BaseType.Test" - x's runtime type is BaseType
+Print y.Test()	'prints "DerivedType.Test" - as y's runtime type is DerivedType
+}}
+Note that when the variable y is initialized, it is assigned a DerivedType object, even though y is a BaseType varible. This is legal because derived types can be used in place of base types. However, this means the runtime type of y is actually DerivedType. Therefore, when y.Test() is called, the DerivedType method Test() is called.
+
++Self and Super
+Program code inside a method can access two special variables named @Self and @Super.
+
+@Self refers to the object associated with the method, and its type is that of the user defined type the method is declared in.
+
+@Super also refers to the object associated with the method, however its type is that of the user defined type being extended. This can be very useful if you need to call the base type version of the currently executing method:
+{{
+Type BaseType
+	Method Test()
+		Print "BaseType.Test"
+	End Method
+End Type
+
+Type DerivedType Extends BaseType
+	Method Test()
+		Super.Test	'calls BaseType's Test() method first!
+		Print "DerivedType.Test"
+	End Method
+End Type
+
+Local x:BaseType=New DerivedType
+
+x.Test
+}}
+
++New and Delete
+
+User defined types can optionally declare two special methods named @New and @Delete. Both methods must take no arguments, and any returned value is ignored.
+
+The @New method is called when an object is first created with the @New operator. This allows you to perform extra initialization code.
+
+The @Delete method is called when an object is discarded by the memory manager. Note that critical shutdown operations such as closing files etc should not be placed in the @Delete, as you can't always be sure when @Delete will be called.
+
++Abstract and Final
+
+User defined types and methods can also be declared %abstract or %final by adding @Abstract or @Final to the appropriate declaration:
+{{
+Type AbstractType Abstract
+	Method AbstractMethod() Abstract
+End Type
+
+Type FinalType Final
+	Method FinalMethod() Final
+		Print "FinalType.FinalMethod"
+	End Method
+End Type
+}}
+Declaring a user defined type abstract means that you can not create instances of it using @New. However, it is still possible to extend such types and create instances of these derived types. Declaring a method abstract means that the method has no implementation and must be implemented by a derived type. Any user defined type with at least one abstract method is itself abstract.
+
+Declaring a user defined type final means that it can not be extended.  Declaring a method final means that derived types can not override the method. All methods of a final user defined type are themselves final.
+
+Abstract types and methods are mostly used to create 'template' types and methods that leave implementation details up to derived types.
+
+Final types and methods are mostly used to prevent modification to a type's behaviour.

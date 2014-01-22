@@ -1,0 +1,49 @@
+
++Project management
+
++Importing source files
+
+The #Import statement provides an efficient way to split your project up into multiple files. The syntax for import is:
+{
+@Import %Filename
+}
+%Filename must be a quote enclosed string literal with a recognized source file extension such as 'bmx'.
+
+Importing a file makes all the globals, consts, functions and user defined types declared in that file available to the file being currently compiled.
+
+Imported files can be %precompiled. This means that if you have a project split into multiple source files, only the files that are actually modified (and files those modifications affect) need to be recompiled. For example, say you have a project split into 2 source files:
+{{
+'file1.bmx
+Import "file2.bmx"
+Print Test()
+
+'file2.bmx
+Function Test:String()
+	Return "This is a test!"
+End Function
+}}
+If file2.bmx is then modified, both files need to be recompiled because not only has file2.bmx changed, but its changes may also affect file1.bmx.
+
+However, if only file1.bmx is modified there is no need to recompile file2.bmx. BlitzMax's #BMK utility takes care of all this for you.
+
+One important limitation of @Import is that you cannot create 'cycles' of imports.
+
++Including source files
+
+@Include is another way to split a project up into multiple files. The syntax for @Include is the same as that for @Import, however the included file is simply inserted 'verbatim' into the including file, instead of being separately compiled.
+
+Depending on the platform and project, @Include may be faster than @Import. It also allows you to get around the 'no cycles' restriction of @Import.
+
++Including binary files
+
+The @Incbin statement allows you to include binary files with your programs. The syntax for @Incbin is the same as that for @Import, however any kind of file may be specified, not just 'bmx' files.
+
+You can access the binary data contained in an incbined file using @IncbinPtr (which returns a Byte Ptr) and @IncbinLen (which returns an Int). Both @IncbinPtr and @IncbinLen require a filename parameter. For example:
+{{
+Incbin "data.bin"
+Local p:Byte Ptr=IncbinPtr( "data.bin" )
+Local n:Int=IncbinLen( "data.bin" )
+For Local i=0 Until n
+	Print "Byte "+i+":"+p[i]
+Next
+}}

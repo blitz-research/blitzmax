@@ -1,0 +1,38 @@
+
++Functions
+
+A function is a self contained block of code that can be called from multiple points in your program.
+
+Functions are declared using the syntax:
+{
+@Function %Identifier @: %ReturnType @( %Parameters @)\
+	%{Function statements...}\
+@{End Function}
+}
+
+If %ReturnType is omitted, the function defaults to returning an #Int.
+
+%Parameters is a comma separated list of parameters for the function. The syntax of each parameter is similar to a variable declaration: %Identifier @: %Type. Function parameters may be used inside a function in the same way as local variables.
+
+The #Return statement is used to return a value from a function.
+
+Here is an example of a simple function that adds 2 integers and returns their sum:
+{{
+Function AddInts:Int( x:Int,y:Int )
+	Return x+y
+End Function
+}}
+This function can then be called by other code:
+{{
+Print AddInts( 10,20 )  'prints 30!
+}}
+Function parameters can be assigned constant 'default values' using syntax similar to initializing a variable: %Identifier @: %Type @= %ConstantExpression.
+
+Default parameters can then be optionally omitted when the function is called:
+{{
+Function IncInt:Int( n:Int,p:Int=1 )
+	Return n+p
+End Function
+Print IncInt( 1 )   'Prints 2
+Print IncInt( 1,3 ) 'Prints 4
+}}

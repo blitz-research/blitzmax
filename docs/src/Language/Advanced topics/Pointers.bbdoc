@@ -1,0 +1,36 @@
+
++Pointers
+
+BlitzMax supports 'C' style pointers for use by code that must perform low level interaction with the operating system and/or speed sensitive code. 
+
+Pointers are not recommended for general use, as misuse of pointers can easily result in memory corruption causing all sorts of bugs and headaches!
+
+Pointers may be declared by appending @Ptr to the type of a variable or function declaration. For example:
+{{
+Local int_Ptr:Int Ptr
+}}
+Note the pointers are only supported for the primitive numeric types: Byte, Short, Int, Long, Float and Double.
+
+The #Varptr operator allows you to find the address of a variable, yielding a pointer. For example:
+{{
+Local an_int:Int=10
+Local int_ptr:Int Ptr=Varptr an_int
+}}
+Array style indexing is used to dereference pointers:
+{{
+Local an_int:Int=10
+Local int_ptr:Int Ptr=Varptr an_int
+Print int_ptr[0]
+}}
+BlitzMax will automatically convert any pointer type to a byte pointer for you. In addition, objects and arrays may be assigned to byte pointers. In the case of objects, the pointer will contain the address of the first field of the object. In the case of arrays, the pointer will contain the address of the first element of the array.
+
+Be very careful when assigning objects to pointers, as there is a danger that the garbage collector will 'reclaim' the object before you have finished with the pointer! It is recommended that you use #GCSuspend and #GCResume around code that converts objects to pointers.
+
+You may also explictily cast pointers to and from other pointers, and to and from Int. For example:
+{{
+Local an_int:Int=10
+Local int_ptr:Int Ptr=Varptr an_int
+Local float_ptr:Float Ptr=Float Ptr int_ptr
+Local var_address:Int=Int float_ptr
+}}
+

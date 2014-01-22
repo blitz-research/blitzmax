@@ -1,0 +1,546 @@
+<html>
+<head>
+<title></title>
+<link rel="styleSheet" href="../bmxstyle.css" type="text/css">
+</head>
+<body>
+<h1>MaxGUI Overview</h1>
+
+<ul>
+<li>Introduction
+<li>Getting Started
+<li>Gadget Layout
+<li>Crossplatform Issues
+<li>Using an EventHook
+<li>Using a Canvas
+<li>Event Hook based Rendering 
+<li>Porting from BlitzPlus
+<li>The New Modules
+<li>Under the Hood
+<li>Extending MaxGui
+</ul>
+
+<hr>
+
+<h3>Introduction</h3>
+
+The MaxGui module provides commands to build user interfaces
+for applications programmed in BlitzMax.
+<p>
+The command set originates from the original BlitzPlus "Gadget"
+based names providing a healthy amount of backward
+compatability for users wishing to port code developed in 
+BlitzPlus.
+
+
+<h3>Getting Started</h3>
+
+
+The following program opens a small window on the desktop
+that ends when the window is closed.
+<p>
+The code beginning at "While True" is the main event loop
+of the program, it repeats forever waiting for an Event
+to happen, printing the event's details to the output window
+and ending if the event has the ID of EVENT_WINDOWCLOSE.
+<pre class=code>
+' createwindow.bmx
+
+Strict 
+
+Import MaxGUI.Drivers
+
+Local window:TGadget
+
+window=CreateWindow("My Window",40,40,320,240)
+
+While True
+	WaitEvent 
+	Print CurrentEvent.ToString()
+	Select EventID()
+		Case EVENT_WINDOWCLOSE
+			End
+	End Select
+Wend
+</pre>
+Try moving and sizing the window while the program is running
+and you will see the details of the events that occur printed
+in the debug window of BlitzMax.
+<p>
+Try also modifying the "window=" line in the program with:
+<pre class=code>
+window=CreateWindow("My Window",40,40,320,240,Null,WINDOW_TITLEBAR)
+</pre>
+which will create a Window with only a title bar and no status or
+menu bars. See the documentation for CreateWindow for more details
+of the Window styles supported by MaxGui.
+<p>
+The MaxGui documentation contains working examples for each of 
+commands that create gadgets including CreateButton, CreateCanvas,
+CreateComboBox, CreateHTMLView, CreateLabel, CreateListBox,
+CreateMenu, CreatePanel, CreateProgBar, CreateSlider, CreateTabber,
+CreateTextField, CreateToolBar and CreateTreeView.
+<p>
+
+<h3>Gadget Layout</h3>
+<p>
+A Gadget in MaxGui is given pixel coordinates when it is created
+that positions it in it's parent's client area. The client area of
+a Window gadget is inside the window's borders not including the
+space used by any Status or Menu bars.
+<p>
+If a Window is resized MaxGui uses any children's layout settings
+to reposition them within the new size of it's client area.
+<p>
+The SetGadgetLayout is used to control how the Gadget is repositioned
+when it's parent is resized.
+<p>
+By considering each edge of the Gadget independently, the MaxGui
+layout engine repositions each gadget according to each edge's
+rule where the rule is 
+<p>
+EDGE_CENTERED - The edge remains a fixed distance from the center of the parent<br>
+EDGE_ALIGNED - The edge is a locked distance away from it's parent's corresponding edge<br>
+EDGE_RELATIVE - The edge remains a proportional distance from the parent's 2 edges<br>
+<p>
+The following code demonstrates a common case of creating a panel
+in a window the size of the window's client area and locking the
+distance of each edge to the correspong edge of the parent window
+(EDGE_ALIGNED rule). The result is that the panel is automatically sized by 
+MaxGui when the window is resized filling the entire client area.
+<pre class=code>
+Strict 
+
+Import MaxGUI.Drivers
+
+Local window:TGadget
+Local panel:TGadget
+
+window=CreateWindow("My Window",40,40,320,240)
+
+panel=CreatePanel(0,0,ClientWidth(window),ClientHeight(window),window)
+SetGadgetColor panel,200,100,100
+SetGadgetLayout panel,EDGE_ALIGNED,EDGE_ALIGNED,EDGE_ALIGNED,EDGE_ALIGNED
+
+While True
+	WaitEvent 
+	Print CurrentEvent.ToString()
+	Select EventID()
+		Case EVENT_WINDOWCLOSE
+			End
+	End Select
+Wend
+</pre>
+By removing the line of code with the SetGadetLayout command you can view the default 
+EDGE_CENTERED rule in effect on all edges with the panel retaining it's size 
+due to all it's edges being kept a fixed distance from the center 
+of the window.
+<p>
+To view rule EDGE_RELATIVE in effect modify the SetGadgetLayout command to read
+"SetGadgetLayout panel,EDGE_RELATIVE,EDGE_RELATIVE,EDGE_RELATIVE,EDGE_RELATIVE".
+<p>
+But wait, there is no discernable change in the resizing behavior between
+rule EDGE_ALIGNED and rule EDGE_RELATIVE???
+<p>
+Unless the panel is created inset from the window client such as 
+the result of the following modification:
+<pre class=code>
+panel=CreatePanel(10,10,ClientWidth(window)-20,ClientHeight(window)-20,window)
+</pre>
+you will note the edges are infact being kept a proportional distance
+from the parent's 2 edges when the window is resized.
+<p>
+The fact is that EDGE_ALIGNED and EDGE_RELATIVE have the same effect on Gadget 
+edges when the edges are created on the borders of their parent's client area.
+<p>
+
+<h3>Crossplatform Issues</h3>
+<p>
+In general the MaxGUI module should perform identically on Windows,
+Apple and Linux machines. However some care and attention is required
+when testing in regards to how your application will look on each 
+platform.
+<p>
+The following are a few issues that if considered should hopefully
+enable you to publish programs that look and function well on a wide 
+variety of systems.
+<p>
+Recomended gadget dimensions.
+<p>
+<ul>
+<li>Buttons and ComboBoxes should be 24 pixels high.
+<p>
+Shorter buttons are possible in Windows but they will become cropped
+on Apple systems so it is recomended that when using the default font
+buttons should be created with a height of 24 pixels.
+<p>
+<li>TextFields should be 20 pixels high and accompanying labels lowered 4 pixels.
+<p>
+Again, using the default font settings, the above rule should produce
+good results on all platforms. Often labels will be placed to the left
+or right of TextFields, in which case they should be set 4 pixels lower
+down the screen in order to correctly align with TextFields.
+<p>
+<li>Separate fields in a form by 30 pixels.
+<p>
+When creating a form with multiple TextField gadgets start each
+row 30 pixels below the y position of the previous gadget's positions.
+</ul>
+<p>
+Use the WINDOW_CLIENTCOORDS flag when dependent on client size.
+<p>
+If you are using a fixed size window specify it's size based on the
+required client area using the WINDOW_CLIENTCOORDS style.
+<p>
+Specifying a window's size in the default frame coordinates will 
+result in a client area that may be different on different machines
+due to a number of factors including both the version of the computer's
+operating system and certain user preference outside your control.
+<p>
+<p>
+<h3>Using an EventHook</h3>
+<p>
+As an alternative to developing applications that have a single
+main loop that waits then processes events from an eventqueue
+the AddHook command allows a callback function to be used
+to process events as they happen.
+<p>
+This is important for two type of events.
+<p>
+EVENT_GADGETACTION events produced by Slider gadgets with the 
+original SLIDER_SCROLLBAR style and EVENT_WINDOWRESIZE events
+that occur when the user is resizing a Window both require
+a hooked type of event processing for best results.
+In both these situations most OS's go into a "modal"
+loop that means a WaitEvent command will only return once
+the user releases the mouse button but with Event hooks 
+the code can be called directly from within the OS's own 
+modal loop.
+<p>
+The other type of event is EVENT_GADGETPAINT which is generated 
+whenever the operating system needs to redraw a Canvas gadget.
+When hooked, drawing code can be executed at the time of the 
+event rather than later when the OS returns control to the
+main program, at which time it may have already drawn other
+content above the Canvas.
+<p>
+
+<h3>Using a Canvas</h3>
+<p>
+The following code is a simple example of using Max2D to 
+render dynamically into a Canvas Gadget...
+<pre class=code>
+' createcanvas.bmx
+
+Strict 
+
+Import MaxGUI.Drivers
+
+Global GAME_WIDTH=320
+Global GAME_HEIGHT=240
+
+' create a centered window with client size GAME_WIDTH,GAME_HEIGHT
+
+Local wx=(GadgetWidth(Desktop())-GAME_WIDTH)/2
+Local wy=(GadgetHeight(Desktop())-GAME_HEIGHT)/2
+
+Local window:TGadget=CreateWindow("My Canvas",wx,wy,GAME_WIDTH,GAME_HEIGHT,Null,WINDOW_TITLEBAR|WINDOW_CLIENTCOORDS)
+
+' create a canvas for our game
+
+Local canvas:TGadget=CreateCanvas(0,0,320,240,window)
+
+' create an update timer
+
+CreateTimer 60
+
+While WaitEvent()
+	Select EventID()
+		Case EVENT_TIMERTICK
+			RedrawGadget canvas
+
+		Case EVENT_GADGETPAINT
+			Local g=CanvasGraphics(canvas)
+			SetGraphics g
+			SetOrigin 160,120
+			SetLineWidth 5
+			Cls
+			Local t=MilliSecs()
+			DrawLine 0,0,120*Cos(t),120*Sin(t)
+			DrawLine 0,0,80*Cos(t/60),80*Sin(t/60)
+			Flip
+
+		Case EVENT_WINDOWCLOSE
+			FreeGadget canvas
+			End
+
+		Case EVENT_APPTERMINATE
+			End
+	End Select
+Wend
+</pre>
+The above code creates a timer that causes an event to occur
+at 60hz (ticks per second). 
+<p>
+Each time an EVENT_TIMERTICK is received by the program's main 
+event loop it calls RedrawGadget which tells the system to redraw
+our canvas gadget.
+<p>
+The code following the Case EVENT_GADGETPAINT above is where
+the actual drawing takes place.
+<p>
+- of interest -
+<p>
+If you remove two lines of the above code that contain the
+"RedrawGadget canvas" and "Case EVENT_GADGETPAINT" the program
+still appears to function normally.
+<p>
+This is because MaxGUI infact allows you to draw to a canvas
+when ever you want. Drawing in response to an EVENT_GADGETPAINT
+however is better behavior as no drawing code is executed if
+the canvas is obscured or the application has a low refresh rate 
+in which case it will be still asked to redraw itself on the
+event an obscured canvas is revealed by window movement from
+above.
+<p>
+
+<h3>Event Hook based Rendering</h3>
+<p>
+As mentioned above the best way to manage redrawing a Canvas
+gadget is with an EventHook.
+<p>
+The following example uses an EventHook to handle events
+at the time of occurance rather than from the WaitEvent()
+queue. You will notice at the bottom of the program that 
+infact the main loop does nothing but WaitEvent and all 
+the event handling is done inside the TApplet Type.
+<p>
+<pre class=code>
+' rendering a canvas using an EventHook based Applet Type
+
+Strict
+
+Import MaxGUI.Drivers
+
+Type TApplet
+	
+	Field	window:TGadget
+	Field	canvas:TGadget
+	Field	timer:TTimer
+	
+	Method Render()
+		Local x,y,width,height,t,i
+		width=GraphicsWidth()
+		height=GraphicsHeight()
+		t=MilliSecs()
+		SetBlend ALPHABLEND
+		SetViewport 0,0,width,height
+		SetClsColor 0,0,0
+		SetOrigin width/2,height/2
+		Cls
+		For x=-width/2 To width/2 Step 2
+			y=Sin(t*0.3+x)*height/2
+			DrawLine 0,0,x,y
+		Next
+	End Method
+	
+	Method OnEvent(event:TEvent)
+		Select event.id
+		Case EVENT_WINDOWCLOSE
+			End
+		Case EVENT_TIMERTICK
+			RedrawGadget canvas
+		Case EVENT_GADGETPAINT
+			SetGraphics CanvasGraphics(canvas)
+			Render
+			Flip
+		End Select
+	End Method
+
+	Function eventhook:Object(id,data:Object,context:Object)
+		Local	event:TEvent
+		Local	app:TApplet
+		event=TEvent(data)
+		app=TApplet(context)
+		app.OnEvent event	
+	End Function
+	
+	Method Create:TApplet(name$)
+		Local	a:TApplet
+		Local	w,h
+		window=CreateWindow(name,20,20,512,512)
+		w=ClientWidth(window)
+		h=ClientHeight(window)
+		canvas=CreateCanvas(0,0,w,h,window)
+		canvas.SetLayout 1,1,1,1
+		timer=CreateTimer(100)
+		AddHook EmitEventHook,eventhook,Self
+		Return Self		
+	End Method
+	
+End Type
+
+AutoMidHandle True
+
+Local	applet:TApplet
+
+applet=New TApplet.Create("Render Applet")
+
+While True
+	WaitEvent
+Wend
+</pre>
+<p>
+Unfortunately I have obfiscated (made obscure) the 
+function of the event hook by wrapping it in an 
+Applet object and I have started using big words in
+my sentences.
+<p>
+To be as concise as possible, the TApplet Type declares
+a Class that features an OnEvent Method that with some 
+magic in it's constructor (the Create() Method) provides
+an object oriented way for our program to collect events.
+<p>
+Our TApplet implements the rendering sequence
+as featured in the previous example but because
+it does so based on a Hook responds in a more
+well behaved manner when the OS wishes to redraw the
+desktop when it is made visible by some user action
+or told to refresh with the RedrawGadget command.
+
+<h3>Porting from BlitzPlus</h3>
+<p>
+The following are a few issues that you may encounter when
+porting code from BlitzPlus.
+<p>
+
+<h4>Event Codes</h4>
+<p>
+The codes returned by the WaitEvent and EventID commands
+are not the same as BlitzPlus. See the Event Objects docs
+for a list of the constants used in MaxGUI. Numerical
+values have not been documented in order to encourage
+users to use the correct EVENT_NAMES.
+<p>
+New events in MaxGUI include
+<p>
+EVENT_HOTKEYHIT - see SetHotKeyEvent 
+<p>
+EVENT_WINDOWACCEPT - a file has been dragged onto the window
+<p>
+EVENT_GADGETPAINT - a canvas gadget needs redrawing
+<p>
+EVENT_GADGETSELECT - the selected state of a TextArea has changed
+<p>
+EVENT_GADGETMENU - the user has clicked the right button on this gadget
+<p>
+EVENT_GADGETOPEN - a node in a TreeViewNode has been expanded
+<p>
+EVENT_GADGETCLOSE - a node in a TreeViewNode has been collapsed
+<p>
+EVENT_GADGETDONE - an HTMLView has finished loading a page
+<p>
+
+<h4>TextArea filters</h4>
+<p>
+TextAreas no longer generate Key Up, Key Down or Key Stroke events.
+<p>
+Instead the new SetGadgetFilter command can be used to install
+a callback routine that is called each time the user presses
+a key with the callback able to accept or reject each key
+by returning either True or False respectively.
+<p>
+
+<h4>Popup Menus</h4>
+
+There is a new PopupWindowMenu command that can be used
+for implementing context menus commonly activated by the
+right mouse button (reported as an EVENT_GADGETMENU for most
+gadgets).
+
+
+<h3>The New Modules</h3>
+<p>
+The three platform specific modules that ship with MaxGui are 
+Win32MaxGui.mod, CocoaMaxGui.mod and FLTKMaxGui.mod which provide 
+native implementations of MaxGui for Windows, Apple MacOS and 
+Linux platforms respectively.
+<p>
+The new Event.mod and EventQueue.mod modules are extensions
+to the BlitzMax system. BlitzMax events provide the necessary 
+mechanics of communicating with a MaxGui based application as well
+as providing all BlitzMax applications with events such as
+EVENT_APPSUSPEND, EVENT_APPRESUME and EVENT_APPTERMINATE.
+<p>
+The commands WaitEvent, PeekEvent and PollEvent are the primary
+commands for receiving Events in BlitzMax programs and PostEvent
+can be used for generating Events.
+<p>
+
+<h3>Under the Hood</h3>
+<p>
+The Type TGadget is used in MaxGui to represent all 18 Gadget
+types including:
+<p>
+GADGET_DESKTOP
+GADGET_WINDOW
+GADGET_BUTTON
+GADGET_PANEL
+GADGET_TEXTFIELD
+GADGET_TEXTAREA
+GADGET_COMBOBOX
+GADGET_LISTBOX
+GADGET_TOOLBAR
+GADGET_TABBER
+GADGET_TREEVIEW
+GADGET_HTMLVIEW
+GADGET_LABEL
+GADGET_SLIDER
+GADGET_PROGBAR
+GADGET_MENUITEM
+GADGET_NODE
+GADGET_CANVAS
+<p>
+The TMaxGUIDriver Type defined in maxgui.driver represents the 
+gadget factory which is created at startup to produce platform 
+specific versions of TGadget on demand.
+<p>
+The type TGadget is actually an abstract class with TWin32Gadget,
+TCocoaGadget and TFLTKGadget being the actual types produced
+depending on the current TMaxGUIDriver.
+<p>
+The types TIconStrip, TGUIFont and TGadgetItem also provide
+an abstract interface to the platform specific implementations
+meaning that like TGadget itself, they are not intended to be 
+extended by the user.
+<p>
+<p>
+
+
+<h3>Crossplatform vs Flexibility</h3>
+<p>
+It is expected that most users wanting to create custom
+gadgets that work well across all platforms will find 
+the Panel and Canvas gadgets provide adequate Event reporting
+and rendering functionality from which to produce their
+own uber-gadgets.
+<p>
+The cross platform nature of MaxGUI means there are
+implications for those wishing to extend functionality by
+taking advantage of platform specific features that have
+no logical equivalent on other platforms.
+<p>
+Those wishing to do so are encouraged to implement such 
+features in separate modules rather than making modifications
+to the BRL modules which are intended only to support the
+core cross platform MaxGUI functionality.
+<p>
+This of course does not mean the the current specification 
+of MaxGUI is set in stone, rather, that those wanting to 
+interface at a lower level with the Operating System of
+their choice do so in the privacy of their own modules
+rather than becoming muddied in the source of the lowlevel
+platform specific BRL modules.
+
+</body>
+</html>

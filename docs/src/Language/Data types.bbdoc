@@ -1,0 +1,68 @@
+
++Types
+
+All constants, variables, functions and expressions have an associated type. BlitzMax supports the following types:
+
+[ @Description | @Syntax | @{Minimum value} | @{Maximum value}
+* 8 bit unsigned integer | Byte | 0 | 255
+* 16 bit unsigned integer | Short | 0 | 65535
+* 32 bit signed integer | Int | -2^31 | +2^31-1
+* 64 bit signed integer | Long | -2^63 | +2^63-1
+* 32 bit floating point | Float | (+/-)10^-38 | (+/-)10^38
+* 64 bit floating point | Double | (+/-)10^-308 | (+/-)10^308
+* 16 bit unicode string | String | - | -
+* Object | %Typename | - | -
+* Array | %ElementType [ ] | - | -
+* Function | %ReturnType ( %Parameters ) | - | -
+* Pointer | %ValueType Ptr | - | -
+* Variable | %VariableType Var | - | -
+]
+
+Integers are used to store simple numeric data without any fractional part. Unsigned integers can only store positive values, while signed integers can store both positive and negative values.
+
+Floating point values are used to store numeric data which may have a fractional part.
+
+Strings are used to store sequences of characters: letters, punctuation, digits and so on. Use strings for storing non-numeric data such as names.
+
+Arrays are used to store sequences of variables. A variable within an array is accessed by 'indexing' the array with an integer offset. Please refer to the arrays sections for more information on arrays.
+
+Objects are instances of user-defined types. Please refer to the user-defined types section.
+
++Type conversions
+
+The following type conversions are performed automatically by BlitzMax when necessary - for example, when assigning an expression to a variable, or when passing an expression to a function:
+
+[ @{Source type} | @{Target type}
+* Integer | Floating point, String
+* Floating point | Integer, String
+]
+
+You can also convert types explicitly using a %cast operation. This takes the form of a type specifier followed by an expression in brackets.
+
+Explicit casting allows you to perform the following extra conversions:
+
+[ @{Source type} | @{Target type}
+* String | Integer, Floating point
+]
+
+For example:
+{{
+Local n:Int=10
+Local t:String="20"
+Print Int( t )
+Print String( n )
+}}
+
++Type balancing
+
+When performing arithmetic operations such as addition or multiplication, it is possible to provide mismatched argument types. For example, the addition operator may be used to add an integer value to a floating point value. But what type should the result be?
+
+BlitzMax decides the result type by %balancing the argument types. Both arguments are then converted to the result type before the operator is applied.
+
+The rules governing type balancing are:
+
+[ If either argument is @Double, then result is @Double
+* else if either argument is @Float, then result is @Float
+* else if either argument is @Long, then result is @Long
+* else result is @Int
+]

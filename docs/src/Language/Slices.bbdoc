@@ -1,0 +1,22 @@
+
++Slices
+
+Slices are sequences of characters or elements within a string or  array.
+
+You can extract slices using the general syntax:
+{
+%StringOrArray @[ %StartIndex @{..} %EndIndex @]
+}
+The length of the returned slice is always ( %EndIndex - %StartIndex ) elements long, even if %StartIndex is less than 0 or %EndIndex is greater than the length of the string or array. 'Missing' elements are initialized to null in the case of arrays, or the space character in the case of strings.
+
+Either index may be omitted. If %StartIndex is omitted, it defaults to 0. If %EndIndex is omitted, it defaults to the length of the string or array.
+
+This flexibility allows you to use slices to resize or copy arrays. For example:
+{{
+Local a[200]	'initialize a[] to 200 elements
+a=a[50..150]	'extract middle 100 elements of a[]
+a=a[..50]     	'extract first 50 elements of a[]
+a=a[25..]	'extract elements starting from index 25 of a[]
+a=a[..]		'copy all elements of a[]
+a=a[..200]	'resize a[] to 200 elements
+}}

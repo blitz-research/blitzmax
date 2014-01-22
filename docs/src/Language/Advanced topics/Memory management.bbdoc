@@ -1,0 +1,43 @@
+
++Memory management issues
+
+BlitzMax currently uses an optimized form of reference counting to implement memory management.
+
+However, there is one situation where you need to be a bit careful about memory management and that is when you are dealing with %{cyclic data structures}.
+
+A cyclic data structure is a data structure (in BlitzMax, a user defined type) that can potentially 'point to itself'. The most extreme example of a cyclic data structure is something like:
+{{
+Type TCyclic
+	Field cycle:TCyclic=Self
+End Type
+
+For k=1 To 10
+	Local cyclic:TCyclic=New TCyclic
+	GCCollect
+	Print GCMemAlloced()
+Next
+}}
+If you run this program, you will notice that memory is slowly leaking. This is happening because the reference count for each TCyclic object never reaches 0, thanks to the objects 'cyclic' field.
+
+It is therefore necessary to ensure such cyclic data structures are cleanly handled. This can be achieved by adding a method to 'unlink' any such cycles. For example:
+{{
+Type TCyclic
+	Field cycle:TCyclic=Self
+	
+	Method Remove()
+		cycle=Null
+	End Method
+	
+End Type
+
+For k=1 To 10
+	Local cyclic:TCyclic=New TCyclic
+	GCCollect
+	Print GCMemAlloced()
+	cyclic.Remove
+Next
+}}
+
+In real world use this problem seldom arises, and when it does it's typically when designing container types.
+
+If you are at all worried about this, you can easily track memory usage with the GCMemAlloced() function from the BlitzMax runtime library.

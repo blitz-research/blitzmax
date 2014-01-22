@@ -1,0 +1,84 @@
+
++BMK
+
+BMK is a command line tool that drives the BlitzMax compiler and provides other general 'housekeeping' operations.
+
+The general syntax for  BMK is:
+{
+@bmk %Operation %Options %Arguments
+}
+
+Where operation is one of @makeapp, @makemods, @zapmod, @unzampmod.
+
++@Makeapp
+
+Makeapp builds an application from a single <i>root</i> source file. Building an application involves compiling source files and linking together the resultant %object files.
+
+Makeapp takes one argument: the root source file to be built.
+
+The root source file is scanned by BMK for #Import, #Include and #Incbin statements, and these files are themselves automatically built as well.
+
+Unless the -a option is used, only source files that have been modified since the last makeapp operation are recompiled. This can vastly improve compile times.
+
+Valid options for makeapp are:
+[ @Option | @Effect
+* @{-d} | Build debug version. This is the default.
+* @{-r} | Build release version. By default, the debug version is built.
+* @{-h} | Build multithreaded version. By default, the single threaded version is built.
+* @{-a} | Recompile all source files regardless of timestamp. By default, only files modified since the last makeapp are recompiled.
+* @{-o} %OutputFile | Specify output file. By default, the output file is placed into the same directory as the root source file.
+* @{-t} %AppType | Specify application type. Should be either 'console' or 'gui' (without single quote!).
+]
+
+Some examples of makeapp in action:
+{{
+bmk makeapp myapp.bmx
+bmk makeapp -a -r -o myapp_release myapp.bmx
+}}
+
+Note that the debug, release, single threaded and multithreaded options allow for 4 'types' of applications:
+
+* Debug, single threaded (this is the default)
+* Debug, multithreaded (use -h option)
+* Release, single threaded (use -r option)
+* Release, multithreaded (use -r and -h options)
+
++Makemods
+
+The makemods operation builds a set of modules.
+
+Makemods takes one optional argument: a module filter. This can be a module scope name (to build a subset of modules) or a fully qualified module name (to build an individual module). If the module filter is omitted, than all module are built.
+
+Valid options for makemods are:
+[ @Option | @Effect
+* @{-d} | Build debug version only. By default, both debug and release versions are built.
+* @{-r} | Build release version only. By default, both debug and release versions are built.
+* @{-h} | Build multithreaded versions. By default, single threaded versions only are built.
+* @{-a} | Build all modules regardless of timestamps. By default, only modules that have been modified are built.
+]
+
+Some examples of makemods in action:
+{{
+bmk makemods mymods
+bmk makemods -a mymods.testmod
+}}
+
++Zapmod
+
+The Zapmod operation compresses a module into a single '.zap' file.
+
+Zapmod takes 2 arguments - the module to zap, and the name of the output file.
+
+For example:
+{{
+bmk zapmod mymods.testmod testmod.zap
+}}
+
++UnzapMod
+
+Unzapmod installs a module previously zapped with 'Zapmod'.
+
+Unzapmod takes 1 argument - the module zap file to unzap. Note that any matching existing module will be overwritten by this operation. For example:
+{{
+bmk unzapmod testmod.zap
+}}
