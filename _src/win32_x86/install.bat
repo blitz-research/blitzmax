@@ -8,3 +8,5 @@ copy lib ..\..\lib
 
 .\rebuildmods
 .\rebuildide
+.\rebuildbmk
+.\rebuildbcc
