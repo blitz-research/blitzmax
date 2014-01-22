@@ -1,0 +1,5 @@
+
+/bin/*
+/lib/*
+/doc/*
+/docs/*
