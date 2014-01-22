@@ -1,0 +1,11 @@
+/bin/*
+/lib/*
+/cfg/*
+/tmp/*
+/doc/*
+!/doc/bmxstyle.css
+/docs/html
+*.x86.s
+*.x86.o
+*.x86.a
+*.x86.i
