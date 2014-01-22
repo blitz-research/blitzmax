@@ -1,5 +1,0 @@
-
-/bin/*
-/lib/*
-/doc/*
-/docs/*
