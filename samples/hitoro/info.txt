@@ -1,0 +1,13 @@
+
+This stuff...
+
+The 'graphical examples' folder contains a bunch of demos that show things flying all over the screen, and are mostly quite heavily commented.
+
+The 'language examples' folder shows various aspects of object-oriented code, Blitz's array handling, etc, all commented. They're pretty dry, but provide text output that should help to understand them.
+
+The 'game examples' folder contains 'RockOut', the piece-de-resistance as far as I'm concerned! (Note that once it's compiled it can be copied anywhere with no external files required.)
+
+Enjoy!
+--
+James L Boyd,
+Blitz Support.
