@@ -1,0 +1,1477 @@
+
+***** 1.50 Release *****
+
+* Fixed bcc parser bug involving 'half quoted' stringss
+
+
+***** 1.49 Release *****
+
+* Fixed Fullscreen graphics issue with XCode 4.4
+
+* Removed some DX error checking that was messing up hibernation recovery.
+
+
+***** 1.48 Release *****
+
+* Changed BRL/MAXGUI/PUB module licenses to zlib/libpng.
+
+* Fixed OpenAL bug caused by creating/destroying 256 channels.
+
+
+***** 1.47 Release *****
+
+* Fixed Mac issues with XCode 4.3.1
+
+
+
+***** 1.46 Release *****
+
+* Fixed some Lion related problems with arrays and ogg files.
+
+* Fixed bug where 2 decls in different modules couldn't use the same name.
+
+
+***** 1.45 Release *****
+
+* Fixed d3d9max2d crashing when d3d9 not installed.
+
+* Fixed GC issue with thread local data.
+
+
+***** 1.44 Release *****
+
+* Added skid branch of sourceforge maxgui to main release.
+
+* Changed Win32 MinGW distro to nuwen.net - main mingw page is here:
+
+http:///nuwen.net/mingw.html
+
+Direct download is currently here:
+
+http://nuwen.net/files/mingw/mingw-7.2.exe
+
+This version includes gcc4.6, and is much easier to install.
+
+The 'pre built' BRL and Pub modules shipped with this update have already been built with this new version of MinGW, but you will probably need to rebuild any 3rd party modules you may have installed. Otherwise, you are likely to get weird linker errors.
+
+* Fixed bmk failing to link with gcc4.6 on Linux.
+
+
+***** 1.43 Release *****
+
+The Lion update!
+
+* Toolbar 'separators' appear to be broken on Lion, but toolbar 'spaces' are OK so kludged MaxGUI to use spaces instead of separators on Lion and rebuilt MaxIDE. Notified Skid about adding the changes to MaxGUI SVN.
+
+* Fullscreen mode doesn't seem to work on Lion with 10.7 SDK, but does with 10.6 so kludged BMK to use 10.6 when building on Lion. Not at all pretty, but will have to do for now as I really have no idea what is going on with this one.
+
+
+***** 1.42 Release *****
+
+* Implemented Difference's glmax2d fix for 'White Texture bug'.
+
+* Implemented a variation on Zeke's d3d9graphics fix for 'switching gfx mode crashes bmx' bug.
+
+* Updated FASM to 1.69.14
+
+
+***** 1.41 Release *****
+
+* Clamped strings sent to debugger to maxlength of 4096.
+
+* Moved thread data C code from brl.threads to brl.blitz so new MT debugger can have at 'em.
+
+* Functions that call non-bmx functions now push all callee save regs to prevent problems with premature GC on wow64.
+
+* Fixed memory allocators so they always do a GCCollect if out of memory.
+
+
+***** 1.40 Release *****
+
+* Added debugger_mt.stdio.bmx, new MT friendly debugger courtesy of Otus. This is now imported by appstub.
+
+* setSwapInterval always called now in Win32 glgraphics mod to handle Alt-Tab modifying swap interval.
+
+* Added a JoyCount() call to the top of freejoy.bmx to kickstart Mac/Linux drivers.
+
+* Turned off OpenAL debug logging!
+
+* Implemented fix for Brucey's Mac bbMilliSecs fix in blitz_app.c
+
+
+***** 1.39 Release *****
+
+* Added DesktopWidth(), DesktopHeight(), DesktopDepth(), DesktopHertz() function to BRL.Syste,
+
+* Fixed TryLockMutex on Mac/Linux.
+
+* TGLImageFrame now enqueues textures for deletion to prevent problems with glDeleteTextures in wrong thread when GCing in MT.
+
+* Implemented Seb's Mac bbSystemEmitOSEvent fix in system_macos.m
+
+* Implemented Brucey's Mac bbMilliSecs fix in blitz_app.c
+
+* Fixed d3d9 canvas size validation.
+
+
+***** 1.38 Release *****
+
+* Fixed BMK crash bug when importing unknown filetypes.
+ 
+* Implemented new 'fast mutex' condvars on Win32.
+
+* Fixed OpenALAudio ResumeChannel bug where an already playing channel was being rewound.
+
+* Updated Pub.FreeType to 2.3.11
+
+* Added bbStringFromNSString() and NSStringFromBBString() to macos.m for Brucey. Added macos.h.
+
+* Updated IDE to Seb's latest version.
+
+* More (are we there yet?!?) fixes to bbStringFromUTF()!
+
+* Fixed bbGCValidate bug in blitz_gc_ms.c - thanks Otus!
+
+
+***** 1.37 Release *****
+
+* Fixed some bugs in bbStringFromUTF8()
+
+* Fixed some leaks in pub.libjpeg module.
+
+* Added .cc and .hh file extension support to bmk.
+
+* Fixed image memory leak in d3d9max2d driver.
+
+* Max2d SetViewport now works in virtual coordinates as set by SetVirtualResolution.
+
+
+***** 1.36 Release *****
+
+(Note: dropping 'rc' from releases)
+
+* Added an 'exception handler' to win32 appstub to aid with debugging. It doesn't throw a BlitzMax style exception, just displays a message box and does a DebugStop/exit (just exit in release mode).
+
+* Changed min linewidth in d3d7max2d to 1 to match gl/d3d9.
+
+* Added linewidth support to d3d9max2d.
+
+* Added support for object resurrection to threaded GC.
+
+* Modified compiler to prevent generation of default dtors in threaded mode.
+
+* Removed hacks from dsound and openal audio drivers to deal with resurrected objects.
+
+* New Max2d command: DrawSubImageRect image:TImage,x#,y#,w#,h#,sx#,sy#,sw#,sh#,hx#=0,hy#=0,frame=0
+
+* Changed GCC optimization level in release mode from -Os (smallest) to -O2 (fastest)
+
+* Fixed crash when changing from d3d9->gl drivers using 'raw' graphics commands, ie: without using Graphics/EndGraphics.
+
+
+***** 1.35 Release *****
+
+* Moved d3d9 cooperative level test from WndProc to Flip in d3d9 graphics driver.
+
+* Change d3d9 max2d driver to manually generate mipmaps.
+
+* Oops...added image edge smearing to d3d9 driver for non-pow2 images.
+
+* Added some ugly temporary retain/release code to directsound and openal audio drivers to handle problems with threaded GC and finalizers that 'resurrect' objects. Need a more general purpose solution...
+
+* d3d9 max2d driver manually sets alpha to 255 in GrabPixmap.
+
+(RC4)
+
+* Fixed DirectSound audio crashing in threaded mode (GC issue with resurrected objects).
+
+* Added VirtualMouseXSpeed/VirtualMouseYSpeed (test me!)
+
+* Default behaviour of Flip (ie: "Flip -1") has changed:
+
+1) If graphics hertz was 0, no vsync.
+
+2) If graphics hertz was not 0, uses soft vsync in windowed mode (ie: possible tearing), hard vsync in fullscreen.
+
+Note: Using "Flip False" or "Flip True" still works as before, forcing vsync off/on.
+
+* New BRL.Graphics command:
+
+	GetGraphicsDriver:TGraphicsDriver()
+
+* New BRL.Max2D virtual resolution commands: 
+
+	SetVirtualResolution width#,height#
+	VirtualResolutionWidth#()
+	VirtualResolutionHeight#()
+	VirtualMouseX#()
+	VirtualMouseY#()
+	MoveVirtualMouse( x#,y# )
+
+* Added new official D3D9Max2DDriver. This is the new default for Windows.
+
+* D3D7Max2DDriver will no longer be supported on Vista/Windows 7 etc.
+
+
+***** 1.34 Release *****
+
+::::: IMPORTANT ::::: This will be the last release to support Win95/98/ME.
+
+* Fixed ansii system_ freeing bbTmpCString.
+
+* Fixed OpenURL to handle https://
+
+* Changed execv to execvp in pub.freeprocess.
+
+* Fixed ToLower/ToUpper.
+
+* Fixed pub.libpng so bad PNG's no longer cause an abort(). Instead, a BB "PNG ERROR" exception is thrown.
+
+* Fixed brl.pngloader to handle "PNG ERROR" exceptions and return a null/false result.
+
+* Fixed register allocator. Again.
+
+* Replaced WM_ACTIVATEAPP handling in system.mod/system.win32.c with Seb's WM_ACTIVATE version, as WM_ACTIVATEAPP is BORKED!
+ 
+* Fixed BMK so THREADED is #define-d for building apps, not just mods.
+
+* Updated pub.glew to latest version (1.5.1). Modified glew2bmx to deal with new GL types (GLint64EXT;GLuint64EXT).
+
+* Added SA_RESTART to sa_flags in blitz_thread.c to fix wait(pid) dying when GC stops world.
+
+* Mac OS 10.6 tweaks.
+
+* Removed BDWGC garbage collector entirely.
+
+* Updated FASM to 1.68.
+
+* Fixed debugger string escaping.
+
+* Improved ToLower/ToUpper unicodeness.
+
+* Changed default installation dir to C:\
+
+* Tuned MS GC significantly.
+
+* Added MouseX/Y/ZSpeed() functions to brl.polledinput.
+
+* Fixed fasm2as bug.
+
+* Linux/Macos mutexes now recursive as per Win32.
+
+* Fixed Win32 RequestDir initial directory.
+
+* Restored hwndOwner=GetActiveWindow() to RequestFile/RequestDir; 
+
+* Added MS (Mark Sibly) garbage collector!
+
+* Fixed enet_peer_address - was using completely wrong struct offsets
+
+* Fixed Linux StopTimer - was releasing timer multiple times
+
+* Fixed OpenAL delete buffer leak
+
+
+***** 1.33 Release *****
+
+Major unicode fix release!
+
+* MacOS/Linux/Win2K/XP/Vista:
+
+	Full unicode support has been added to the BRL, Pub and MaxGUI modules!
+
+* Win95/98/ME:
+
+	MaxGUI now provides unicode support but requires unicows.dll to run:
+
+	http://www.microsoft.com/downloads/details.aspx?FamilyId=73BA7BD7-ED06-4F0D-80A4-2A7EEAEE17E2&displaylang=en
+
+	You will need to copy the included unicows.dll into your BlitzMax directory to run the MaxIDE under 95/98/ME, as MaxIDE uses MaxGUI.
+
+	Max apps that use MaxGUI will also need unicows.dll to run under Win95/98/ME. Unfortunately, unicows cannot legally be redistributed with apps so
+	you will need to notify users in a readme.txt file or similar.
+
+	The BRL and Pub modules DO NOT support unicode under Win95/98/ME and do not require unicows.
+ 
+* MaxIDE now does a quick test to see if it can write to necessary directories when it starts up. This should detect any potential problems with admin/user modes on Vista. Note: If you install Blitzmax to the default "program files" directory on Vista, you will need to use 'run as administrator' to run MaxIDE. Installing BlitzMax elsewhere (for example, good old "c:\") will allow you to run MaxIDE as a non-admin user.
+
+* Several changes to BRL.System and Pub.Stdc - many interfaces that previously used $z and $w params now just use plain Blitz strings. This will hopefully not affect client code in any way!
+
+* AppDir and AppFile detection code moved from BRL.AppStub to BRL.Blitz.
+
+* TChannel Playing() methods in BRL.OpenALAudio and BRL.DirectSoundAudio modified to return False if channel is paused.
+
+* Linux glgraphics window close button now generates EVENT_APPTERMINATE (AppTerminate() in polled mode...) ala Win/Mac instead of just closing/dying.
+
+* Linux glgraphics window size now locked ala Windows, Mac versions.
+
+* Removed exception handling for SIGILL, SIGSEGV, SIGABRT, SIGTERM. These used to get converted to Max style 'Throw's - but only on some platforms and in a quite probably unrecoverable way. Best just to leave these to the OS/debugger to deal with.
+
+* Enabled gcc implicit-function-declaration warnings in BMK.
+
+* Implemented FlushJoy.
+
+
+***** 1.32 Release *****
+
+***** Threads *****
+
+A new 'Threaded build' option in MaxIDE's 'Program/build options' menu allows you to enable threaded builds. 
+BMK also has a new threaded option (-h).
+
+Thread support is currently limited to commands for creating/using threads, mutexes, semaphores and condvars.
+See the BRL.Threads modules for more information.
+
+Threaded builds are 'static' in the same way debug/release builds are. You can use the ?Threaded conditional variable to
+determine if your program is being built in threaded mode.
+
+Threaded mode uses a different garbage collector (the Boehm-Demers-Weiser conservative garbage collector). This is 
+a little slower than the standard BlitzMax garbage collector, but is thread safe (fairly vital!). It can also handle object cycles...
+
+***** Lua scripting *****
+
+Removed BRL.Retro dependancy from Axe/Pub.Lua.
+
+Added Axe.Lua module to Pub - ie: it's now Pub.Lua.
+
+Added Mark's/Brucey's higher level BRL.MaxLua module. 
+
+***** Unicode *****
+
+Many major improvements to unicode support. Win95/98/ME users will now need unicows installed - see:
+
+http://www.microsoft.com/downloads/details.aspx?FamilyId=73BA7BD7-ED06-4F0D-80A4-2A7EEAEE17E2&displaylang=en
+
+***** Graphics *****
+
+Added GLShareContexts to enable sharing of OpenGL contexts - should be called before any OpenGL graphics are created.
+
+Dodgy support for GL contexts sharing removed/cleaned up. Multiple GL contexts will no longer be able to share textures/displaylists etc. To the best of my knowledge, no one has ever even used multiple GL contexts, but if there is a demand for this it can be re-enabled (code is lurking...). Will probably never work on Vista + IntelGMA9XX chipsets though due to really, really bad drivers.
+
+Changed GrabPixmap to just grab RGB, no alpha, ala D3D7.
+
+Fixed GrabImage sample and added (empty!) TImage type doc.
+
+***** Lists and Maps *****
+
+Much faster mergesort now used for linked list sorting.
+
+Null objects no longer allowed in TLists. Asserts have been added to guard against this.
+
+TList.First, TList.Last, TList.RemoveFirst and TList.RemoveLast used to throw exceptions if the list was empty - now, they just return Null.
+
+Null keys no longer allowed in TMaps. Asserts have been added to guard against this.
+
+***** Audio *****
+
+Fixed DirectSound panning so it's (more) linear.
+
+OpenAL sources in INITIAL state are now considered to be paused/active, preventing premature recycling of cued channels.
+
+Various other fixes to OpenAL driver.
+
+***** Misc *****
+
+The mysterious, undocumented BRL.Data module has been removed.
+
+Fixed Mac OpenURL not working with freaky filenames.
+
+Added 'TEvent.RegisterId' for adding external event descriptions - currently private.
+
+Also added a public, optional 'description$' param to AllocUserEventId() - this one public.
+
+Linux FreeProcess fixes.
+
+Fixed String.Join() crashing with empty array.
+
+
+***** 1.30 Release *****
+
+Major sanity check release!
+
+MaxGUI has been moved to its own module, maxgui.mod.
+
+This means you will now have to manually import maxgui, eg:
+
+Import MaxGUI.MaxGUI		'import maxgui core
+Import MaxGUI.Win32MaxGUI	'import win32 version
+Import MaxGUI.CocoaMaxGUI	'import macos version
+Import MaxGUI.FltkMaxGUI	'import linux version
+
+The default audio driver for Windows has been changed to DirectSound. This means if you don't call SetAudioDriver(), the DirectSound driver will be used. For Mac/Linux, FreeAudio is still the default driver.
+
+Syncmods has been disabled and is no longer supported by BRL. MaxGUI modules are now available in zip form from the 'product updates' page of the 'account' section at blitzbasic.com
+
+Internal changes:
+
+Lots of MaxGUI fixes from Seb.
+
+Added advadpi32 to bmk win32 link
+
+Debugger fix for out of scope objects.
+
+bbGCValidate() added to blitz_gc.c
+
+MaxIDE updated
+
+Brucey's patch: LoadSound method added to TAudioDriver
+
+Fixes and updates from Seb
+
+Fixed GC and final methods reflection bugs
+
+Removed nan/inf docs
+
+Added missing EVENT_HOTKEY ToString case (skid)
+
+Dragbar canvas fix for win32maxguiex compatability
+
+GNet now uses 32 bit floats
+
+Added -bind_at_load to bmk mac linkopts
+
+Fixed blitzmaxpath looping forever
+
+Default win32 audio driver now directsound
+
+Fixed getmodulehandlea/w param
+
+Added exception to loadbytearray/loadstring etc
+
+Sped up replaceall
+
+Fixed macos-version issue with PPC 10.4
+
+Changed to maxgui.mod
+
+
+***** 1.28 Release *****
+
+Maintenance release.
+
+Internal changes:
+
++ (BMK/BRL.CocoaMaxGui/Pub.FreeProcess) Fixed various Leopard issues.
+
++ (BRL.Blitz) Fixed array downcasting.
+
++ (BRL.GLGraphics) Reverted mac version to fix windowed/fullscreen swap problems.
+
++ (BRL.FileSystem) Implemented 'FixPath' fix to allow for 'incbin::' style paths.
+
++ (BRL.Win32MaxGui) Fixed textview flicker issue.
+
++ (BRL.Reflection) Fixed issue with array TTypeId losing type desc byte ptr.
+
++ (MAKEDOCS) Fixed missing examples.
+
++ (BCC) Added check for concatenation of multidim arrays - not allowed!
+
++ (Brl.CocoaMaxGui) Implemented Brucey's fixes.
+
++ (BMK) Implemented Brucey's modifications.
+
++ (MaxIDE) Got rid of console text stream.
+
++ (BRL.DirectSoundAudio) Fixed premature release of sound buffer.
+
++ (BRL.OpenALAudio) Fixed faulty detection of 'finished' channels and handling of channel exhaustion.
+
++ (BMK) Added experimental speedup hack. Some issues with deleted bmx files, so off by
+default for now. To enable, create an env var called BMK_SPEEDUP set to 1. See bmk_make.bmx for details.
+
+
+***** 1.26 Release *****
+
+Mingw is the collection of C/C++ compilers and tools used to build BlitzMax on Windows.
+
+You only need to install Mingw if you plan to rebuild Blitz Research or third party modules. BlitzMax can be used 'as is' to create applications without having to install Mingw.
+
+BlitzMax now uses the latest version of Mingw. The Mingw auto installer is available here:
+
+http://sourceforge.net/project/downloading.php?group_id=2435&use_mirror=jaist&filename=MinGW-5.1.3.exe&2597933
+
+Select 'current' when asked which package to install.
+
+Select 'MinGW base tools' and 'g++ compiler' when asked which components to install.
+
+Vista users: Once installed, you will need to copy the contents of the MinGW\libexec\gcc\mingw32\3.4.2 directory into MinGW\bin.
+
+Finally, make sure to add C:\MinGW\bin (or equivalent) to your system PATH environment variable. This can be done on most versions of windows by right-clicking 'my computer' and selecting properties/advanced/environment variables.
+
++ (MaxIDE) Fixed debugger =$ in strings causing crash.
+
++ (BCC) Added 'Not' to conditional compilation system, eg: ?Not Debug
+
++ (BCC/BRL.Reflection) Reflection support added
+
++ (BRL.Win32MaxGUI) Clamped selection length to actual text length
+
++ (BCC) Souped up auto arrays.
+
++ (BCC) Added array concatenation.
+
++ (BRL.Blitz) Added String.Join$( bits$[] ) and String.Split$[]( separator$ )
+
+
+***** 1.24 Release *****
+
+OS X versions less than 10.3.9 no longer supported. This applies to both the IDE and generated apps.
+
+Win95 no longer supported.  This applies to both the IDE and generated apps. BlitzMax is unlikely to have worked on Win95 for a while now anyway (haven't tried for a long, long time), but it's now official.
+
+The D3D7 graphics module has been rewritten from scratch. D3D7 Max2D apps should now survive a greater range of 'disruptions' - eg: screensavers, desktop depth changes, other apps going 'exclusive' etc.
+
+The 'buffered' D3D7 device has been removed. It would have required considerable rewriting to fit in with the new driver approach, yet provides dubious speed benefits.
+
++ (BCC/BMK) Added ".mm" import filetype.
+
++ (BRL.Blitz) String.Find now converts start index <0 to 0
+
++ (BRL.D3D7Max2D) Updated to work with d3d7graphics rewrite
+
++ (BRL.D3D7Max2D) Removed buffered driver
+
++ (BRL.GLGraphics) Implemented Brucey's linux window title fix
+
++ (BRL.Max2D) Fixed TImageFont.Draw so it uses float translation
+
++ (BRL.OGGLoader) Added Function SaveOgg
+
++ (BRL.FileSystem) Fixed RealPath breaking win32 //server paths
+
++ (BRL.GNet) Object id's now unmapped ASAP
+
++ (BRL.Map) Fixed MapKeys/MapValues functions to return enumerators
+
++ (BRL.Map) Restored KeyValue enumerator
+
++ (BRL.Map) Added Copy method
+
++ (BRL.Map) Fixed Clear memleak
+
++ (BRL.Pixmap) Added new GL compatible pixel formats
+
++ (BRL.Stream) Fixed 'excpetion' typos
+
++ (BRL.System) Fixed unretained object issue with mouse tracking
+
++ (BRL.System) Fixed windowed mode HideMouse issue
+
++ (BRL.System) Fixed win32 requestfile default extension bug
+
++ (BRL.PNGLoader) libpng update to 1.2.12.
+
++ (BRL.PNGLoader) Extra load error handling.
+
++ (Pub.ZLib) Updated zlib to 1.2.3
+
++ (BCC) Fixed same type names in different modules causing problems.
+
++ (BCC) Fixed Null in Data statements failing silently.
+
++ (BCC) Fixed Object to array cast not returning an array of references.
+
++ (BCC) Fixed abstract methods overriding base methods with different sigs.
+
++ (BCC) Fixed exporting of private Type's - still not technically 'safe'.
+
++ (BCC) Fixed debug info in New() field initialization code
+
+
+***** 1.22 Release *****
+
+Various compiler issues fixed.
+
++ (BCC) Extern type method params now accept default values.
+
++ (BCC/BRL.AppStub) Fixed Var params nuking debugger.
+
++ (Docmods) Added Brucey's Import/Include fixeds.
+
++ (BCC) Fixed debug statement location with ElseIf.
+
++ (BCC) Changed toker so spaces now allowed in array decls like [,] etc.
+
++ (BCC) Changed 'ForEach' errors to 'EachIn'.
+
++ (BRL.Bank) Added Lock/Unlock to replace Buf
+
++ (BRL.Retro) Cleaned up Mid$
+
++ (BRL.Blitz) Changed ReadStdin so it can handle any length input
+
++ (BRL.Blitz) Fixed leak in WriteStdout and WriteStderr
+
++ (BRL.Blitz) Added LibStartUp stub
+
++ (BRL.Blitz) Added GCSuspend and GCResume
+
++ (BRL.Blitz) Added experimental dll support
+
++ (BRL.Blitz) Added Nan and Inf keyword docs
+
++ (BRL.Blitz) BCC extern CString fix
+
++ (BRL.D3D7Max2D) Modified TD3D7Max2DDriver.SetGraphics for new dxgraphics commands
+
++ (BRL.D3D7Max2D) Fixed BufferedD3D7 vertex color errors
+
++ (BRL.D3D7Max2D) Changed DrawImage tristrip to trifan to fix subpixel cracking
+
++ (BRL.Event) Added EVENT_GADGETLOSTFOCUS
+
++ (BRL.Event) Added EVENT_KEYREPEAT
+
++ (BRL.EventQueue) Fixed CurrentEvent being retained in queue array
+
++ (BRL.FileSystem) Rebuild for StdC chmod_ linkage
+
++ (BRL.GNet) Some doc fixes
+
++ (BRL.Graphics) Mouse repositioned only in fullscreen mode
+
++ (BRL.Graphics) Flip mode for attached graphics changed to 0
+
++ (BRL.Graphics) Fixed softsync period init bug
+
++ (BRL.Graphics) Fixed softsync routine to prevent overflow
+
++ (BRL.Graphics) Graphics exceptions now caught
+
++ (Pub.FreeJoy) Added JoyHit samplejoy fix, thanks to HamishTheHystericalHamster
+
++ (BRL.JPGLoader) Changed ReadBytes to Read for loader
+
++ (BRL.JPGLoader) Added SaveJPEG function, thanks to Jeffrey D. Panici for the writefunc `fix'
+
++ (BRL.KeyCodes) Removed KEY_NUMSLASH from docs
+
++ (BRL.LinkedList) Changed Reverse to maintain TLink stability
+
++ (BRL.Map) Finally changed to red/back tree!
+
++ (BRL.Map) Added procedural interface
+
++ (BRL.Map) Fixed TMap.Remove:TNode not returning node
+
++ (BRL.Max2D) Fixed collision bug with non alpha/masked images
+
++ (BRL.OGGLoader) Fixed reading past end of stream with some short files
+
++ (BRL.GLGraphics) Added GLDrawPixmp
+
++ (BRL.GLGraphics) Trapped Win32 WM_CLOSE
+
++ (BRL.GLGraphics) Added extra check for use of flip sync extensions under Linux
+
++ (BRL.GLMax2D) Fixed filtered image min filters
+
++ (BRL.Pixmap) Added _source:Object field
+
++ (BRL.Stream) Fixed resource leak in CasedFileName
+
++ (BRL.System) New Linux implementation of OpenURL
+
++ (BRL.System) RequestFile now adds extension to filename on Windows
+
++ (BRL.System) Added EVENT_GADGETLOSTFOCUS handling
+
++ (BRL.System) Added EVENT_KEYREPEAT handling
+
++ (BRL.System) OpenURL now attempts to fully qualify file / http url supplied
+
++ (BRL.System) Fixed MacOS RequestFile to respect wild card filter
+
++ (BRL.System) Fixed mouse hidden by default
+
++ (BRL.System) Fixed HideMouse causing mouse to disappear when in non-client areas
+
++ (BRL.System) Fixed Linux MoveMouse to be relative to the origin of the current Graphics window
+
++ (BRL.TextStream) Modified LoadText to handle stream URLs
+
++ (BRL.TextStream) Added LoadText, SaveText
+
++ (BRL.TextStream) Fixed UTF16LE=4
+
++ (BRL.TextStream) Added TextStream module
+
+
+***** 1.20 Release *****
+
+Added some methods to String: StartsWith, EndsWith and Contains - see strings doc in language reference.
+
++ (BRL.FileSystem) Added CopyDir/CopyFile.
+
++ (BCC) Fixed export/import of longs.
+
++ (BRL.Graphics) Fixed soft synced Flip so it doesn't overflow after 4+ hours.
+
++ (Bank) Added Lock/Unlock semantics to replace the direct buffer access. See LockBank/UnlockBank/TBank.Lock/TBank.Unlock - please use these instead of BankBuf/TBank.Buf in future.
+
++ (BCC) Fixed Incbin so it doesn't matter where it is in code.
+
++ (BCC) Tidied up $z and $w again. These can now only be used with extern functions AND function pointers!
+
++ (BCC) Fixed imports of const Nans/Infs.
+
++ (BRL.Math) Added IsNan, IsInf
+
++ (BRL.LinkedList) Added optional CompareFunc parameter to SortList
+
++ (BRL.Graphics) Added DefaultGraphicsFlags() Function
+
++ (BRL.Hook) Added Context parameter to RemoveHook function
+
++ (BRL.MaxGUI) GraphicsFlags removed from CreatePanel, panels now use Graphic's DefaultGraphicsFlags
+
++ (BRL.MaxGUI) Added range checking on gadget item parameters
+
++ (BRL.FLTKMaxGUI) Fixed ClearListItems
+
++ (BRL.FLTKMaxGUI) Fixed some keyboard focus problems
+
++ (BRL.FLTKMaxGUI) Fixed case sensitive shortcut keys issue with fltk1.1.7
+
++ (BRL.FLTKMaxGUI) Fixed Canvas depthbuffers
+
++ (BRL.CocoaMaxGUI) Fixed DisableGadget for TextFields, Sliders and Menus
+
++ (BRL.CocoaMaxGUI) Stopped TreeViewNode with iconstrip crashing with no icon (icon=-1)
+
++ (BRL.CocoaMaxGUI) Stopped stepper Slider value from wrapping around
+
++ (BRL.CocoaMaxGUI) Fixed TextField to scroll single line correctly
+
++ (BRL.CocoaMaxGUI) Added out of range error checks for TextArea commands
+
++ (BRL.Win32MaxGUI) Fixed menu problem with new const cstr() implementation
+
++ (BRL.Win32MaxGUI) Fixed memory leak in cstr() implementation (should be const)
+
++ (BRL.Win32MaxGUI) TextArea gadgets now use unicode
+
++ (BRL.Win32MaxGUI) Fixed SLIDER_STEPPER sliders reporting decremented values
+
++ (BRL.Win32MaxGUI) Fixed GadgetHidden()
+
++ (BRL.System) Added Linux X11 import to remove glgraphics.mod dependency
+
++ (Pub.Lua) Moved to Axe.Lua
+
++ (BCC/BMK etc) Added macos x86 support.
+
++ (BRL.GNet) Fixed low level send/recv leaks.
+
++ (BCC) Added $w support for 16 bit wide chars.
+
+
+***** 1.18 Release *****
+
+BlitzMax now generates native x86 code on Intel Macs! The tools in 'bin' (compiler, linker etc) are still distributed as PowerPC apps, and rely on Rosetta (Intel Mac PPC emulation layer) to work. They run surprisingly well, but you may want to have a go at recompiling some of these - esp. MaxIDE - for improved performance. Universal binaries and/or cross compiling not yet supported. 
+
+Important note: before using the Intel Mac version, you will need to perform a 'rebuild all modules'. This will probably result in several C compiler warnings which you can ignore.
+
+Fixed a bunch of compiler bugs, and added a '$w' type for 16 bit null terminated 'wide char' strings to complement '$z'. Use of these types is now restricted to 'extern' function parameter and return types.
+
+The compiler no longer allows you to create a pointer to an object via VarPtr (this was always supposed to be the case, but somehow it got overlooked!). Therefore, 'Object Ptr' (or ' Ptr' etc) is no longer accepted. This is because there is not any safe way to write to such a pointer without massively confusing garbage collection/detection. It is still legal to convert an object reference to a 'Byte Ptr', but you should be aware the pointer will only be valid while the object remains 'in scope'.
+
+Unicode support improved on Mac and Windows. Most MaxGUI gadgets are now unicode friendly, and the IDE should be too.
+
+
+***** 1.16 Release *****
+
+Pub.ENet module added.
+
+GNet now uses ENet for low level comms. GNetAccept and all peer functions have gone. GNetAccept now built into GNetSync, and GNetConnect now just returns True/False.
+
++ (BRL.GNet) Now uses Pub.Enet
+
++ (Pub.ENet) Added.
+
++ (BCC) Fixed object->ptr conversion causing GC problems.
+
++ (BRL.Win32MaxGUI) Fixed panels with PANEL_GROUP style client child clipping problem
+
++ (BRL.Win32MaxGUI) Fixed incorrect index handling for ModifyGadgetItem on combo and list boxes
+
++ (BRL.System) Fixed win32 clipboard glitches with QS_ALLINPUT bbSystemWait mod
+
++ (BRL.System) CGSetLocalEventsSuppressionInterval fix for MacOS bbSystemMoveMouse
+
++ (BRL.Map) Fixed TMap.Remove:TNode(key) not returning node
+
++ (BRL.CocoaMaxGUI) Fixed NSRequestFont behavior with null default
+
++ (BRL.CocoaMaxGUI) Fixed Disable on Panel and Canvas NSGadgets
+
++ (BRL.Win32MaxGUI) Fixed MenuText and SetMenuText crashes
+
++ (BRL.D3D7Max2D) Fixed lost device from fullscreen tabbing
+
++ (BRL.D3D7Max2D) Fixed MIPMAPPEDIMAGE flag effect on FILTEREDIMAGE setting
+
++ (BRL.MaxGui) Fixed some broken examples due to new 1.14 strict rules
+
++ (BRL.MaxGui) New common maxgui.h header file for use by native drivers
+
++ (BRL.MaxGui) Documented TEXTAREA_ALL, TEXTAREA_CHARS and TEXTAREA_LINES constants
+
++ (BRL.MaxGui) TreeView now uses EventExtra to specify node involved
+
++ (PUB.FreeJoy) Added MacOSX joystick axis Rx,Ry,Rz (JoyR,JoyU,JoyV) and Wheel
+
++ (BRL.D3D7Max2D) Added flush to BufferedD3D7Max2DDriver for SetBlend and SetViewPort
+
++ (BRL.Win32MaxGUI) Fixed lost focus during TextArea formatting
+
++ (BRL.Win32MaxGUI) Fixed ActivateWindow freezing when trying to find first tab stop
+
+
+***** 1.14 Release *****
+
+Big change: automatic object/handle conversion has been removed
+in Strict mode.
+
+This means code such as...
+
+Local image=LoadImage( "something.png" )
+
+...will need to be changed to...
+
+Local image:TImage=LoadImage( "something.png" )
+
+...in strict mode. Ditto for sounds, channels etc.
+
+This may affect quite a bit of code out there, but I believe it's the right thing to do (we really should have done this much earlier). The automatic object/handle conversion has been the source of a large amount of confusion and, quite probably, memory leaks.
+
+You can now perform explicit object/handle conversion using:
+
+HandleFromObject:Int( obj:Object )
+HandleToObject:Object( handle:Int )
+
+The first time you call HandleFromObject, you will receive a unique, per-object integer 'handle'. Subsequent calls to HandleFromObject will return the same per-object handle, and you can use the handle with HandleToObject to recover the original object.
+
+When you are done with the handle, don't forget to Release it or the object will leak. Releasing the handle will also cause any future HandleFromObject calls to return a new handle value.
+
++ (BCC) Fixed 'unrelated types' error when comparing extern type objects.
+
++ (BCC) No more implicit object<->handle conversions in strict mode! Use: HandleToObject and HandleFromObject to perform explicit object<->handle conversion.
+
++ (BRL.Stream) Readint -> ReadInt!
+
++ (BCC) Fixed GC bug with auto arrays
+
++ (BRL.Data) Removed TDataStream.NewObject, modified TDataStream.ReadObject.
+
++ (BRL.TextStream) Read/Write methods now use pure text (experimental!)
+
++ (Pub.StdC) Fixed getsockopt
+
++ (BRL.MaxGui) Query renamed QueryGadget
+
++ (BCC) Fixed incrementing precolored reg degree regallocator bug.
+
++ (BRL.Blitz) Removed printf in 'Throw'.
+
++ (BRL.D3D7Max2D) Replaced texture factor with vertex colors for improved driver compatability
+
++ (BRL.Win32MaxGui) Fixed vertical trackbar problems with -ve ranges.
+
++ (Pub.FreeAudio) Fixed freepool sounds Not resetting parameters - thanks To Fetze
+
++ (Pub.DirectX) Added TnL GUID.
+
++ (BRL.DXGraphics) Tries TnL device first.
+
++ (BRL.Win32MaxGui) Fixed SelectedTreeViewNode crash and TreeViewNode GetText method.
+
++ (BRL.AppStub) Removed unused debugger sources.
+
++ (BRL.AppStub) Fixed debugger not showing base type info.
+
++ (BCC) Fixed 'Var expr' causing 'internal error'. 'Var expr' has been removed - use 'expr[0]' instead.
+
++ (BCC) Fixed SuperStrict int import bug.
+
++ (BRL.GLGraphics) Changed capture display to capture all displays for MacOS.
+
++ (BRL.AppStub/BRL.CocoaMaxGui) Fixed missing app menu under latest Tiger.
+
+
+***** 1.12 Release *****
+
+BlitzMax version 1.12 represents a major upgrade from version 1.10.
+
+There have been quite a few internal changes, and some things have been removed altogether. In particular:
+
+* FlushMem has GONE! 'Garbage collection' (GC) is now automatic by default. Use GCSetMode to enable/disable automatic GC. To perform a manual GC, use GCCollect.
+
+* MemAlloced() has GONE! Instead, use GCMemAlloced(). This now only reports 'managed' memory usage - ie: objects, string, arrays. For a Max program that doesn't do anything tricky with C/C++ etc, this represents all memory usage by your program.
+
+* MemUsage() has GONE! May return, but hitting Ctrl-Alt-Del and watching memory status will always be the definitive way to monitor memory usage! For Mac/Linux, try 'top' from the command line.
+
+* SOFTSYNC and HARDSYNC are GONE! 'vwait' flag for Flip has returned.
+
+* GetGraphics has GONE! Use GraphicsWidth()/GraphicsHeight()/GraphicsDepth()/GraphicsHertz()/GraphicsFlags() instead.
+
+* BlitzGL (ie: the 'bgl' commands) has GONE! Instead, use the following:
+
+bglCreateContext -> GLGraphics
+bglTexFromPixmap -> GLTexFromPixmap
+bglAdjustTexSize -> GLAdjustTexSize
+bglDrawText -> GLDrawText
+bglSwapBuffers -> Flip
+
+* GCMalloc has GONE!
+
++ (brl.pixmap) added bounds check to methods Window/ReadPixel/WritePixel.
+
++ (brl.cocoamaxgui) Cleaned up TextField events.
+
++ (brl.win32maxgui) Cleaned up TextField events.
+
++ (brl.system) Cleaned up file/dir requesters.
+
++ (brl.glgraphics/brl.system) Fixed MacOS EndGraphics bug (system wasn't
+being notified of view closing).
+
++ (brl.appstub) Inital NSApp delegate openFile: calls now converted to
+argv's.
+
++ (brl.event) Removed unused EVENT_APPDISPLAYCHANGE. Added EVENT_APPOPENFILE - only valid on Mac for now.
+
++ (brl.appstub) MacOS Debugger now just quits if in fullscreen mode - debug
+in windowed mode!
+
++ (brl.glgraphics) MacOS GLContext now created at SetGraphics to get round failure with hidden views.
+
++ (bmk/MaxIDE) Simple c/cpp/cxx apps can now be built - don't forget main!
+
++ (BRL.Blitz) MemFree changed: length no longer required. MemAlloc/MemFree now behave much like c's malloc/free.
+
++ (BRL.Blitz) MemAlloced() renamed to GCMemAlloced() - only returns amount of GC controlled mem.
+
++ (BRL.Blitz) MemUsage() gone.
+
++ (BRL.Blitz) Byte ptrs returned by String.ToCString and String.ToWString should now be freed using MemFree.
+
++ (BRL.Max2d) Revamped to handle new graphics system. Each graphics now has its own 'context'.
+
++ (BRL.Graphics) Big cleanup. Moved lots of generic Max2D graphics stuff Graphics/EndGraphics/GraphicsModes etc) here for  use with other drivers.
+
++ (BRL.System.Linux) New 1 ms periodic SIGALRM for timer, fltk and xevent message handling
+
++ (BRL.FLKTMaxGui) First beta release of Linux MaxGUI driver
+
++ (MaxIDE) End of line now dictates chr(13)+chr(10) for all saved source files
+
++ (BRL.Win32MaxGUI) Fixed phantom dialog related menu events
+
++ (BRL.System) Improved general os event handling
+
++ (BRL.System) Improved mouse enter/leave event handling
+
++ (BRL.Win32MaxGUI) key/mouse events now forwarded to BRL.System
+
++ (BRL.CocoaMaxGUI) key/mouse events now forwarded to BRL.System
+
++ (BRL.CocasMaxGUI) added more valid menu hotkeys
+
++ (BRL.Win32MaxGUI) added more valid menu hotkeys.
+
++ (BRL.CocoaMaxGui) fixed iconstrip pixmap endian issues
+
++ (BRL.Win32MaxGui) Tidied up dialog behavior stuff
+
++ (BRL.Win32MaxGui) fixed listbox key handling
+
++ (BRL.Win32MaxGui) fixed combobox tabbing
+
++ (BCC/BMK) improved handling of import "blah.a" files
+
++ (BRL.CocoaMaxGui/BRL.Win32MaxGui) added x,y to mousedown/mouseup events
+
++ (BRL.Timer) timer ticks now sent in EventData()
+
+
+***** V1.11 DevTeam Release *****
+
++ (BCC) Type scoped globals no longer have to be const!
+
++ (BCC) Fixed Type scoped decls not finding each other
+
++ (BCC) Function pointers can now be treated conditionally
+
++ (BRL.KeyCodes) Removed non-left/right KEY_ equivalents, eg: KEY_SHIFT, KEY_ALT etc.
+
++ (BRL.KeyCodes) Removed KEY_MOUSE equivalents
+
++ (BCC) Fixed abstract methods ignoring default args
+
++ (BCC) Fixed big function condition codes bug on PPC
+
++ (BCC) Fixed fun type balancing
+
++ (BCC) Fixed object var parameters ref counting bug
+
++ (BRL.GLMax2D) Added SetColor/SetClsColor clamping
+
++ (BRL.BMPLoader) Added 32 bit image alpha support
+
++ (Pub.FreeType) Installed latest lib version and kludged big fonts issue
+
++ (Pub.StdC) Fixed network byte ordering for sendto_ and recvfrom_
+
++ (BRL.Font) Improved unicode support
+
++ (BRL.FreeTypeFont) Improved unicode support
+
++ (BRL.Max2D) Improved unicode imagefont support
+
++ (BRL.DXGraphics) Added FPUPRESERVE flag to D3D7 SetCooperativeLevel even though it says...oh, never mind...
+
++ (Pub.FreeAudio) Improved channel playback timing - should fix 'random' latency issues.
+
+
+--------------------------------
+Update Version 1.10 : 09/06/2005
+--------------------------------
+
++ Improved syncdocs performance.
+
++ Modserver moved to www.blitzbasic.com/modserver_pub.
+
++ Added a raw Socket module. SocketStream is still there, but now just wraps a raw socket.
+
++ Added MIPMAPPEDIMAGE flag. Images are no longer mipmapped by default. Use this flag if you are planning on 'shrinking' images and want them to be smoothed.
+
++ Added Direct3D7 Max2D driver. This is now the default on Windows, so please replace any 'Framework GLMax2D's in your code with 'Framework D3D7Max2D', or you'll get an error. You can still switch between drivers using SetGraphicsDriver, eg:
+
+SetGraphicsDriver GLMax2DDriver()  	'Select OpenGL, OR...
+SetGraphicsDriver D3D7Max2DDriver()	'Direct3D7
+
++ Improved MacOS key handling - insert/home/numpad etc added.
+
++ Fixed MacOS not catching some mouse downs.
+
++ Fixed MacOS RequestDir ignoring initialPath.
+
++ Fixed huge functions causing assembler 'FIXUP TOO BIG' error on Mac. Not optimal - just checks for longish functions and uses different branching code.
+
+
+-------------------------------
+Core Version 1.09 : 11 May 2005
+-------------------------------
+
++ Win32 Release!
+
++ Tiger compatible Release!
+
++ Fixed IDE issue adding 'C:' as a project.
+
+
+-------------------------------
+Core Version 1.09 : 10 May 2005
+-------------------------------
+
++ Last chance testing!
+
+
+-------------------------------
+Core Version 1.07 : 07 May 2005
+-------------------------------
+
++ Fixed foreign chars in filenames with Include/Incbin.
+
++ Fixed Framework including all modules in link.
+
++ Added SavePixmapPNG( pixmap,url ). In PNGLoader for now, may move later. Not sure about a PixmapSaver
+system yet, as different savers may take different params for compression etc. Could globalize these I
+guess.
+
++ Removed LoadStream - use LoadByteArray instead.
+
++ Modified TStreamFactory's CreateStream method so that it has access to the original url object. Added 
+TBankStreamFactory. This means you can now use banks directly when loading/saving stuff.
+
++ Modified compiler so 'New' can legally be used as a statement.
+
++ Tidied up extern types.
+
++ Fixed modified func params crashing flushmem.
+
+
+-------------------------------
+Core Version 1.06 : 05 Apr 2005
+-------------------------------
+
++ Fixed Import path bug, ie: imported bmx files in subdirs not using subdir as currentdir for imports.
+
++ Fixed bug in register allocater with very deeply nested loops.
+
++ General tidy up of core Blitz module.
+
++ Fixed MacIDE so you can 'Save As' non-bmx type file.
+
++ Modified freetype module so you can hook IO. This means you can now Incbin imagefonts.
+
++ Changed object file name munging so cross platform projects can be developed in a common network directory without clashes.
+
++ Added SendMessage method to Object - see 'objects' in language reference.
+
++ Added pub.directx module. This currently only includes a work-in-progress of D3D9.
+
++ Added 'Extern Type' feature - see 'advanced topics' in language reference. This is a very useful feature for using Win32 'Com' objects.
+
+
+-------------------------------
+Core Version 1.05 : 07 Mar 2005
+-------------------------------
+
+***** Changes to MacIDE *****
+
++ Moved MacOS .app dir creation from IDE to BMK.
+
++ Added Build GUI App menu item.
+
++ Now saves locked build filename if reopen files at startup is selected.
+
++ Added character encoding to preferences. This is the 'save' encoding - load encoding is determined automatically.
+
+
+***** Changes to BMK *****
+
++ Fixed file leak in bbdoc.
+
++ C compiler now emits warnings.
+
++ Fixed BMK recognizing rem'd out Imports.
+
++ Fixed MacOS Tiger issue - should work OK on Tiger now.
+
++ Moved MacOS .app dir creation from IDE to BMK.
+
++ Added -t (app type) option, eg: "-t console", or "-t gui"
+
+
+***** Changes to BCC *****
+
++ Added utf8/utf16 source file support. Source files must start with  correct byte 'markers' to be detected: $ef,$bb,$ff for UTF8; $fe,$ff for UTF16 big endian and $ff,$fe for UTF16 little endian.
+
++ Stricter import filetype checking: import source file type must be one of bmx,c,m,s,asm,cpp,cxx,o,a,lib and source file must exist.
+
++ RestoreData labels back in strict mode. Strict mode labels must now appear before a For/While/Repeat/DefData statement.
+
+
+-------------------------------
+Core Version 1.04 : 14 Feb 2005
+-------------------------------
+
+***** Changes to BCC *****
+
++ Added labelled loops (strict mode only). Labels must be preceded by a '#' and must appear immediately before a For, While or Repeat loop. The label can then be used with Exit/Continue, eg: 
+
+Strict
+#outer_loop
+For Local k=1 To 10
+ #inner_loop
+ For Local j=1 To 10
+   Print "k="+k+", j="+j
+   If k=5 And j=5 Exit outer_loop
+ Next
+Next
+
+Exit/Continue without a label just exits/continues the nearest surrounding loop, as per usual.
+
++ Fixed non-const Global initializer code re-executing everytime global statement visited.
+
++ Fixed debug stm info hardcoded to build blitzmax dir
+
+
+***** Changes to Mac IDE *****
+
++ Fixed 'Replace All' confusing line numbering.
+
+
+***** Changes to BMK *****
+
++ Now uses bin/bbdoc instead of internal doccer.
+
+
+----------------------------
+Modules Update : 07 Feb 2005
+----------------------------
+
+***** Changes to BRL.System (1.03) *****
+
++ Docs
+
++ Added GetChar() and WaitChar()
+
+
+-------------------------------
+Core Version 1.03 : 01 Feb 2005
+-------------------------------
+
+***** Changes to BMK *****
+
++ Fixed bad doc links
+
+
+***** Changes to BRL.Max2D (1.04) *****
+
++ Fixed auto_midhandle causing crash if image didn't load
+
+
+***** Changes to BRL.System (1.02) *****
+
++ Fixed Win32 MoveMouse in Windowed mode
+
+
+-------------------------------
+Core Version 1.02 : 27 Jan 2005
+-------------------------------
+
+***** Changes to Mac IDE *****
+
++ Added proxy options to syncmods requester.
+
++ Changed open/save string encoding to Latin1.
+
+
+***** Changes to Windows/Linux IDE *****
+
++ new debugger support
+
++ convert win32 clipboard to plain text before paste operations
+
++ specify openfile from commandline 
+
++ hides main window till all files open
+
++ checks window bounds against desktop size
+
++ added deferred capitalizing cludge
+
++ fixed rem/endrem updating problem
+
++ fixed highlight/redraw noise
+
++ drag&drop file support added
+
++ dropdown menu in code and output windows added
+
++ run with commandline arguments
+
++ block indent/outdent
+
++ fixed drag&drop text crash
+
++ added escape handler to output window to replace auto hide
+
+
+***** Changes to BMK *****
+
++ Tweaked GCC args for better x86 FPU code generation.
+
++ Added http escaping for syncmods user and pass.
+
++ Added -y proxy_host:proxy_port option for proxies.
+
++ Added better checking for unsupported file types which were previously being silently ignored.
+
+
+***** Changes To BCC *****
+
+* 'Power of' now always used doubles.
+
+* Fixed uninitialized 'resolved' field of 'ClassType'.
+
++ Fixed const global byte/short initializer bug on little endian machines.
+
++ Changed 'Release' so it only takes an int variable parameter.
+
++ Fixed missing Long Min/Max.
+
++ Fixed debug info being generated for Type functions.
+
++ Changed default Extern Global munging from "bb_" prefix to none.
+
++ Fixed arithmetic type balancing so 2 float32 operands mean a float32 result as per spec.
+
++ Fixed unusued Long return vals hanging compiler.
+
++ Fixed arithmetic operators not checking for non-numeric type bug.
+
+
+***** Changes to BRL.Blitz (1.02) *****
+
++ Beefed up operator ^.
+
++ Fixed 64 bit Linux compile problem.
+
+
+***** Changes to BRL.AppStub (1.01) *****
+
++ Fixed functions in expressions confusing current statement in debugger.
+
++ Cleaned up appstub.win32.c a bit. Removed _control87 setup and FPE handling.
+
+
+***** Changes to BRL.Math (1.01) *****
+
++ Recompiled for faster math ops.
+
+
+***** Changes to BRL.Stream (1.01) *****
+
++ Moved '\' to '/' kludge from OpenStream to CStream which should fix '\' in Incbins failing and will have absolutely no other side effects whatsoever.
+
+
+***** Changes to BRL.Pixmap (1.01) *****
+
++ Fixed RBGA/BGRA docs having same description.
+
++ fixed 'bddoc:' doc error hiding PixmapWidth/PixmapHeight docs.
+
+
+***** Changes to BRL.Random (1.01) *****
+
++ Fixed Rand doc error.
+
+
+***** Changes to BRL.System (1.01) *****
+
++ Fixed 64 bit Linux compile problem.
+
++ Fixed / extended extensions$ handling in RequestFile
+
+
+***** Changes to BRL.BlitzGL (1.02) *****
+
++ Fixed 64 bit Linux compile problem.
+
++ Fixed Win32 windowed mode window size. This should fix a bunch of problems such as 'slightly off' MouseX/Mousey, GrabImage grabbing the title bar and probably more.
+
++ Fixed Win32 restore from fullscreen mode munting other window positions 
+
+
+***** Changes to BRL.Max2D (1.03) *****
+
++ Added 'draw_last_pixel' to DrawLine (defaults to True).
+
++ Applied AutoMidHandle to images created with CreateImage.
+
++ Added ImagesCollide and ImagesCollide2 functions.
+
+
+***** Changes to BRL.GLMax2D (1.02) *****
+
++ Fixed Graphics() not resetting internal state, which was upsetting code with multiple Graphics/EndGraphics calls.
+
+
+***** Changes to BRL.TGALoader (1.01) *****
+
++ Fixed endian issues for MacOS users.
+
+
+***** Changes to BRL.Audio (1.01) *****
+
++ TSound and TChannel now used as default nullaudio device driver in the event of mute host
+
+
+***** Changes to PUB.FreeAudio (1.01) *****
+
++ Enlarged buffer for win32 mixer for SBLive users.
+
++ Increase fragment count from 2 to 3 for lowperformance Linux environments.
+
++ Fixed dynamic rate bug.
+
+
+***** Changes to Pub.StdC (1.01) *****
+
++ Rewrote Win32 system_ to use spawn() instead of system(). system() seems to have problems with multiple quoted args, which plays havoc with 'spaced' filenames. Note: spawn() requires an 'extended' app name, eg: 'myapp.exe' not just 'myapp'. May fudge this at a later date.
+
+
+***** New modules Pub.Lua (1.11) and Pub.LuaScript (1.11) *****
+
++ Thanks to Thomas Mayer for providing these modules.
+
+
+-------------------------------
+Core Version 1.01 : 17 Dec 2004
+-------------------------------
+
+***** General *****
+
++ Fixed demo timeout problem when demo not installed by admin.
+
+
+***** Changes to BMK *****
+
++ Fixed spaces in BlitzMax path problem.
+
+
+***** Changes to BCC *****
+
++ Fixed unchecked negative array indices.
+
++ Fixed Null as string initializer crash bug.
+
+
+***** Changes to MacIDE *****
+
++ Added font panel.
+
++ Added a simple developer tools check (just looks for '/Developer' dir).
+
++ Fixed 'Hide NewApplication' menu item.
+
++ Fixed 'remblah' triggering rem block.
+
+
+***** Changes to BRL.Blitz (1.01) *****
+
++ Tweaked StringFindLast.
+
+
+***** Changes to BRL.AudioSample (1.02) *****
+
++ Added Try/Catch around sample loaders to catch stream exceptions.
+
+
+***** Changes to BRL.WavLoader (1.01) *****
+
++ Fixed 'data' chunk not found if it didn't come first. Added check for compressed samples (not yet supported).
+
+
+***** Changes to BRL.BMPLoader (1.01) ******
+
++ Fixed loader not skipping 256 color palette correctly bug.
+
+
+***** Changes to BRL.BlitzGL (1.01) *****
+
++ Added better check for fullscreen creation failure. Note: Mac's which only support soft GL can only do windowed mode.
+
+
+***** Changes to BRL.Max2D (1.02) *****
+
++ Fixed CollideImages ignoring endianness bug.
+
+
+***** Changes to BRL.GLMax2D (1.01) *****
+
++ Tweaked DrawOval for nicer results.
+
+
+-------------------------------
+Core version 1.00 : 10 Dec 2004
+-------------------------------
+
+Initial Release!
+
+
