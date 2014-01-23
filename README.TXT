@@ -6,6 +6,7 @@ install
 * Installing on Linux:
 
 cd _src/linux_x86
+chmod +x *.bat
 ./install.bat
 
 * Installing on MacOS:
