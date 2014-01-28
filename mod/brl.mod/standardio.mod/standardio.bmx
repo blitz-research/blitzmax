@@ -20,6 +20,10 @@ Import BRL.TextStream
 
 Type TCStandardIO Extends TStream
 
+	Method Eof:Int()
+		Return feof_( stdin_ )
+	End Method
+	
 	Method Flush()
 		fflush_ stdout_
 	End Method
