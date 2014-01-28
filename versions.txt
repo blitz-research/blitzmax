@@ -1,7 +1,6 @@
-
 ***** 1.50 Release *****
 
-* Fixed bcc parser bug involving 'half quoted' stringss
+* Fixed bcc parser bug involving 'half quoted' strings.
 
 
 ***** 1.49 Release *****
