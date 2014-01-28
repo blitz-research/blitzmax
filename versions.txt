@@ -1,5 +1,7 @@
 ***** 1.50 Release *****
 
+* Changed bmk fasm -m to 1048560. Add check for BMK_FASM_OPTS env var to allow overide.
+
 * Fixed bcc parser bug involving 'half quoted' strings.
 
 
