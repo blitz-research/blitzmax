@@ -3,10 +3,13 @@
 /cfg/*
 /tmp/*
 /doc/*
-/src/createrelease/BlitzMax/*
 !/doc/bmxstyle.css
 /docs/html
+/src/createrelease/BlitzMax/*
 *.x86.s
 *.x86.o
 *.x86.a
 *.x86.i
+!mod/brl.mod/blitz.mod/blitz_ex.*.s
+!mod/brl.mod/blitz.mod/blitz_ftoi.*.s
+!mod/brl.mod/blitz.mod/blitz_gc.*.s
