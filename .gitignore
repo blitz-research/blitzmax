@@ -3,6 +3,7 @@
 /cfg/*
 /tmp/*
 /doc/*
+/src/createrelease/BlitzMax/*
 !/doc/bmxstyle.css
 /docs/html
 *.x86.s

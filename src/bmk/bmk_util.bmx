@@ -120,7 +120,9 @@ Function Assemble( src$,obj$ )
 ?Win32
 	cmd$=CQuote(BlitzMaxPath()+"/bin/fasm")+" "+CQuote(src)+" "+CQuote(obj)
 ?Linux
-	cmd$=CQuote(BlitzMaxPath()+"/bin/fasm")+" -m32768 "+CQuote(src)+" "+CQuote(obj)
+	Local opts$=getenv_( "BMK_FASM_OPTS" )
+	If opts="" opts="-m1048560"
+	cmd$=CQuote(BlitzMaxPath()+"/bin/fasm")+" "+opts+" "+CQuote(src)+" "+CQuote(obj)
 ?
 	If Sys( cmd )
 		Throw "Build Error: Failed to assemble "+src
