@@ -331,6 +331,7 @@ Function LinkApp( path$,lnk_files:TList,makelib )
 	cmd:+" -m32 -s -Os -pthread"
 	cmd:+" -o "+CQuote( path )
 	cmd:+" "+CQuote( tmpfile )
+	cmd:+" -Wl,-rpath='$ORIGIN'"
 	cmd:+" -L/usr/lib32"
 	cmd:+" -L/usr/X11R6/lib"
 	cmd:+" -L/usr/lib"
