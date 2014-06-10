@@ -1,3 +1,9 @@
+
+***** 1.51 Release *****
+
+* Added rpath=$ORIGIN to bmk, so apps can put .so files in exe dir like Windows.
+
+
 ***** 1.50 Release *****
 
 * Added BMK_FASM_OPTS env var support to bmk - defaults to "-m 1048560".
