@@ -79,7 +79,12 @@ While Not in.Eof()
 				Local i=args.Find( "," )
 				If i=-1
 					sz=FixArg( args,op )
-					If sz And op="call" args="*"+args
+					If op="call"
+						If sz Or args.StartsWith( "%" )
+							args="*"+args
+						Endif
+					Endif
+'					If sz And op="call" args="*"+args
 				Else
 					Local arg2$=args[..i]
 					Local arg1$=args[i+1..]

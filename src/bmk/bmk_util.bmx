@@ -114,6 +114,7 @@ Function Assemble( src$,obj$ )
 			cmd="nasm -f macho"
 		Else
 			cmd="as -arch i386"
+			cmd:+" -mmacosx-version-min=10.6"
 		EndIf
 	EndIf
 	cmd:+" -W -o "+CQuote(obj)+" "+CQuote(src);
@@ -150,11 +151,15 @@ Function CompileC( src$,obj$,opts$ )
 	Else
 		opts:+" -arch i386"
 	EndIf
-	If macos_version>=$1070					'Lion?
-		opts:+" -mmacosx-version-min=10.4"	'...can build for Tiger++
-	Else If macos_version>=$1040			'Tiger?
-		opts:+" -mmacosx-version-min=10.3"	'...can build for Panther++
-	EndIf
+
+	opts:+" -mmacosx-version-min=10.6"		'build for Snow Leopard++
+
+'	If macos_version>=$1070					'Lion?
+'		opts:+" -mmacosx-version-min=10.4"	'...can build for Tiger++
+'	Else If macos_version>=$1040			'Tiger?
+'		opts:+" -mmacosx-version-min=10.3"	'...can build for Panther++
+'	EndIf
+
 ?Win32
 	If Not mod_opts Or Not mod_opts.hasCCopt("-march")
 		opts:+" -march=pentium"
@@ -258,12 +263,14 @@ Function LinkApp( path$,lnk_files:TList,makelib )
 	Else
 		cmd:+" -arch i386 -read_only_relocs suppress"
 	EndIf
-
-	If macos_version>=$1070					'Lion?
-		cmd:+" -mmacosx-version-min=10.4"	'...can build for Tiger++
-	Else If macos_version>=$1040			'Tiger?
-		cmd:+" -mmacosx-version-min=10.3"	'...can build for Panther++
-	EndIf
+	
+	cmd:+" -mmacosx-version-min=10.6"		'build for Snow Leopard++
+	
+'	If macos_version>=$1070					'Lion?
+'		cmd:+" -mmacosx-version-min=10.4"	'...can build for Tiger++
+'	Else If macos_version>=$1040			'Tiger?
+'		cmd:+" -mmacosx-version-min=10.3"	'...can build for Panther++
+'	EndIf
 
 	cmd:+" -o "+CQuote( path )
 	cmd:+" "+CQuote( "-L"+CQuote( BlitzMaxPath()+"/lib" ) )

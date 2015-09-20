@@ -2,8 +2,8 @@
 
 	.text
 
-#	;0[esp]=ret
-#	;4[esp]=double
+#	0[esp]=ret
+#	4[esp]=double
 _bbFloatToInt:
 	fldl	4(%esp)
 	sub	$12,%esp
