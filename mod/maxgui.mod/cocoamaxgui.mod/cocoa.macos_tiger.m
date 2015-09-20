@@ -311,7 +311,7 @@ void ScheduleEventDispatch(){
 @interface TreeView:NSScrollView{
 @public
 	NSOutlineView	*outline;
-	NSTableColumn	*column,*colin;
+	NSTableColumn	*column;//,*colin;
 	NSBrowserCell	*cell;
 	NodeItem		*rootNode;
 	NSDictionary	*textstyle;
@@ -1211,6 +1211,7 @@ tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mo
 	[column setDataCell:cell];		
 	[self setDocumentView:outline];
 	[outline sizeLastColumnToFit];
+	
 	return self;
 }
 -(void)dealloc{
@@ -1240,7 +1241,7 @@ tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mo
 	return [item canExpand];
 }
 -(id)outlineView:(NSOutlineView*)outlineView objectValueForTableColumn:(NSTableColumn*)tableColumn byItem:(id)item{
-	if (tableColumn==colin) return @"";	
+//	if (tableColumn==colin) return @"";	
 	if( !item ) item=rootNode;
 	return [item value];
 }
