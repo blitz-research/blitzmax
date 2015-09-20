@@ -114,7 +114,7 @@ Function Assemble( src$,obj$ )
 			cmd="nasm -f macho"
 		Else
 			cmd="as -arch i386"
-			cmd:+" -mmacosx-version-min=10.6"
+'			cmd:+" -mmacosx-version-min=10.6"
 		EndIf
 	EndIf
 	cmd:+" -W -o "+CQuote(obj)+" "+CQuote(src);
@@ -264,7 +264,7 @@ Function LinkApp( path$,lnk_files:TList,makelib )
 		cmd:+" -arch i386 -read_only_relocs suppress"
 	EndIf
 	
-	cmd:+" -mmacosx-version-min=10.6"		'build for Snow Leopard++
+	cmd:+" -w -mmacosx-version-min=10.6"		'build for Snow Leopard++
 	
 '	If macos_version>=$1070					'Lion?
 '		cmd:+" -mmacosx-version-min=10.4"	'...can build for Tiger++
