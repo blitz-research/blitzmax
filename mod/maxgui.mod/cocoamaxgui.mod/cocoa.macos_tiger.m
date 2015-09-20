@@ -1502,6 +1502,8 @@ tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mo
 		[self setAutomaticTextReplacementEnabled: NO];
 	if ([self respondsToSelector: @selector(setAutomaticDataDetectionEnabled:)])
 		[self setAutomaticDataDetectionEnabled: NO];
+		
+	[self setContinuousSpellCheckingEnabled:NO];
 	
 	return self;
 }
@@ -1511,6 +1513,14 @@ tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mo
 	[style release];
 	[styles release];
 	[storage release];
+}
+//prevent 'word completion' popup when esc key hit with selected text...
+-(NSArray*)textView:
+		(NSTextView*)textView
+		completions:(NSArray*)words
+		forPartialWordRange:(NSRange)charRange
+		indexOfSelectedItem:(NSInteger*)index{
+	return nil;
 }
 -(void)setHidden:(BOOL)flag{
 	[scroll setHidden:flag];
