@@ -1487,18 +1487,20 @@ tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mo
 	lockedNest=0;
 	
 	[self setTabs: 4];
-	if ([self respondsToSelector: @selector(setDefaultParagraphStyle)])
+	if ([self respondsToSelector: @selector(setDefaultParagraphStyle:)])
 		[self setDefaultParagraphStyle: style];
 	
-	if ([self respondsToSelector: @selector(setAutomaticLinkDetectionEnabled)])
+	if ([self respondsToSelector: @selector(setAutomaticLinkDetectionEnabled:)])
 		[self setAutomaticLinkDetectionEnabled: NO];
-	if ([self respondsToSelector: @selector(setAutomaticQuoteSubstitutionEnabled)])
+	if ([self respondsToSelector: @selector(setAutomaticQuoteSubstitutionEnabled:)])
 		[self setAutomaticQuoteSubstitutionEnabled: NO];
-	if ([self respondsToSelector: @selector(setAutomaticSpellingCorrectionEnabled)])
+	if ([self respondsToSelector: @selector(setAutomaticDashSubstitutionEnabled:)])
+		[self setAutomaticDashSubstitutionEnabled: NO];
+	if ([self respondsToSelector: @selector(setAutomaticSpellingCorrectionEnabled:)])
 		[self setAutomaticSpellingCorrectionEnabled: NO];
-	if ([self respondsToSelector: @selector(setAutomaticTextReplacementEnabled)])
+	if ([self respondsToSelector: @selector(setAutomaticTextReplacementEnabled:)])
 		[self setAutomaticTextReplacementEnabled: NO];
-	if ([self respondsToSelector: @selector(setAutomaticDataDetectionEnabled)])
+	if ([self respondsToSelector: @selector(setAutomaticDataDetectionEnabled:)])
 		[self setAutomaticDataDetectionEnabled: NO];
 	
 	return self;
@@ -2074,7 +2076,7 @@ tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mo
 // set clientview to inner view
 		view=client;		
 	}
-	if ([self respondsToSelector: @selector(setShowsToolbarButton)]) [self setShowsToolbarButton: NO];
+	if ([self respondsToSelector: @selector(setShowsToolbarButton:)]) [self setShowsToolbarButton: NO];
 	return self;
 }
 -(id)clientView{
@@ -3369,7 +3371,7 @@ void NSRethink(nsgadget *gadget){
 void NSRemoveColor(nsgadget *gadget){
 	switch (gadget->internalclass){
 	case GADGET_BUTTON:
-		if ([[gadget->handle cell] respondsToSelector:@selector(setDrawsBackground)]){
+		if ([[gadget->handle cell] respondsToSelector:@selector(setDrawsBackground:)]){
 			[[gadget->handle cell] setDrawsBackground:false];
 		}
 		break;
@@ -3399,7 +3401,7 @@ void NSSetColor(nsgadget *gadget,int r,int g,int b){
 	
 	switch (gadget->internalclass){
 	case GADGET_BUTTON:
-		if ([[gadget->handle cell] respondsToSelector:@selector(setBackgroundColor)]) [[gadget->handle cell] setBackgroundColor:color];
+		if ([[gadget->handle cell] respondsToSelector:@selector(setBackgroundColor:)]) [[gadget->handle cell] setBackgroundColor:color];
 		break;
 	case GADGET_COMBOBOX:
 	case GADGET_WINDOW:
@@ -3497,7 +3499,7 @@ void NSSetText(nsgadget *gadget,BBString *data){
 		break;
 	case GADGET_BUTTON:
 		
-		//if ([nsobject respondsToSelector:@selector(setAttributedTitle)] /*&& [nsobject respondsToSelector:@selector(font)]*/){
+		//if ([nsobject respondsToSelector:@selector(setAttributedTitle:)] /*&& [nsobject respondsToSelector:@selector(font)]*/){
 			
 			// Create attribute dictionary (autorelease'd)
 			textAttributes = [NSMutableDictionary dictionary];
