@@ -114,7 +114,7 @@ Function Assemble( src$,obj$ )
 			cmd="nasm -f macho"
 		Else
 			cmd="as -arch i386"
-'			cmd:+" -mmacosx-version-min=10.6"
+'			cmd:+" -mmacosx-version-min=10.6"	'barfs out on old 'as'. disable ld warnings instead...
 		EndIf
 	EndIf
 	cmd:+" -W -o "+CQuote(obj)+" "+CQuote(src);
@@ -151,8 +151,8 @@ Function CompileC( src$,obj$,opts$ )
 	Else
 		opts:+" -arch i386"
 	EndIf
-
-	opts:+" -mmacosx-version-min=10.6"		'build for Snow Leopard++
+	
+	If macos_version>=$1060 opts:+" -mmacosx-version-min=10.6"		'build for Snow Leopard++
 
 '	If macos_version>=$1070					'Lion?
 '		opts:+" -mmacosx-version-min=10.4"	'...can build for Tiger++
@@ -264,7 +264,7 @@ Function LinkApp( path$,lnk_files:TList,makelib )
 		cmd:+" -arch i386 -read_only_relocs suppress"
 	EndIf
 	
-	cmd:+" -w -mmacosx-version-min=10.6"		'build for Snow Leopard++
+	If macos_version>=$1060 cmd:+" -w -mmacosx-version-min=10.6"		'build for Snow Leopard++
 	
 '	If macos_version>=$1070					'Lion?
 '		cmd:+" -mmacosx-version-min=10.4"	'...can build for Tiger++
