@@ -154,39 +154,36 @@ static int mouseViewPos( NSView *view,int *x,int *y ){
 	NSRect rect;
 	NSPoint point;
 	NSWindow *window;
-
-	if( displayCaptured ){
 	
-		Point point;
+	if( !view ){
+
+		NSPoint point;
+		NSRect frame;
 		CGLContextObj gl;
 		
-		GetMouse( &point );
+		point=[NSEvent mouseLocation];
+		frame=[[NSScreen mainScreen] frame];
 
+		point.y=frame.size.height-point.y-1;
+		
+		//yurk...
 		if( gl=CGLGetCurrentContext() ){
-		
+
 			GLint enabled=0;
-			CGLIsEnabled( gl,kCGLCESurfaceBackingSize,&enabled );
+			if( !CGLIsEnabled( gl,kCGLCESurfaceBackingSize,&enabled ) && enabled ){
 			
-			if( enabled ){
-			
-				NSRect frame;
-				GLint size[2];
+				GLint size[2]={0,0};
+				if( !CGLGetParameter( gl,kCGLCPSurfaceBackingSize,size ) ){
 				
-				frame=[[NSScreen mainScreen] frame];
-				CGLGetParameter( gl,kCGLCPSurfaceBackingSize,size );
-				
-				*x=point.h * size[0] / frame.size.width;
-				*y=point.v * size[1] / frame.size.height;
-				return 1;
-			} 
+					point.x=point.x*size[0]/frame.size.width;
+					point.y=point.y*size[1]/frame.size.height;
+				}
+			}
 		}
-		
-		*x=point.h;
-		*y=point.v;
+		*x=point.x;
+		*y=point.y;
 		return 1;
 	}
-	
-	if( !view ) return *x=*y=0;
 	
 	window=[view window];
 	point=[window mouseLocationOutsideOfEventStream];
