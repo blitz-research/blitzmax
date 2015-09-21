@@ -1,4 +1,17 @@
 
+***** 1.52 Release *****
+
+* Overhauled fullscreen macos GL. Note: fullscreen mode now only available in Lion or later - pre-Lion will fallback to windowed mode. 
+
+* Fixed reflection with final methods.
+
+* Builds on Snow Leopard or later will now produce apps for Snow Leopard or later. To build apps for pre-Snow Leopard, you MUST use a
+pre-Snow Leopard OS to build on.
+
+* Fixed xcode7 compatibility. Note: building an app on Snow Leopard or later will produce an app that can (theoretically) run on Snow Leopard
+or later. To build an app for pre-Snow Leopard, you must use a machine with a pre-Snow Leopard OS installed.
+
+
 ***** 1.51 Release *****
 
 * Added rpath=$ORIGIN to bmk, so apps can put .so files in exe dir like Windows.
