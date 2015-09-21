@@ -454,7 +454,7 @@ Type TMethod Extends TMember
 	bbdoc: Invoke method
 	End Rem
 	Method Invoke:Object( obj:Object,args:Object[] )
-		If _index<65536
+		If _index<4096
 			Return _Call( bbRefMethodPtr( obj,_index ),_typeId,obj,args,_argTypes )
 		EndIf
 		Return _Call( Byte Ptr(_index),_typeId,obj,args,_argTypes )
