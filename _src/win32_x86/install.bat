@@ -6,7 +6,8 @@ rmdir /S /Q ..\..\lib
 mkdir ..\..\lib
 copy lib ..\..\lib
 
-.\rebuildmods
-.\rebuildide
-.\rebuildbmk
-.\rebuildbcc
+call rebuildmods
+call rebuildide
+call rebuildbmk
+call rebuildbcc
+call rebuildmakedocs
