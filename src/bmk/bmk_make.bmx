@@ -121,7 +121,8 @@ Function MakeMod:TFile( mod_name$ )
 		cc_opts:+" -I"+CQuote(path)
 		cc_opts:+" -I"+CQuote(ModulePath(""))
 
-		If opt_release cc_opts:+" -O2 -DNDEBUG"
+		If opt_release cc_opts:+" -O3 -fno-tree-vrp -DNDEBUG"
+'		If opt_release cc_opts:+" -O2 -DNDEBUG"
 		If opt_threaded cc_opts:+" -DTHREADED"
 
 		bcc_opts=" -g "+opt_arch
@@ -355,7 +356,8 @@ Function MakeApp:TFile( Main$,makelib )
 	cc_opts=""
 	cc_opts:+" -I"+CQuote(ModulePath(""))
 	
-	If opt_release cc_opts:+" -O2 -DNDEBUG"
+	If opt_release cc_opts:+" -O3 -fno-tree-vrp -DNDEBUG"
+'	If opt_release cc_opts:+" -O2 -DNDEBUG"
 	If opt_threaded cc_opts:+" -DTHREADED"
 
 	bcc_opts=" -g "+opt_arch
