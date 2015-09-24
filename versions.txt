@@ -1,4 +1,13 @@
 
+***** 1.52 Release *****
+
+* You should be able to install from git download with newer versions of mingw now! Tested with TDM-GCC-32 and TDM-GCC-64 v4.9.2
+
+* Updated bmk so it uses -O3 in release mode. Disabled -ftree-vrp optimization which was causing crashes on mingw.
+
+* Updated win32 libs and bins to mingw 4.9.2 versions.
+
+
 ***** 1.51 Release *****
 
 * Overhauled fullscreen macos GL. Note: fullscreen mode now only available in Lion or later - pre-Lion will fallback to windowed mode. 
