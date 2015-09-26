@@ -1,6 +1,16 @@
 
 ***** 1.52 Release *****
 
+* Modified bmk so it just uses installed mingw if bin/ld.exe not found.
+
+Install.bat no longer copies in default ld.exe or ar.exe so this is the default for new installs.
+
+The MINGW env var can be used to set installed MINGW version. This should be set to the root of your
+MINGW installation dir, ie:" 'one up' from bin.
+
+If MINGW is not set and there is no bin/ld.exe, bmx just assumes there's a valid mingw installation in 
+your PATH somewhere.
+
 * You should be able to install from git download with newer versions of mingw now! Tested with TDM-GCC-32 and TDM-GCC-64 v4.9.2
 
 * Updated bmk so it uses -O3 in release mode. Disabled -ftree-vrp optimization which was causing crashes on mingw.
