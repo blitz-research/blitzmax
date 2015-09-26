@@ -161,12 +161,17 @@ Function CompileC( src$,obj$,opts$ )
 '	EndIf
 
 ?Win32
+
+	opts:+" -m32 -ffast-math"
+	
 	If Not mod_opts Or Not mod_opts.hasCCopt("-march")
 		opts:+" -march=pentium"
 	EndIf
-	opts:+" -ffast-math"
+	
 ?Linux
+
 	opts:+" -m32 -mfancy-math-387 -fno-strict-aliasing"
+	
 ?
 	If mod_opts
 		If Not mod_opts.hasCCopt("-fexceptions")
@@ -289,6 +294,9 @@ Function LinkApp( path$,lnk_files:TList,makelib )
 	cmd=CQuote(BlitzMaxPath()+"/bin/ld.exe")+" -s -stack 4194304"	'symbol stripping enabled
 	If opt_apptype="gui" cmd:+" -subsystem windows"
 	If makelib cmd:+" -shared"
+
+'	-m means something else in ld!	
+'	cmd:+" -m32"
 	
 	cmd:+" -o "+CQuote( path )
 	cmd:+" "+CQuote( "-L"+CQuote( BlitzMaxPath()+"/lib" ) )
@@ -325,7 +333,7 @@ Function LinkApp( path$,lnk_files:TList,makelib )
 	cmd:+" "+CQuote( tmpfile )
 
 	files:+"~n-lgdi32 -lwsock32 -lwinmm -ladvapi32"
-	files:+" -lstdc++ -lgcc -lmingwex -lmingw32 -lmoldname -lmsvcrt -luser32 -lkernel32"
+	files:+" -lstdc++ -lpthread -lgcc -lmingwex -lmingw32 -lmoldname -lmsvcrt -luser32 -lkernel32"
 	
 	If Not makelib
 		files:+" "+CQuote( BlitzMaxPath()+"/lib/crtend.o" )
