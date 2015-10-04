@@ -131,6 +131,30 @@ struct nsgadget{
 	int 			intFontStyle;
 };
 
+// From S.O. for vertically text in cells...
+//
+@interface VerticallyAlignedTextFieldCell : NSBrowserCell{	//NSTextFieldCell {
+
+}
+
+@end
+
+@implementation VerticallyAlignedTextFieldCell
+
+- (NSRect)titleRectForBounds:(NSRect)theRect {
+    NSRect titleFrame = [super titleRectForBounds:theRect];
+    NSSize titleSize = [[self attributedStringValue] size];
+    titleFrame.origin.y = theRect.origin.y - .5 + (theRect.size.height - titleSize.height) / 2.0;
+    titleFrame.origin.x += (theRect.size.height - titleSize.height) / 2.0;
+    return titleFrame;
+}
+
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+    NSRect titleRect = [self titleRectForBounds:cellFrame];
+    [[self attributedStringValue] drawInRect:titleRect];
+}
+
+@end
 // prototypes
 
 void NSClearItems(nsgadget *gadget);
@@ -1205,12 +1229,20 @@ tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mo
 	column=[[NSTableColumn alloc] init];
 	[outline addTableColumn:column];
 	[outline setOutlineTableColumn:column];
-	cell=[[NSBrowserCell alloc] init];
-	[cell setLeaf:YES];
-	[cell setScrollable:YES];
-	[column setDataCell:cell];		
+	
+//	cell=[[NSBrowserCell alloc] init];
+//	[cell setLeaf:YES];
+//	[cell setScrollable:YES];
+//	[column setDataCell:cell];
+
+	cell=[[VerticallyAlignedTextFieldCell alloc] init];
+	[column setDataCell:cell];
+	
+	
 	[self setDocumentView:outline];
 	[outline sizeLastColumnToFit];
+	
+	
 	
 	return self;
 }
