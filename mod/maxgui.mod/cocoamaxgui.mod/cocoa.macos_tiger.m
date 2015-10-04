@@ -133,13 +133,12 @@ struct nsgadget{
 
 // From S.O. for vertically text in cells...
 //
-@interface VerticallyAlignedTextFieldCell : NSBrowserCell{	//NSTextFieldCell {
-
+@interface TreeViewCell : NSBrowserCell {
 }
 
 @end
 
-@implementation VerticallyAlignedTextFieldCell
+@implementation TreeViewCell
 
 - (NSRect)titleRectForBounds:(NSRect)theRect {
     NSRect titleFrame = [super titleRectForBounds:theRect];
@@ -1235,9 +1234,10 @@ tableColumn:(NSTableColumn *)aTableColumn row:(int)row mouseLocation:(NSPoint)mo
 //	[cell setScrollable:YES];
 //	[column setDataCell:cell];
 
-	cell=[[VerticallyAlignedTextFieldCell alloc] init];
+	cell=[[TreeViewCell alloc] init];
+	[cell setLeaf:YES];
+	[cell setScrollable:YES];
 	[column setDataCell:cell];
-	
 	
 	[self setDocumentView:outline];
 	[outline sizeLastColumnToFit];
