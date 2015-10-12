@@ -71,6 +71,47 @@ Function OpenD3DDevice( hwnd,width,height,depth,hertz,flags )
 	pp.FullScreen_RefreshRateInHz=(hertz * fullscreen)
 	pp.PresentationInterval=D3DPRESENT_INTERVAL_ONE	'IMMEDIATE
 	
+	Function CheckDepthFormat(format)
+	    Return _d3d.CheckDeviceFormat(0,D3DDEVTYPE_HAL,D3DFMT_X8R8G8B8,D3DUSAGE_DEPTHSTENCIL,D3DRTYPE_SURFACE,format)=D3D_OK
+	End Function
+
+	If flags&GRAPHICS_DEPTHBUFFER Or flags&GRAPHICS_STENCILBUFFER
+	    pp.EnableAutoDepthStencil = True
+	    If flags&GRAPHICS_STENCILBUFFER
+	        If Not CheckDepthFormat( D3DFMT_D24S8 )
+	            If Not CheckDepthFormat( D3DFMT_D24FS8 )
+	                If Not CheckDepthFormat( D3DFMT_D24X4S4 )
+	                    If Not CheckDepthFormat( D3DFMT_D15S1 )
+	                        Return False
+	                    Else
+	                        pp.AutoDepthStencilFormat = D3DFMT_D15S1
+	                    EndIf
+	                Else
+	                    pp.AutoDepthStencilFormat = D3DFMT_D24X4S4
+	                EndIf
+	            Else
+	                pp.AutoDepthStencilFormat = D3DFMT_D24FS8
+	            EndIf
+	        Else
+	            pp.AutoDepthStencilFormat = D3DFMT_D24S8
+	        EndIf
+	    Else
+	        If Not CheckDepthFormat( D3DFMT_D32 )
+	            If Not CheckDepthFormat( D3DFMT_D24X8 )
+	                If Not CheckDepthFormat( D3DFMT_D16 )
+	                    Return False
+	                Else
+	                    pp.AutoDepthStencilFormat = D3DFMT_D16
+	                EndIf
+	            Else
+	                pp.AutoDepthStencilFormat = D3DFMT_D24X8
+	            EndIf
+	        Else
+	            pp.AutoDepthStencilFormat = D3DFMT_D32
+	        EndIf
+	    EndIf
+	EndIf
+	
 	Local cflags=D3DCREATE_FPU_PRESERVE
 	
 	'OK, try hardware vertex processing...
