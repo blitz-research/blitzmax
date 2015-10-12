@@ -1,4 +1,6 @@
 
+* Updated d3d9graphics so it handles depth buffering. Fix courtesy of Kevin Primm - thanks Kevin!
+
 ***** 1.52 Release *****
 
 * Modified bmk so it just uses installed mingw if bin/ld.exe not found.
