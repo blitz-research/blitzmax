@@ -13,3 +13,18 @@
 !mod/brl.mod/blitz.mod/blitz_ex.*.s
 !mod/brl.mod/blitz.mod/blitz_ftoi.*.s
 !mod/brl.mod/blitz.mod/blitz_gc.*.s
+
+# win32, mac, linux debug executables
+*.debug.exe
+*.debug.app
+*.debug
+
+# MaxIDE binary and it's backup files
+/MaxIDE*
+*.bak
+
+# all but standard mods
+/mod/*.mod/
+!/mod/brl.mod/
+!/mod/pub.mod/
+!/mod/maxgui.mod/
