@@ -58,6 +58,24 @@ Function CheckAL()
 	Return False
 End Function
 
+Function EnumOpenALDevices$[]()
+	Local p:Byte Ptr=alcGetString( 0,ALC_DEVICE_SPECIFIER )
+	If Not p Return
+	Local devs$[100],n
+	While p[0] And n<100
+		Local sz
+		Repeat
+			sz:+1
+		Until Not p[sz]
+		devs[n]=String.FromBytes( p,sz )
+		n:+1
+		p:+sz+1
+	Wend
+	Return devs[..n]
+End Function
+
+Public
+
 Type TOpenALSource
 
 	Field _succ:TOpenALSource,_id,_seq,_sound:TOpenALSound,_avail
@@ -93,24 +111,6 @@ Type TOpenALSource
 	End Method
 	
 End Type
-
-Function EnumOpenALDevices$[]()
-	Local p:Byte Ptr=alcGetString( 0,ALC_DEVICE_SPECIFIER )
-	If Not p Return
-	Local devs$[100],n
-	While p[0] And n<100
-		Local sz
-		Repeat
-			sz:+1
-		Until Not p[sz]
-		devs[n]=String.FromBytes( p,sz )
-		n:+1
-		p:+sz+1
-	Wend
-	Return devs[..n]
-End Function
-
-Public
 
 Type TOpenALSound Extends TSound
 
