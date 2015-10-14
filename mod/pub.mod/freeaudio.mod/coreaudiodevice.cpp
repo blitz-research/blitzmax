@@ -4,9 +4,6 @@
 
 #ifdef __APPLE__
 
-#include <CoreServices/CoreServices.h>
-#include <AudioUnit/AudioUnit.h>
-#include <CoreAudio/CoreAudio.h>
 #include <AudioToolbox/AudioToolbox.h>
 
 extern "C" audiodevice *OpenCoreAudioDevice();
@@ -57,11 +54,11 @@ struct coreaudio:audiodevice{
 	}
 
 	int initoutput(){
-		ComponentDescription	desc;  
-		Component				comp;
-		OSStatus				err;
-		UInt32					size;
-		Boolean 				canwrite;
+		AudioComponentDescription desc;  
+		AudioComponent comp;
+		OSStatus err;
+		UInt32 size;
+		Boolean canwrite;
 		
 		AudioStreamBasicDescription 	inputdesc,outputdesc;
 
@@ -71,8 +68,12 @@ struct coreaudio:audiodevice{
 		desc.componentFlags=0;
 		desc.componentFlagsMask=0;
 
-		comp=FindNextComponent(NULL,&desc);if (comp==NULL) return -1;
-		err=OpenAComponent(comp,&out);if (err) return err;				
+		comp=AudioComponentFindNext(NULL,&desc);
+		if (comp==NULL) return -1;
+
+		err= AudioComponentInstanceNew(comp,&out);
+		if (err) return err;				
+
 		err=AudioUnitInitialize(out);if (err) return err;
 		
 		err=AudioUnitGetPropertyInfo(out,kAudioUnitProperty_StreamFormat,kAudioUnitScope_Output,0,&size,&canwrite);
@@ -104,7 +105,7 @@ struct coreaudio:audiodevice{
 //			printf("AudioConvertNew failed %.*s\n",4,(char*)&err);
 			return err;
 		}
-	
+
 		return err;
 	}
 
