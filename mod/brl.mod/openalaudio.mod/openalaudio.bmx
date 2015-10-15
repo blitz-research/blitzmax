@@ -185,6 +185,9 @@ Type TOpenALSound Extends TSound
 
 End Type
 
+Rem
+bbdoc: OpenAL audio channel Type
+End Rem
 Type TOpenALChannel Extends TChannel
 
 	Method Delete()
@@ -265,6 +268,16 @@ Type TOpenALChannel Extends TChannel
 		alSourceRewind _source._id
 		alSourcei _source._id,AL_LOOPING,sound._loop
 		alSourcei _source._id,AL_BUFFER,sound._buffer
+	End Method
+	
+	Rem
+	bbdoc: Get native openal source id
+	returns: The native openal source id for the channel, or 0 if the channel
+	has been stopped using #Stop.
+	End Rem
+	Method OpenALSourceId()
+		If _seq<>_source._seq Return 0
+		Return _source._id
 	End Method
 	
 	Function Create:TOpenALChannel( static )
