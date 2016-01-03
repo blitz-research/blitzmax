@@ -1,6 +1,5 @@
 // cocoa.macos.m
-// blitzmax cocoa interface 
-// by simonarmstrong@blitzbasic.com
+// a maxgui cocoa interface 
 
 #include <AppKit/AppKit.h>
 #include <WebKit/WebView.h>

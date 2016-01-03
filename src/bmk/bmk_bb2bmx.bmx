@@ -2,7 +2,7 @@
 Strict
 
 ' bmk_bb2bmx.bmx v0.4
-' by simonarmstrong@blitzbasic.com
+' by Simon Armstrong
 
 ' converts BlitzBasic source files to BlitzMax
 

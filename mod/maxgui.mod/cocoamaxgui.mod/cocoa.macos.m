@@ -2,7 +2,6 @@
 
 // blitzmax cocoa interface 
 
-// by simonarmstrong@blitzbasic.com
 
 
 
