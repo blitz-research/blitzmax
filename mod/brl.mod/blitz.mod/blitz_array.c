@@ -349,7 +349,7 @@ static void IDENT( TYPE *lo,TYPE *hi ){\
 #undef LESSTHAN
 #define LESSTHAN(X,Y) (*(X)<*(Y))
 QSORTARRAY( unsigned char,_qsort_b )
-QSORTARRAY( unsigned short,qsort_s )
+QSORTARRAY( unsigned short,_qsort_s )
 QSORTARRAY( int,qsort_i )
 QSORTARRAY( BBInt64,qsort_l );
 QSORTARRAY( float,qsort_f );
@@ -378,7 +378,7 @@ void bbArraySort( BBArray *arr,int ascending ){
 	if( ascending ){
 		switch( arr->type[0] ){
 		case 'b':_qsort_b( (unsigned char*)p,(unsigned char*)p+n );break;
-		case 's':qsort_s( (unsigned short*)p,(unsigned short*)p+n );break;
+		case 's':_qsort_s( (unsigned short*)p,(unsigned short*)p+n );break;
 		case 'i':qsort_i( (int*)p,(int*)p+n );break;
 		case 'l':qsort_l( (BBInt64*)p,(BBInt64*)p+n );break;
 		case 'f':qsort_f( (float*)p,(float*)p+n );break;
