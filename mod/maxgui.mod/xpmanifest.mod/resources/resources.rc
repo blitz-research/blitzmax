@@ -1,0 +1,4 @@
+#define RT_MANIFEST	24
+#define MANIFEST_ID	1
+
+MANIFEST_ID		RT_MANIFEST	"xp.manifest"

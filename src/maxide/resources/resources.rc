@@ -1,0 +1,6 @@
+#define RT_MANIFEST	24
+#define MANIFEST_ID	1
+#define MAIN_ICON_ID	101
+
+MANIFEST_ID		RT_MANIFEST	"maxide.manifest"
+MAIN_ICON_ID		ICON			"main_icon.ico"
