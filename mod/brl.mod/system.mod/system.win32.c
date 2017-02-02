@@ -498,18 +498,27 @@ void bbSystemStartAsyncOp( BBAsyncOp asyncOp,int asyncInfo,BBSyncOp syncOp,BBObj
 	CreateThread( 0,0,asyncOpThread,p,0,&threadId );
 }
 
+int DesktopCaps(int index){
+	HWND hwnd = GetDesktopWindow();
+	HDC dc = GetDC(hwnd);
+	int caps = GetDeviceCaps(dc,index);
+	ReleaseDC(hwnd,dc);
+	return caps;
+}
+
+
 int bbSystemDesktopWidth(){
-	return GetDeviceCaps( GetDC( GetDesktopWindow() ),HORZRES );
+	return DesktopCaps(HORZRES);
 }
 
 int bbSystemDesktopHeight(){
-	return GetDeviceCaps( GetDC( GetDesktopWindow() ),VERTRES );
+	return DesktopCaps(VERTRES);
 }
 
 int bbSystemDesktopDepth(){
-	return GetDeviceCaps( GetDC( GetDesktopWindow() ),BITSPIXEL );
+	return DesktopCaps(BITSPIXEL);
 }
 
 int bbSystemDesktopHertz(){
-	return GetDeviceCaps( GetDC( GetDesktopWindow() ),VREFRESH );
+	return DesktopCaps(VREFRESH);
 }
