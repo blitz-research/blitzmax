@@ -1,2 +1,2 @@
 @echo off
-windres -o ../xpmanifest.o resources.rc
+windres -o ../xpmanifest.o xp.rc

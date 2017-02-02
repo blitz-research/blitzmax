@@ -13,8 +13,6 @@ Strict
 Import MaxGUI.MaxGUI
 Import "winimports.bmx"
 
-' Import "xpmanifest.o"
-
 maxgui_driver = New TWindowsGUIDriver
 
 Type TWindowsGUIDriver Extends TMaxGUIDriver
@@ -154,7 +152,7 @@ Type TWindowsGUIDriver Extends TMaxGUIDriver
 				EndSelect
 				
 				owner = Null
-				
+								
 			Case WM_COMMAND,WM_HSCROLL,WM_VSCROLL
 				If lp Then
 					owner=GadgetFromHwnd(lp)
@@ -197,6 +195,11 @@ Type TWindowsGUIDriver Extends TMaxGUIDriver
 			Case WM_ACTIVATEAPP, WM_ACTIVATE
 			
 				SystemEmitOSEvent(hwnd,msg,wp,lp,Null)
+				
+			Case WM_DPICHANGED
+				Local g_dpi = wp Shr 16
+'		        UpdateDpiDependentFontsAndResources();				
+				DebugLog "DPICHANGED to "+g_dpi
 			
 			Case WM_DRAWITEM
 				

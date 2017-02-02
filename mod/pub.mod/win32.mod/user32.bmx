@@ -197,6 +197,7 @@ Const WS_EX_NOACTIVATE=$8000000
 
 ' windows messages
 
+Const WM_DPICHANGED = $2E0
 Const WM_APP=32768
 Const WM_ACTIVATE=6
 Const WM_ACTIVATEAPP=28
