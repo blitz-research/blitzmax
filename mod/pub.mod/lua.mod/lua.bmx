@@ -84,6 +84,10 @@ Import "lua-5.1.4/src/loslib.c"
 'Import "lua-5.1.4/src/luac.c"
 Import "lua-5.1.4/src/print.c"
 
+?Linux
+Import "-ldl"
+?
+
 ' ******************************************************************************
 ' *                                                                            *
 ' *                            Constant Definitions                            *
