@@ -41,13 +41,13 @@ void *bbMemExtend( void *mem,int size,int new_size ){
 }
 
 void bbMemClear( void *dst,int size ){
-	memset( dst,0,size );
+	if( size ) memset( dst,0,size );
 }
 
 void bbMemCopy( void *dst,const void *src,int size ){
-	memcpy( dst,src,size );
+	if( size ) memcpy( dst,src,size );
 }
 
 void bbMemMove( void *dst,const void *src,int size ){
-	memmove( dst,src,size );
+	if( size ) memmove( dst,src,size );
 }
