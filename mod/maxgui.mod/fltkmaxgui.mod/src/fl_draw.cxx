@@ -32,7 +32,7 @@
 // Expands all unprintable characters to ^X or \nnn notation
 // Aligns them against the inside of the box.
 
-#define min(a,b) ((a)<(b)?(a):(b))
+#define _min(a,b) ((a)<(b)?(a):(b))
 #include <FL/fl_utf8.h>
 #include <FL/Fl.H>
 #include <FL/fl_draw.H>
@@ -48,12 +48,12 @@ char fl_draw_shortcut;	// set by fl_labeltypes.cxx
 
 static char* underline_at;
 
-/** 
+/**
     utf8 multibyte char seq. detection an pass-thru routine.
     \retval false if no utf8 seq detected, no change made. true if utf8 and d copied with s seq.
     note that for n bytes copied dest incremented of n, but s of n-1 for compatible loop use see below.
 */
-#define C_IN(c,a,b) ((c)>=(a) && (c)<=(b)) 
+#define C_IN(c,a,b) ((c)>=(a) && (c)<=(b))
 #define C_UTF8(c)   C_IN(c,0x80,0xBF)
 
 static bool handle_utf8_seq(const char * &s,char * &d) {
@@ -96,7 +96,7 @@ static bool handle_utf8_seq(const char * &s,char * &d) {
     // planes 16
   } else { // non utf8 compliant, maybe CP125x or broken utf8 string
     // fprintf(stderr, "Not UTF8 char \n");
-    return false; 
+    return false;
   }
   return true; //  we did handled and copied the utf8 multibyte char seq.
 }
@@ -111,7 +111,7 @@ static bool handle_utf8_seq(const char * &s,char * &d) {
  Sets width to the width of the string in the current font.
 */
 const char*
-fl_expand_text(const char* from, char* buf, int maxbuf, double maxw, int& n, 
+fl_expand_text(const char* from, char* buf, int maxbuf, double maxw, int& n,
 	double &width, int wrap, int draw_symbols) {
   char* o = buf;
   char* e = buf+(maxbuf-4);
@@ -145,7 +145,7 @@ fl_expand_text(const char* from, char* buf, int maxbuf, double maxw, int& n,
     if (o > e) break; // don't overflow buffer
 
     if (c == '\t') {
-      for (c = fl_utf_nb_char((uchar*)buf, o-buf)%8; c<8 && o<e; c++) 
+      for (c = fl_utf_nb_char((uchar*)buf, o-buf)%8; c<8 && o<e; c++)
            *o++ = ' ';
     } else if (c == '&' && fl_draw_shortcut && *(p+1)) {
       if (*(p+1) == '&') {p++; *o++ = '&';}
@@ -160,7 +160,7 @@ fl_expand_text(const char* from, char* buf, int maxbuf, double maxw, int& n,
     } else if (c == 0xA0) { // non-breaking space in ISO 8859
 #endif
       *o++ = ' ';
-       
+
     } else if (c == '@' && draw_symbols) { // Symbol???
       if (p[1] && p[1] != '@')  break;
       *o++ = c;
@@ -186,7 +186,7 @@ void fl_draw(
     int x, int y, int w, int h,	// bounding box
     Fl_Align align,
     void (*callthis)(const char*,int,int,int),
-    Fl_Image* img, int draw_symbols) 
+    Fl_Image* img, int draw_symbols)
 {
   const char* p;
   const char* e;
@@ -201,7 +201,7 @@ void fl_draw(
 
   // if the image is set as a backdrop, ignore it here
   if (img && (align & FL_ALIGN_IMAGE_BACKDROP)) img = 0;
-      
+
   symbol[0][0] = '\0';
   symwidth[0]  = 0;
 
@@ -216,24 +216,24 @@ void fl_draw(
            *symptr++ = *str++);
       *symptr = '\0';
       if (isspace(*str)) str++;
-      symwidth[0] = min(w,h);
+      symwidth[0] = _min(w,h);
     }
 
     if (str && (p = strrchr(str, '@')) != NULL && p > (str + 1) && p[-1] != '@') {
       strlcpy(symbol[1], p, sizeof(symbol[1]));
-      symwidth[1] = min(w,h);
+      symwidth[1] = _min(w,h);
     }
   }
 
   symtotal = symwidth[0] + symwidth[1];
   imgtotal = (img && (align&FL_ALIGN_IMAGE_NEXT_TO_TEXT)) ? img->w() : 0;
-  
+
   int strw = 0;
   int strh;
 
   if (str) {
     for (p = str, lines=0; p;) {
-      e = fl_expand_text(p, buf, MAXBUF, w - symtotal - imgtotal, buflen, width, 
+      e = fl_expand_text(p, buf, MAXBUF, w - symtotal - imgtotal, buflen, width,
                          align&FL_ALIGN_WRAP, draw_symbols);
       if (strw<width) strw = (int)width;
       lines++;
@@ -241,7 +241,7 @@ void fl_draw(
       p = e;
     }
   } else lines = 0;
-  
+
   if ((symwidth[0] || symwidth[1]) && lines) {
     if (symwidth[0]) symwidth[0] = lines * fl_height();
     if (symwidth[1]) symwidth[1] = lines * fl_height();
@@ -249,7 +249,7 @@ void fl_draw(
 
   symtotal = symwidth[0] + symwidth[1];
   strh = lines * fl_height();
-  
+
   // figure out vertical position of the first line:
   int xpos;
   int ypos;
@@ -295,12 +295,12 @@ void fl_draw(
     else yimg += (strh - img->h() - 1) / 2;
     img->draw(xpos, yimg);
   }
-  
+
   // now draw all the lines:
   if (str) {
     int desc = fl_descent();
     for (p=str; ; ypos += height) {
-      if (lines>1) e = fl_expand_text(p, buf, MAXBUF, w - symtotal - imgtotal, buflen, 
+      if (lines>1) e = fl_expand_text(p, buf, MAXBUF, w - symtotal - imgtotal, buflen,
 				width, align&FL_ALIGN_WRAP, draw_symbols);
       else e = "";
 
@@ -382,10 +382,10 @@ void fl_draw(
 {
   if ((!str || !*str) && !img) return;
   if (w && h && !fl_not_clipped(x, y, w, h) && (align & FL_ALIGN_INSIDE)) return;
-  if (align & FL_ALIGN_CLIP) 
+  if (align & FL_ALIGN_CLIP)
     fl_push_clip(x, y, w, h);
   fl_draw(str, x, y, w, h, align, fl_draw, img, draw_symbols);
-  if (align & FL_ALIGN_CLIP) 
+  if (align & FL_ALIGN_CLIP)
     fl_pop_clip();
 }
 
@@ -435,10 +435,10 @@ void fl_measure(const char* str, int& w, int& h, int draw_symbols) {
   }
 
   symtotal = symwidth[0] + symwidth[1];
-  
+
   for (p = str, lines=0; p;) {
 //    e = expand(p, buf, w - symtotal, buflen, width, w != 0, draw_symbols);
-    e = fl_expand_text(p, buf, MAXBUF, w - symtotal, buflen, width, 
+    e = fl_expand_text(p, buf, MAXBUF, w - symtotal, buflen, width,
 			w != 0, draw_symbols);
     if ((int)ceil(width) > W) W = (int)ceil(width);
     lines++;
@@ -463,13 +463,13 @@ void fl_measure(const char* str, int& w, int& h, int draw_symbols) {
   but with the advent of XFT, there are (currently) complexities
   that seem to only be solved by asking the font what its actual
   font height is. (See STR#2115)
-  
+
   This function was originally undocumented in 1.1.x, and was used
   only by Fl_Text_Display. We're now documenting it in 1.3.x so that
   apps that need precise height info can get it with this function.
 
   \returns the height of the font in pixels.
-  
+
   \todo  In the future, when the XFT issues are resolved, this function
          should simply return the 'size' value.
 */
