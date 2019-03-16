@@ -20,6 +20,10 @@ chmod +x *.bat
 
 * Installing on Linux:
 
+** On Ubuntu/Debian run:
+
+   apt install linux-libc-dev:i386 libxft2:i386 g++-multilib gcc-multilib libxpm-dev:i386 libxxf86vm-dev:i386 libgl1-mesa-dev:i386 libglu1-mesa-dev:i386
+
 
 cd _src/linux_x86
 chmod +x *.bat
