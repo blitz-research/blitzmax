@@ -1,6 +1,6 @@
 This is an archived repository of the original 32bit blitzmax source code.
 
-This version is no longer actively, but BlitzMax lives on at https://blitzmax.org/
+This version is no longer actively maintained, but BlitzMax lives on at https://blitzmax.org/
 
 * Installing on Windows:
 
