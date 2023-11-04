@@ -1,3 +1,7 @@
+This is an archived repository of the original 32bit blitzmax source code.
+
+This version is no longer actively, but BlitzMax lives on at https://blitzmax.org/
+
 * Installing on Windows:
 
 Install Mingw and set MINGW env var to root of mingw installation (ie: 'one up' from bin), then...
